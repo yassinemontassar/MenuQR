@@ -44,6 +44,7 @@ export const PhoneInput: React.FC<MenuFormProps> = ({ initialData, initialData2 
     const nextIndex = direction === 'previous' ? currentIndex - 1 : currentIndex + 1;
     setCurrentIndex(nextIndex);
     setCurrentComponent(componentMap[nextIndex]);
+    handleReloadDevicePreview();
   };
 
   // Clear explanation of handleReloadDevicePreview function

@@ -4,7 +4,6 @@ import ContextDefault from "./components/ContextDefault";
 import { MenuModal } from "@/components/modals/menu-modal";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/utils/auth";
-import ProgressBar from "./components/ProgressBar";
 import { Button } from "@/components/ui/button";
 import { Crown } from "lucide-react";
 

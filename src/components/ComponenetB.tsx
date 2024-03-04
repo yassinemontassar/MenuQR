@@ -63,9 +63,6 @@ export const ComponenetB: React.FC = () => {
   }, [shouldFetch, params.menuId]);
 
 
-
-  const [newCategoryName, setNewCategoryName] = useState("");
-  const [newImage, setNewImage] = useState("");
   const [isNewCategoryInputVisible, setIsNewCategoryInputVisible] =
     useState(false);
 
@@ -73,11 +70,7 @@ export const ComponenetB: React.FC = () => {
     setIsNewCategoryInputVisible(true);
   };
 
-  const handleSaveNewCategory = () => {
-    console.log("New Category Name:", newCategoryName);
-    // Add logic to update your state or perform any other necessary actions
-    //setIsNewCategoryInputVisible(false);
-  };
+
   const onSubmit = async (values: CattegoryFormValues) => {
     if (image) {
       setLoading(true);
@@ -125,7 +118,7 @@ export const ComponenetB: React.FC = () => {
           <p className="text-gray-500">Aucune catégorie trouvée</p>
         </div>
       ) : (
-        <CarouselOrientation data={categories} />
+        <CarouselOrientation data={categories}  />
       )}
       <div className="flex items-center justify-center p-16">
         <Button onClick={handleAddNewCategory}>Ajouter une nouvelle catégorie</Button>

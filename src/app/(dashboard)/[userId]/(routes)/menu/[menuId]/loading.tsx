@@ -1,19 +1,22 @@
-
+import Container from "@/components/ui/container";
+import {Skeleton} from "@/components/ui/skeleton";
 
 const Loading = () => {
   return (
-
-      <div className="w-full h-full p-8">
-        <div className="mt-8 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-         <p>stana</p>
-         <p>stana</p>
-         <p>stana</p>
-         <p>stana</p>
-         <p>stana</p>
-         <p>stana</p>
+   <Container >
+      <div className="grid grid-cols-2 gap-4 h-full">
+        <div className="bg-gray-100 p-8">
+          <Skeleton className="h-6 w-full mb-4" />
+          <Skeleton className="h-4 w-3/4 mb-4" />
+          <Skeleton className="h-4 w-1/2" />
+        </div>
+        <div className="bg-gray-200 p-8">
+          <Skeleton className="h-6 w-full mb-4" />
+          <Skeleton className="h-4 w-3/4 mb-4" />
+          <Skeleton className="h-4 w-1/2" />
         </div>
       </div>
-
+    </Container>
   );
 }
  
