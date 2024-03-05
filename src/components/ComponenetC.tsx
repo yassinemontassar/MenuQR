@@ -107,7 +107,7 @@ export const ComponenetC: React.FC = () => {
   };
   return (
     <div>
-     {isFetchingCategories ? ( // Conditionally render loading indicator
+     {/* {isFetchingCategories ? ( // Conditionally render loading indicator
         <div className="flex items-center justify-center p-16">
           <Loader2 size={40} className="text-primary animate-spin" />
           <p className="text-gray-500 ml-4">Chargement des catégories...</p>
@@ -119,7 +119,7 @@ export const ComponenetC: React.FC = () => {
         </div>
       ) : (
         <CarouselOrientation data={categories}  />
-      )}
+      )} */}
       <div className="flex items-center justify-center p-16">
         <Button onClick={handleAddNewCategory}>Ajouter une nouvelle catégorie</Button>
       </div>

@@ -23,9 +23,6 @@ const DashboardPage: React.FC<DashboardPageProps> = async ({
             userId: params.userId,
         },
     });
-    const progress = role === 'Free'
-        ? (menus.length / 1) * 100 // Calculate progress based on available menus (1 for Free)
-        : (menus.length / 5) * 100;
     return (
         <div className="flex flex-col sm:flex-row">
             <div className="flex-1 p-6 sm:min-w-0 sm:flex-1">

@@ -14,8 +14,7 @@ export async function POST(
     const userId = session?.user.id
     const body = await req.json();
 
-    const { name, imageUrl } = body;
-    console.log(imageUrl)
+    const { name } = body;
 
     if (!userId) {
       return new NextResponse("Unauthenticated", { status: 403 });
@@ -25,9 +24,7 @@ export async function POST(
       return new NextResponse("Name is required", { status: 400 });
     }
     
-    if (!imageUrl) {
-      return new NextResponse("imageUrl is required", { status: 400 });
-    }
+
 
     if (!params.menuId) {
       return new NextResponse("menuId id is required", { status: 400 });
@@ -47,7 +44,6 @@ export async function POST(
     const category = await prisma.category.create({
       data: {
         name,
-        imageUrl: process.env.NEXT_PUBLIC_IMAGE_BASE_URL+"/"+userId+"/categories/"+imageUrl,
         MenuId: params.menuId,
       }
     });

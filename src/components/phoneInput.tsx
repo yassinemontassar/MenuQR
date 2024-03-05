@@ -20,7 +20,7 @@ interface MenuFormProps {
   }[] | null; // make it an array
 }
 
-export const PhoneInput: React.FC<MenuFormProps> = ({ initialData, initialData2 }) => {
+export const PhoneInput: React.FC<MenuFormProps> = ({ initialData }) => {
   const [reloadDevicePreview, setReloadDevicePreview] = useState(false);
   const [currentComponent, setCurrentComponent] = useState<JSX.Element>(
     <ComponenetA initialData={initialData} />

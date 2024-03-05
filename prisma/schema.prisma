@@ -87,7 +87,6 @@ model Category {
   MenuId     String // Foreign Key to Menu
   Menu       Menu     @relation("MenuToCategory", fields: [MenuId], references: [id])
   name        String
-  imageUrl    String
   Items    Item[] @relation("CategoryToItem")
   createdAt   DateTime  @default(now())
   updatedAt   DateTime  @updatedAt

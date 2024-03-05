@@ -80,20 +80,11 @@ const CarouselOrientation: React.FC<CategoryProps> = ({ data }) => {
                 key={category.id}
                 className="pl-1 md:basis-1/2 lg:basis-1/3 group"
               >
-                <span className="flex items-center justify-center">
-                  {category.name}
-                </span>
+
                 <div className="p-2">
                   <Card>
-                    <CardContent className="aspect-square rounded-xl relative overflow-hidden group">
-                      {" "}
-                      <Image
-                        src={category.imageUrl}
-                        alt="category"
-                        fill
-                        className="aspect-square object-cover rounded-md group-hover:scale-110 transition-transform duration-300"
-                        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                      />
+                    <CardContent className="">
+                      {category.name}
                     </CardContent>
                   </Card>
                   <div className="flex items-center justify-center p-4">
