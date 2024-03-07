@@ -4,22 +4,22 @@ datasource db {
 }
 
 generator client {
-  provider        = "prisma-client-js"
+  provider = "prisma-client-js"
 }
 
 model Account {
-  id                 String  @id @default(cuid())
-  userId             String
-  type               String
-  provider           String
-  providerAccountId  String
-  refresh_token      String?  @db.Text
-  access_token       String?  @db.Text
-  expires_at         Int?
-  token_type         String?
-  scope              String?
-  id_token           String?  @db.Text
-  session_state      String?
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String? @db.Text
+  access_token      String? @db.Text
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String? @db.Text
+  session_state     String?
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
@@ -35,13 +35,14 @@ model Session {
 }
 
 enum UserPlan {
-  Free 
-  Standard 
+  Free
+  Standard
   Pro
 }
+
 enum UserRole {
-  member 
-  admin 
+  member
+  admin
 }
 
 model User {
@@ -50,9 +51,9 @@ model User {
   email         String?   @unique
   emailVerified DateTime?
   image         String?
-  plan          UserPlan @default(Free)
-  role          UserRole @default(member)
-  menus     Menu[]
+  plan          UserPlan  @default(Free)
+  role          UserRole  @default(member)
+  menus         Menu[]
   accounts      Account[]
   sessions      Session[]
 }
@@ -68,77 +69,53 @@ model VerificationToken {
 model Menu {
   id          String       @id @default(uuid())
   name        String
-  userId      String  
+  userId      String
   type        String
-  imageUrl   String
-  user        User @relation(fields: [userId], references: [id])
+  imageUrl    String
+  user        User         @relation(fields: [userId], references: [id])
   categories  Category[]   @relation("MenuToCategory")
-  Items    Item[]    @relation("MenuToItem")
-  sizes       Size[]       @relation("MenuToSize")
+  Items       Item[]       @relation("MenuToItem")
   subscribers Subscriber[] @relation("MenuToSubscriber")
-  colors      Color[]      @relation("MenuToColor")
+
   createdAt   DateTime     @default(now())
   updatedAt   DateTime     @updatedAt
 }
 
-
 model Category {
-  id          String    @id @default(uuid())
-  MenuId     String // Foreign Key to Menu
-  Menu       Menu     @relation("MenuToCategory", fields: [MenuId], references: [id])
-  name        String
-  Items    Item[] @relation("CategoryToItem")
-  createdAt   DateTime  @default(now())
-  updatedAt   DateTime  @updatedAt
+  id        String   @id @default(uuid())
+  MenuId    String // Foreign Key to Menu
+  Menu      Menu     @relation("MenuToCategory", fields: [MenuId], references: [id])
+  name      String
+  Items     Item[]   @relation("CategoryToItem")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   @@index([MenuId])
 }
 
 model Item {
-  id         String      @id @default(uuid())
-  MenuId    String // Foreign Key to Menu
-  Menu      Menu       @relation("MenuToItem", fields: [MenuId], references: [id])
+  id         String   @id @default(uuid())
+  MenuId     String // Foreign Key to Menu
+  Menu       Menu     @relation("MenuToItem", fields: [MenuId], references: [id])
   categoryId String // Foreign Key to Category
-  category   Category    @relation("CategoryToItem", fields: [categoryId], references: [id])
+  category   Category @relation("CategoryToItem", fields: [categoryId], references: [id])
   name       String
   price      Decimal
-  discount   Int         @default(0)
-  isFeatured Boolean     @default(false)
-  isArchived Boolean     @default(false)
-  isSent     Boolean     @default(false)
-  sizeId     String // Foreign Key to Size
-  size       Size        @relation(fields: [sizeId], references: [id])
-  colorId    String // Foreign Key to Color
-  color      Color       @relation(fields: [colorId], references: [id])
-  images     Image[] // Relation to Image model
-  createdAt  DateTime    @default(now())
-  updatedAt  DateTime    @updatedAt
+  discount   Int      @default(0)
+  isArchived Boolean  @default(false)
+  imageUrl   String
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
 
   @@index([MenuId])
   @@index([categoryId])
-  @@index([sizeId])
-  @@index([colorId])
 }
 
-
-
-model Size {
-  id        String    @id @default(uuid())
-  MenuId   String // Foreign Key to Menu
-  Menu     Menu     @relation("MenuToSize", fields: [MenuId], references: [id])
-  name      String
-  value     String
-  Items  Item[] // Relation to Item model
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
-
-  @@index([MenuId])
-}
 
 model Subscriber {
   id        String   @id @default(uuid())
-  MenuId   String // Foreign Key to Menu
-  Menu     Menu    @relation("MenuToSubscriber", fields: [MenuId], references: [id])
+  MenuId    String // Foreign Key to Menu
+  Menu      Menu     @relation("MenuToSubscriber", fields: [MenuId], references: [id])
   name      String   @unique
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -146,26 +123,3 @@ model Subscriber {
   @@index([MenuId])
 }
 
-model Color {
-  id        String    @id @default(uuid())
-  MenuId   String // Foreign Key to Menu
-  Menu     Menu     @relation("MenuToColor", fields: [MenuId], references: [id])
-  name      String
-  value     String
-  Items  Item[] // Relation to Item model
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
-
-  @@index([MenuId])
-}
-
-model Image {
-  id        String   @id @default(uuid())
-  ItemId String // Foreign Key to Item
-  Item   Item  @relation(fields: [ItemId], references: [id], onDelete: Cascade)
-  url       String // URL of the image
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  @@index([ItemId])
-}

@@ -83,8 +83,19 @@ export const ComponenetB: React.FC = () => {
       console.log(body);
       await axios.post(`/api/${params.menuId}/categories`, body);
     } catch (error) {
-      // toast.error("Something went wrong!");
+      toast({
+        title: "Erreur",
+        description: "Oops, quelque chose s'est mal passé. Veuillez réessayer.",
+        variant: "destructive",
+      });
+      
     } finally {
+      toast({
+        title: "Ajout de la catégorie",
+        description: `La nouvelle catégorie ${values.name} a été ajoutée avec succès.`,
+        variant: "default",
+      });
+      
       setLoading(false);
       setShouldFetch(true);
     }
@@ -92,10 +103,6 @@ export const ComponenetB: React.FC = () => {
 
   const onDelete = async () => {
     try {
-      if (selectedCategoryId !== null) {
-        console.log("Deleting category with ID:", selectedCategoryId);
-      }
-
       setLoading(true);
       await axios.delete(
         `/api/${params.menuId}/categories/${selectedCategoryId}`
@@ -109,12 +116,13 @@ export const ComponenetB: React.FC = () => {
       toast({
         title: "Oops...",
         description:
-          "Assurez-vous d'avoir d'abord supprimé tous les catégories utilisant cette affiche !!",
+          "Assurez-vous d'avoir d'abord supprimé tous les elements utilisant cette catégorie !!",
         variant: "destructive",
       });
     } finally {
       setLoading(false);
       setOpen(false);
+      setShouldFetch(true);
     }
   };
 
@@ -127,6 +135,7 @@ export const ComponenetB: React.FC = () => {
         loading={loading}
       />
       <div>
+      <p className="flex items-center justify-center font-semibold">Liste des Categories</p>
         {isFetchingCategories ? ( // Conditionally render loading indicator
           <div className="flex items-center justify-center p-16">
             <Loader2 size={40} className="text-primary animate-spin" />

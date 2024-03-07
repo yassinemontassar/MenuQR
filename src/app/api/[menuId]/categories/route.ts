@@ -73,6 +73,9 @@ export async function GET(
     const categories = await prisma.category.findMany({
       where: {
         MenuId: params.menuId
+      },
+      include: {
+        Items: true
       }
     });
   

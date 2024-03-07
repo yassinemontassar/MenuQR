@@ -10,25 +10,31 @@ import { Loader2, Trash, XIcon } from "lucide-react";
 import axios from "axios";
 import { useParams, useRouter } from "next/navigation";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "./ui/form";
-import Image from "next/image";
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import CarouselOrientation from "@/app/(dashboard)/[userId]/(routes)/dashboard/components/Carousel";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { Category, Item } from "@prisma/client";
+import Image from "next/image";
+import { toast } from "./ui/use-toast";
 
 
 const formSchema = z.object({
   name: z.string().min(1),
   imageUrl: z.string().min(1),
+  price: z.coerce.number().min(1),
+  discount: z.coerce.number().min(0),
+  categoryId: z.string().min(1),
+  isArchived: z.boolean().default(false).optional(),
 });
 
-interface Category {
-  id: string;
-  MenuId: string;
-  name: string;
-  imageUrl: string;
-  createdAt: Date;
-  updatedAt: Date;
-}
-type CattegoryFormValues = z.infer<typeof formSchema>;
+type ItemFormValues = z.infer<typeof formSchema>;
+
 
 export const ComponenetC: React.FC = () => {
   const params = useParams();
@@ -37,12 +43,16 @@ export const ComponenetC: React.FC = () => {
   const [loading, setLoading] = useState(false);
   const [image, setImage] = useState<File | null>(null);
   const [shouldFetch, setShouldFetch] = useState(false);
-  const [categories, setCategories] = useState<Category[]>([]);
-  const form = useForm<CattegoryFormValues>({
+  const [categories, setCategories] = useState<any[]>([]);
+  const form = useForm<ItemFormValues>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       name: "",
       imageUrl: "",
+      price: 0,
+      categoryId: "",
+      isArchived: false,
+      discount: 0,
     },
   });
   const [isFetchingCategories, setIsFetchingCategories] = useState(false);
@@ -51,7 +61,7 @@ export const ComponenetC: React.FC = () => {
       try {
         setIsFetchingCategories(true); 
         const response = await axios.get(`/api/${params.menuId}/categories`);
-        setCategories(response.data as Category[]);
+        setCategories(response.data);
       } catch (error) {
         console.error("Error fetching categories:", error);
       } finally {
@@ -71,11 +81,11 @@ export const ComponenetC: React.FC = () => {
   };
 
 
-  const onSubmit = async (values: CattegoryFormValues) => {
+  const onSubmit = async (values: ItemFormValues) => {
     if (image) {
       setLoading(true);
       const bucket = "MenuLogo";
-      const subfolder = "categories"
+      const subfolder = "items"
       const folderName = params.userId; // Existing folder name
       const { crypto } = window;
       const randomString = crypto.getRandomValues(new Uint32Array(1))[0].toString(36).padStart(10, '0');
@@ -95,19 +105,27 @@ export const ComponenetC: React.FC = () => {
     try {
       setLoading(true);
       const body = { ...values };
-      console.log(body)
-      await axios.post(`/api/${params.menuId}/categories`, body);
-      router.refresh();
+      await axios.post(`/api/${params.menuId}/items`, body);
     } catch (error) {
-      // toast.error("Something went wrong!");
+      toast({
+        title: "Erreur",
+        description: "Oops, quelque chose s'est mal passé. Veuillez réessayer.",
+        variant: "destructive",
+      });
     } finally {
+      toast({
+        title: "Élément ajouté",
+        description: `L'élément ${values.name} a été ajouté à la catégorie avec succès.`,
+        variant: "default",
+      });
+      
        setLoading(false);
        setShouldFetch(true)
     }
   };
   return (
     <div>
-     {/* {isFetchingCategories ? ( // Conditionally render loading indicator
+     {isFetchingCategories ? ( // Conditionally render loading indicator
         <div className="flex items-center justify-center p-16">
           <Loader2 size={40} className="text-primary animate-spin" />
           <p className="text-gray-500 ml-4">Chargement des catégories...</p>
@@ -118,25 +136,57 @@ export const ComponenetC: React.FC = () => {
           <p className="text-gray-500">Aucune catégorie trouvée</p>
         </div>
       ) : (
-        <CarouselOrientation data={categories}  />
-      )} */}
+        <CarouselOrientation data={categories.flatMap(category => category.Items)} />
+      )}
       <div className="flex items-center justify-center p-16">
-        <Button onClick={handleAddNewCategory}>Ajouter une nouvelle catégorie</Button>
+        <Button onClick={handleAddNewCategory}>Ajouter un nouvel élément</Button>
       </div>
       {isNewCategoryInputVisible && (
         <div className="p-8 rounded-lg shadow-lg ring-1">
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+            <FormField
+              control={form.control}
+              name="categoryId"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Categorie</FormLabel>
+                  <Select
+                    disabled={loading}
+                    onValueChange={field.onChange}
+                    value={field.value}
+                    defaultValue={field.value}
+                  >
+                    <FormControl>
+                      <SelectTrigger>
+                        <SelectValue
+                          defaultValue={field.value}
+                          placeholder="Sélectionnez une cat&eacute;gorie"
+                        />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent>
+                      {categories.map((category) => (
+                        <SelectItem key={category.id} value={category.id}>
+                          {category.name}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
               <FormField
                 control={form.control}
                 name="name"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel className="font-medium">Nom</FormLabel>
+                    <FormLabel className="font-medium">Nom de l&apos;élément :</FormLabel>
                     <FormControl className="mt-1">
                       <Input
                         disabled={loading}
-                        placeholder="Nom de votre catégorie"
+                        placeholder="Nom de votre plat"
                         className="w-full px-3 py-2 placeholder-gray-500 border rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                         {...field}
                       />
@@ -145,12 +195,30 @@ export const ComponenetC: React.FC = () => {
                   </FormItem>
                 )}
               />
+                <FormField
+              control={form.control}
+              name="price"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Prix</FormLabel>
+                  <FormControl>
+                    <Input
+                      type="number"
+                      disabled={loading}
+                      placeholder="9.99"
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
               <FormField
                 control={form.control}
                 name="imageUrl"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel className="font-medium">Logo de la catégorie</FormLabel>
+                    <FormLabel className="font-medium">Image :</FormLabel>
                     <FormControl className="mt-1">
                       <Input
                         accept="image/*"
