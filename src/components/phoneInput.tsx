@@ -8,6 +8,7 @@ import { ComponenetA } from "./ComponenetA";
 import { ComponenetB } from "./ComponenetB";
 import { Button } from "./ui/button";
 import { ComponenetC } from "./ComponenetC";
+import ComponenetD from "./ComponentD";
 
 interface MenuFormProps {
   initialData: Menu | null;
@@ -34,6 +35,7 @@ export const PhoneInput: React.FC<MenuFormProps> = ({ initialData }) => {
     "0": <ComponenetA initialData={initialData} />,
     "1": <ComponenetB />,
     "2": <ComponenetC />,
+    "3": <ComponenetD />,
   };
 
   const [currentIndex, setCurrentIndex] = useState(0);

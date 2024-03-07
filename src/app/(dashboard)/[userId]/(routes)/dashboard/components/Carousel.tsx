@@ -25,9 +25,7 @@ const CarouselOrientation: React.FC<CategoryProps> = ({ data }) => {
   const params = useParams();
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [selectedItemId, setSelectedItemId] = useState<string | null>(
-    null
-  );
+  const [selectedItemId, setSelectedItemId] = useState<string | null>(null);
 
   const onDelete = async () => {
     try {
@@ -36,9 +34,7 @@ const CarouselOrientation: React.FC<CategoryProps> = ({ data }) => {
       }
 
       setLoading(true);
-      await axios.delete(
-        `/api/${params.menuId}/items/${selectedItemId}`
-      );
+      await axios.delete(`/api/${params.menuId}/items/${selectedItemId}`);
       toast({
         title: "Suppression de l'élément",
         description: "L'élément sélectionné a été supprimé avec succès.",
@@ -75,48 +71,52 @@ const CarouselOrientation: React.FC<CategoryProps> = ({ data }) => {
           }}
           className="w-full max-w-sm"
         >
-          <CarouselContent className="-ml-1">
-            {data.map((item) => (
-              <CarouselItem
-                key={item.id}
-                className="pl-1 md:basis-1/2 lg:basis-1/3 group"
-              >
-              <span className="flex items-center justify-center overflow-hidden" title={item.name}>
-  <span className="truncate">{item.name}</span>
-</span>
-                <div className="p-2">
-                  <Card>
-                    <CardContent className="aspect-square rounded-xl relative overflow-hidden group">
-                      {" "}
-                      <Image
-                        src={item.imageUrl}
-                        alt="category"
-                        fill
-                        className="aspect-square object-cover rounded-md group-hover:scale-110 transition-transform duration-300"
-                        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                      />
-                    </CardContent>
-                  </Card>
-                  <p className="flex items-center justify-center mt-2">
-                    {item.price.toString()} DT
-                  </p>
-                  <div className="flex items-center justify-center p-4">
-                    <Button
-                      disabled={loading}
-                      variant="destructive"
-                      size="sm"
-                      onClick={() => {
-                        setSelectedItemId(item.id);
-                        setOpen(true);
-                      }}
-                    >
-                      <FaTrashCan className="h-4 w-4" />
-                    </Button>
-                  </div>
-                </div>
-              </CarouselItem>
-            ))}
-          </CarouselContent>
+          <CarouselContent className="ml-1 gap-1">
+  {data.map((item) => (
+    <CarouselItem
+      key={item.id}
+      className="pl-1 md:basis-1/2 lg:basis-1/2 group border-2 border-gray-200 rounded-lg overflow-hidden hover:shadow-lg transition-shadow duration-300"
+    >
+      <div
+        className="flex items-center justify-center overflow-hidden p-3"
+        title={item.name}
+      >
+        <span className="text-lg truncate text-center">{item.name}</span>
+      </div>
+      <div className="p-2">
+        <Card>
+          <CardContent className="aspect-square rounded-xl relative overflow-hidden group">
+            <Image
+              src={item.imageUrl}
+              alt="category"
+              fill
+              className="aspect-square object-cover rounded-md group-hover:scale-110 transition-transform duration-300"
+              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+            />
+          </CardContent>
+        </Card>
+        <p className="flex items-center justify-center mt-2 text-xl font-semibold">
+          {item.price.toString()} DT
+        </p>
+        <div className="flex items-center justify-center p-4">
+          <Button
+            disabled={loading}
+            variant="destructive"
+            size="sm"
+            onClick={() => {
+              setSelectedItemId(item.id);
+              setOpen(true);
+            }}
+            className="bg-red-500 hover:bg-red-600 text-white"
+          >
+            <FaTrashCan className="h-4 w-4" />
+          </Button>
+        </div>
+      </div>
+    </CarouselItem>
+  ))}
+</CarouselContent>
+
           <CarouselPrevious className=" ml-16 sm:ml-2" />
           <CarouselNext className="mr-16 sm:mr-2" />
         </Carousel>

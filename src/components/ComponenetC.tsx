@@ -121,6 +121,8 @@ export const ComponenetC: React.FC = () => {
       
        setLoading(false);
        setShouldFetch(true)
+       form.reset()
+       setImage(null)
     }
   };
   return (
