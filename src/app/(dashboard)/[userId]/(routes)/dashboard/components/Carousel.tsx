@@ -68,6 +68,7 @@ const CarouselOrientation: React.FC<CategoryProps> = ({ data }) => {
         <Carousel
           opts={{
             align: "start",
+            loop: true,
           }}
           className="w-full max-w-sm"
         >

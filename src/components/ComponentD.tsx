@@ -1,39 +1,88 @@
+
 import { useQRCode } from 'next-qrcode';
-
+import { useParams } from 'next/navigation';
+import { jsPDF } from 'jspdf';
+import html2canvas from 'html2canvas';
+import { CardTitle, CardDescription, CardHeader, CardContent, Card } from "@/components/ui/card"
+import { Button } from './ui/button';
+import Image from 'next/image';
+import { ShieldCheckIcon } from 'lucide-react';
 export default function ComponenetD() {
-  const { Canvas } = useQRCode();
+  const { SVG } = useQRCode();
+  const params = useParams();
 
+  const downloadPdf = async () => {
+    const element = document.getElementById('contentToConvert');
+    if (element) {
+      // Use html2canvas with the scale option
+      html2canvas(element, { scale: 1.2 }) // Adjust scale as needed
+        .then(canvas => {
+          const pdf = new jsPDF({
+            orientation: 'p',
+            unit: 'pt',
+            format: 'a4'
+          });
+          
+          pdf.addImage(canvas.toDataURL('image/png'), 'PNG', 0, 0, pdf.internal.pageSize.getWidth(), pdf.internal.pageSize.getHeight());
+          pdf.save('download.pdf');
+        });
+    }
+  };
+  
+  
   return (
-    <div className="flex flex-col items-center justify-center text-white">
-      <div className="bg-gray-800 p-8 rounded-lg shadow-lg max-w-md">
-        <h2 className="text-3xl font-bold mb-4 text-center">Scan the QR Code</h2>
-        <div className="w-full flex justify-center mb-6">
-          <Canvas
-            text={'https://www.facebook.com/yassine.baws/'}
+    <>
+      <p className="flex items-center justify-center font-medium p-4">Creation QR CODE</p>
+   
+    <Card className="w-full max-w-sm rounded-none" id="contentToConvert">
+    <CardHeader>
+      <div className="flex items-center justify-between" >
+        <div className="flex items-center gap-2">
+          <ShieldCheckIcon />
+          <div className="leading-none">
+            <CardTitle className="text-base">Cafe Latté</CardTitle>
+            <CardDescription className="text-sm">Gourmet Coffee & Pastries</CardDescription>
+          </div>
+        </div>
+        <div className="rounded-lg overflow-hidden border border-gray-200 dark:border-gray-800 p-1">
+          <Image
+            alt="Cafe Latté"
+            height={64}
+             src="/logo.png"
+            style={{
+              aspectRatio: "64/64",
+              objectFit: "cover",
+            }}
+            width={64}
+            className='rounded-lg'
+          />
+        </div>
+      </div>
+    </CardHeader>
+    <CardContent className="flex flex-col items-center gap-2">
+      <div className="border border-gray-200 dark:border-gray-800 p-2 rounded-lg">
+      <SVG
+            text={`http://localhost:3000/website/${params.menuId}`}
             options={{
-              type: 'image/jpeg',
-              quality: 0.3,
+              type: 'image/svg+xml',
+              quality: 1,
               errorCorrectionLevel: 'M',
               margin: 3,
               scale: 4,
               width: 250,
              color: {
-                dark: '#0D47A1', // Deep Blue for dark theme
-                light: '#FFFFFF', // Pale Yellow for light theme
+                dark: '#0D47A1', 
               },
             }}
-            logo={{
-              src: 'https://vhhmbutvwghyqakchxcg.supabase.co/storage/v1/object/public/MenuLogo/cltc50i7g000010f5e8t8nry7/logo/000015yux1.png',
-              options: {
-                width: 80,
-              }
-            }}
           />
-        </div>
-        <p className="text-center ">
-          Scan the QR code to visit your menu.
-        </p>
       </div>
-    </div>
+      <CardDescription className="text-center">Scannez le code QR pour voir notre menu</CardDescription>
+    </CardContent>
+  </Card>
+  <div>
+  <Button className="mt-2" size="sm" onClick={downloadPdf}>
+  Télécharger PDF
+       </Button></div>
+  </>
   );
 }
