@@ -72,28 +72,32 @@ export const PhoneInput: React.FC<MenuFormProps> = ({ initialData }) => {
   };
 
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2">
-      <div className="flex flex-col items-center border rounded-md border-solid border-foreground p-8 ">
-        {currentComponent}
-        <div className="flex items-center justify-center space-x-8 p-6">
-          <Button
-           disabled={buttonDisabled}
-           onClick={() => switchComponent("previous")}>
-            Étape précédente
-          </Button>
-          <Button
-          
-            disabled={isLastComponent || buttonDisabled}
-            onClick={() => switchComponent("next")}
-          >
-            Étape suivante
-          </Button>
-        </div>
-      </div>
-      <div className="flex flex-col items-center border rounded-md border-solid border-foreground p-8">
-        <p className="text-center mb-5">Aperçu</p>
-        <DevicePreview keyProp={reloadDevicePreview} />
-      </div>
+  <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 gap-4">
+  <div className="flex flex-col items-center rounded-md border border-gray-300 shadow-md p-6">
+    {currentComponent}
+    <div className="mt-6 flex items-center justify-center space-x-4">
+      <Button
+      size="lg"
+        className={`px-4 py-2 rounded-md ${buttonDisabled ? 'opacity-50 cursor-not-allowed' : 'hover:bg-blue-700 bg-blue-500 text-white focus:outline-none focus:shadow-outline-blue'}`}
+        disabled={buttonDisabled}
+        onClick={() => switchComponent("previous")}
+      >
+        Étape précédente
+      </Button>
+      <Button
+      size="lg"
+        className={`px-4 py-2 rounded-md ${(isLastComponent || buttonDisabled) ? 'opacity-50 cursor-not-allowed' : 'hover:bg-blue-700 bg-blue-500 text-white focus:outline-none focus:shadow-outline-blue'}`}
+        disabled={isLastComponent || buttonDisabled}
+        onClick={() => switchComponent("next")}
+      >
+        Étape suivante
+      </Button>
     </div>
+  </div>
+  <div className="flex flex-col items-center rounded-md border border-gray-300 shadow-md p-6">
+    <p className="text-center mb-5">Aperçu</p>
+    <DevicePreview keyProp={reloadDevicePreview} />
+  </div>
+</div>
   );
 };

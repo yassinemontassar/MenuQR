@@ -112,7 +112,7 @@ export const ComponenetA: React.FC<MenuFormProps> = ({ initialData }) => {
     }
   };
   return (
-    <div className="bg-background p-8 rounded-lg shadow-lg ring-1 md:p-12">
+    <div className="bg-background   p-8 rounded-lg shadow-lg ring-1 md:p-12 mt-12 ">
       <div className="flex items-center justify-center">
         <Image
           src={imagePreviewUrl}
