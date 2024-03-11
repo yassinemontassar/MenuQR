@@ -85,8 +85,8 @@ const Navbar = () => {
         aria-label="Global"
       >
         <div className="flex lg:flex-1">
-          <a href="/" className="-m-1.5 p-1.5">
-            <span className="sr-only">Votre entreprise</span>
+          <a href="/" className="flex items-center -m-1.5 p-1.5">
+            <span className="sr-only"></span>
             <Image
               priority={true}
               src="/logo.png"
@@ -95,7 +95,8 @@ const Navbar = () => {
               height={50}
               quality={50}
               className=" rounded-full"
-            />
+            /> 
+            <p>MenuRapide</p>
           </a>
         </div>
         <div className="flex lg:hidden">
@@ -223,7 +224,10 @@ const Navbar = () => {
                 className=" rounded-full"
               />
             </a>
+           <div> 
             <ThemeToggle />
+            </div>
+           
             <Button
               type="button"
               className="-m-2.5 rounded-md p-2.5"

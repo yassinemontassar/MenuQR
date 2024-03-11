@@ -3,6 +3,7 @@ import { Moon, Sun } from 'lucide-react'
 import { useTheme } from 'next-themes'
 
 import { Switch } from '@/components/ui/switch'
+import Image from 'next/image'
 
 export function ThemeToggle() {
   const { systemTheme, theme, setTheme } = useTheme()
@@ -21,14 +22,26 @@ export function ThemeToggle() {
   const systemThemeIcon = systemTheme === 'dark' ? <Moon size={24} /> : <Sun size={24} />
 
   return (
-    <Switch
-      checked={isDarkTheme}
-      onCheckedChange={(checked) => {
-        setTheme(checked ? 'dark' : 'light')
-      }}
-    >
-      <span className="sr-only">Toggle theme</span>
-      {theme === 'system' ? systemThemeIcon : currentThemeIcon}
-    </Switch>
+    <button
+    aria-label="theme toggler"
+    onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
+    className=" bg-gray-2 dark:bg-dark-bg  flex cursor-pointer items-center justify-center rounded-full text-black dark:text-white lg:static"
+  >
+    <Image
+      src="/images/icon/icon-moon.svg"
+      alt="logo"
+      width={21}
+      height={21}
+      className="dark:hidden"
+    />
+
+    <Image
+      src="/images/icon/icon-sun.svg"
+      alt="logo"
+      width={22}
+      height={22}
+      className="hidden dark:block"
+    />
+  </button>
   )
 }
