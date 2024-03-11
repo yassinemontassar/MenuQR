@@ -69,7 +69,7 @@ export default function ComponenetD() {
         <>
          <div className="flex items-center justify-center p-16">
          <Loader2 size={40} className="text-primary animate-spin" />
-         <p className="text-gray-500 ml-4">Chargement des menus...</p>
+         <p className="text-gray-500 ml-4">Chargement QR CODE</p>
        </div>
        </>
       ) : (
