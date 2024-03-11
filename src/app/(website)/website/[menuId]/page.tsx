@@ -7,20 +7,13 @@ import { Input } from "@/components/ui/input"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { ClockIcon, ThumbsUpIcon } from "lucide-react"
 import Image from "next/image"
+import Header from "../componenets/header"
 
 
 export default function Home() {
     return (
         <div className="bg-[#f7f7f7]">
-    <header className="bg-white py-4 shadow">
-  <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center">
-    <a className="text-2xl sm:text-3xl font-bold text-[#fa4a0c]" href="#">
-      MenuRapide
-    </a>
-    <button className="bg-[#fa4a0c] text-white px-2 py-2 rounded-full">Commencer</button>
-  </div>
-</header>
-
+            <Header />
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
   <div className="flex flex-col sm:flex-row gap-8">
     <div className="w-full sm:w-3/4">

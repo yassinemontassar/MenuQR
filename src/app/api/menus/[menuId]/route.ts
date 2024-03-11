@@ -39,6 +39,34 @@ return NextResponse.json(menu);
 };
 
 
+export async function GET (
+
+    req: Request, 
+    {params} : {params: {menuId: string}}
+    ) {
+    try {   
+
+    if (!params.menuId) {
+        return new NextResponse("menuId ID is required!", {status: 400});
+    } 
+
+    const menu = await prisma.menu.findUnique({
+        where: {
+            id: params.menuId,
+        },
+    });
+    
+    
+    return NextResponse.json(menu);
+    
+    } catch (error) {
+        console.log('MENU_GET]', error);
+        return new NextResponse("Internal error", {status: 500});
+        
+    }
+    
+    };
+
 
 // export async function DELETE (
 //     req: Request, 

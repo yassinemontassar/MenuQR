@@ -61,11 +61,6 @@ const DevicePreview: React.FC<DevicePreviewProps> = ({ keyProp }) => {
 
         
       </DeviceFrameset>
-      <div className='py-6'>
-      <Button className='w-auto'>
-      <Link href={`http://localhost:3000/website/${params.menuId}`}>LIVE DEMO</Link>
-      </Button>
-      </div>
   </>
   );
 }

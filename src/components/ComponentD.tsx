@@ -11,10 +11,29 @@ import {
 } from "@/components/ui/card";
 import { Button } from "./ui/button";
 import Image from "next/image";
-import { ShieldCheckIcon } from "lucide-react";
+import { Loader2, ShieldCheckIcon } from "lucide-react";
+import axios from "axios";
+import { useEffect, useState } from "react";
 export default function ComponenetD() {
   const { SVG } = useQRCode();
   const params = useParams();
+  const [menuData, setMenu] = useState<any>([]);
+  const [isFetchingMenu, setIsFetchingMenu] = useState(false);
+  useEffect(() => {
+    const fetchMenu = async () => {
+      try {
+        setIsFetchingMenu(true)
+        const response = await axios.get(`/api/menus/${params.menuId}`);
+        setMenu(response.data);
+        console.log(response.data)
+      } catch (error) {
+        console.error("Error fetching menu:", error);
+      } finally {
+        setIsFetchingMenu(false)
+      }
+    };
+    fetchMenu();
+  }, [ params.menuId]);
 
   const downloadPdf = async () => {
     const element = document.getElementById("contentToConvert");
@@ -46,14 +65,21 @@ export default function ComponenetD() {
       <p className="flex items-center justify-center font-medium p-4">
         Creation QR CODE
       </p>
-
+      {isFetchingMenu ? (
+        <>
+         <div className="flex items-center justify-center p-16">
+         <Loader2 size={40} className="text-primary animate-spin" />
+         <p className="text-gray-500 ml-4">Chargement des menus...</p>
+       </div>
+       </>
+      ) : (
       <Card className="w-full max-w-sm rounded-none" id="contentToConvert">
         <CardHeader>
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
               <ShieldCheckIcon />
               <div className="leading-none">
-                <CardTitle className="text-base">Cafe Latté</CardTitle>
+                <CardTitle className="text-base">{menuData.name}</CardTitle>
                 <CardDescription className="text-sm">
                   Gourmet Coffee & Pastries
                 </CardDescription>
@@ -61,14 +87,10 @@ export default function ComponenetD() {
             </div>
             <div className="overflow-hidden">
               <Image
-                alt="Cafe Latté"
-                height={64}
-                src="/logo.png"
-                style={{
-                  aspectRatio: "64/64",
-                  objectFit: "cover",
-                }}
-                width={64}
+                alt={menuData.name}
+                height={50}
+                src={menuData.imageUrl}
+                width={50}
                 className="rounded-3xl"
               />
             </div>
@@ -77,7 +99,7 @@ export default function ComponenetD() {
         <CardContent className="flex flex-col items-center gap-2">
           <div className="border border-gray-200 dark:border-gray-800 p-2 rounded-lg">
             <SVG
-              text={`http://localhost:3000/website/${params.menuId}`}
+              text={`${process.env.NEXT_PUBLIC_BASE_URL}/website/${params.menuId}`}
               options={{
                 type: "image/svg+xml",
                 quality: 1,
@@ -97,11 +119,11 @@ export default function ComponenetD() {
           </CardDescription>
         </CardContent>
       </Card>
-      <div>
+      )}
         <Button className="mt-2" size="sm" onClick={downloadPdf}>
           Télécharger PDF
         </Button>
-      </div>
-    </>
+         </>
+ 
   );
 }
