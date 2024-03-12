@@ -54,7 +54,7 @@ const DevicePreview: React.FC<DevicePreviewProps> = ({ keyProp }) => {
 
           ) : (
             // Render the iframe when not in loading state
-            <iframe key={reloadCounter} width="100%" height="100%" src={`http://localhost:3000/website/${params.menuId}`}></iframe>
+            <iframe key={reloadCounter} width="100%" height="100%" src={`${process.env.NEXT_PUBLIC_BASE_URL}/website/${params.menuId}`}></iframe>
 
           )}
         </div>

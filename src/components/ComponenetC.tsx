@@ -86,8 +86,27 @@ export const ComponenetC: React.FC = () => {
     setIsNewCategoryInputVisible(true);
   };
 
+  const MAX_FOOD_IMAGE_SIZE_BYTES = 300 * 1024; // 300 KB in bytes
+  const validateImageSize = (file: File): string | undefined => {
+    if (!file) return; // No file selected, so nothing to validate
+  
+    if (file.size > MAX_FOOD_IMAGE_SIZE_BYTES) {
+      return "La taille de l'image dépasse la limite maximale de 300 Ko.";
+    }
+  
+    return undefined; // No errors
+  };
   const onSubmit = async (values: ItemFormValues) => {
     if (image) {
+      const errorr = validateImageSize(image);
+      if (errorr) {
+        toast({
+          title: "Erreur lors de la validation de l'image",
+          description: `${errorr}`,
+          variant: "destructive",
+      });
+        return;
+      }
       setLoading(true);
       const bucket = "MenuLogo";
       const subfolder = "items";

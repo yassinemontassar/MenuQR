@@ -58,40 +58,29 @@ export const MenuModal = () => {
       imageUrl: ""
     },
   });
+  const MAX_FILE_SIZE_BYTES = 100 * 1024;; // 1 MB in bytes
 
-  const uploadFile = async (event: React.ChangeEvent<HTMLInputElement>) => {
-    const file = event.target?.files?.[0];
-    if (!file) {
-      console.error("No file selected or access failed.");
-      return;
-    }
-    setLoading(true);
-    const bucket = "MenuLogo";
-    const folderName = params.userId; // Existing folder name
-    const { crypto } = window;
-    const randomString = crypto.getRandomValues(new Uint32Array(1))[0].toString(36).padStart(10, '0');
-    const uniqueFileName = `${randomString}.${file.name.split('.').pop()}`;
-    // Combine folder and subfolder names for file path
-    // const fileName = params.userId + form.getValues("name");
-    const filePath = `${folderName}/${uniqueFileName}`;
+  const validateImageSize = (file: File): string | undefined => {
+    if (!file) return; // No file selected, so nothing to validate
   
-    const { data, error } = await supabase.storage
-      .from(bucket)
-      .upload(filePath, file, { upsert: true });
-  
-    // Handle error if upload failed
-    if (error) {
-      alert('Error uploading file.');
-      return;
+    if (file.size > MAX_FILE_SIZE_BYTES) {
+      return "La taille de l'image dépasse la limite maximale de 100 Ko.";
     }
   
-    form.setValue("imageUrl", uniqueFileName);
-    setLoading(false);
-    console.log('File uploaded successfully!');
+    return undefined; // No errors
   };
   
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     if (image) {
+      const errorr = validateImageSize(image);
+      if (errorr) {
+        toast({
+          title: "Erreur lors de la validation de l'image",
+          description: `${errorr}`,
+          variant: "destructive",
+      });
+        return;
+      }
       setLoading(true);
       const bucket = "MenuLogo";
       const subfolder = "logo"
@@ -215,10 +204,10 @@ export const MenuModal = () => {
                           height={50}
                           className="object-cover w-20 h-20 rounded-md"
                         />
-                        <XIcon 
+                        {/* <XIcon 
                           onClick={() => setImage(null)}
                           className="cursor-pointer text-red-600"
-                        />
+                        /> */}
                       </div>
                     )}
                   </FormItem>

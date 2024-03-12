@@ -24,7 +24,20 @@ const formSchema = z.object({
   newImage: z.string().min(1),
 });
 
+
 type MenuFormValues = z.infer<typeof formSchema>;
+
+const MAX_FILE_SIZE_BYTES = 100 * 1024;; // 1 MB in bytes
+
+const validateImageSize = (file: File): string | undefined => {
+  if (!file) return; // No file selected, so nothing to validate
+
+  if (file.size > MAX_FILE_SIZE_BYTES) {
+    return "La taille de l'image dépasse la limite maximale de 100 Ko.";
+  }
+
+  return undefined; // No errors
+};
 
 interface MenuFormProps {
   initialData: Menu | null;
@@ -44,34 +57,20 @@ export const ComponenetA: React.FC<MenuFormProps> = ({ initialData }) => {
     },
   });
 
-  const uploadFile = async (event: React.ChangeEvent<HTMLInputElement>) => {
-    const file = event.target?.files?.[0];
-    if (!file) {
-      console.error("No file selected or access failed.");
-      return;
-    }
-    setLoading(true);
-  const bucket = "MenuLogo"
-  const folderName = params.userId; 
-  const fileName = params.userId + form.getValues("name");
-    const filePath = `${folderName}/${fileName}`;
-  const { data, error } = await supabase.storage
-  .from(bucket)
-  .upload(filePath, file, { upsert: true });
 
-  // Handle error if upload failed
-  if(error) {
-    alert('Error uploading file.');
-    return;
-  }
-  form.setValue("newImage",fileName)
-  console.log('File uploaded successfully!');
-  setLoading(false);
-};
 
 
   const onSubmit = async (values: MenuFormValues) => {
     if (image) {
+      const errorr = validateImageSize(image);
+      if (errorr) {
+        toast({
+          title: "Erreur lors de la validation de l'image",
+          description: `${errorr}`,
+          variant: "destructive",
+      });
+        return;
+      }
       setLoading(true);
       const bucket = "MenuLogo";
       const subfolder = "logo"
@@ -136,7 +135,7 @@ export const ComponenetA: React.FC<MenuFormProps> = ({ initialData }) => {
                   <FormControl className="mt-1">
                     <Input
                       className="w-full px-3 py-2 placeholder-gray-500 border rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                      placeholder="Nom de votre panneau publicitaire"
+                      placeholder="Nom"
                       disabled={loading}
                       {...field}
                     />

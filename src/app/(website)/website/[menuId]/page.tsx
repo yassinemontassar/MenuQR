@@ -8,49 +8,33 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { ClockIcon, ThumbsUpIcon } from "lucide-react"
 import Image from "next/image"
 import Header from "../componenets/header"
+import StatsCard from "../componenets/stats"
+import getMenu from "../../../../../actions/get-menu"
 
 
-export default function Home() {
+
+
+
+const WebSite = async ({
+  params
+}: {
+  params: {menuId: string}
+}) => {
+
+  const menu = await getMenu(params.menuId);
     return (
         <div className="bg-[#f7f7f7]">
             <Header />
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
   <div className="flex flex-col sm:flex-row gap-8">
     <div className="w-full sm:w-3/4">
-      <div className="bg-white p-6 rounded-lg shadow">
-        <div className="flex flex-col sm:flex-row items-center space-y-4 sm:space-y-0 sm:space-x-4">
-          <Image
-            alt="Tacos Chaneb Logo"
-            className="h-20 w-20 rounded-full"
-            height="80"
-            src="/logo.png"
-            width="80"
-          />
-          <div>
-    
-            <div className="flex flex-col sm:flex-row items-center space-y-2 sm:space-y-0 sm:space-x-2 my-2">
-            <h1 className="text-2xl font-bold">Texas</h1>
-              <Badge variant="secondary">Top partenaire</Badge>
-              <Badge>-20% sélection</Badge>
-            </div>
-            <div className="flex flex-col sm:flex-row items-center space-y-4 sm:space-y-0 sm:space-x-4">
-              <div className="flex items-center space-x-1">
-                <ThumbsUpIcon className="h-5 w-5 text-green-500" />
-                <span>90%</span>
-              </div>
-              <div className="flex items-center space-x-1">
-                <ClockIcon className="h-5 w-5 text-gray-500" />
-                <span>11:00 - 23:00</span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+  
+      <StatsCard data={menu} />
       <div className="mt-6">
               <div className="flex gap-4 items-center">
-                <div className="flex-1">
+                {/* <div className="flex-1">
                   <Input placeholder="Recherche dans Texas" type="search" />
-                </div>
+                </div> */}
                 <div className="flex flex-col">
                   <label className="sr-only" htmlFor="sections">
                     Sections
@@ -125,3 +109,4 @@ export default function Home() {
       
     )
 }
+export default WebSite; 
