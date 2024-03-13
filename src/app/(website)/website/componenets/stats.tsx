@@ -14,7 +14,7 @@ const StatsCard: React.FC<StatsCard> = ({
 }) => {
     
     return (
-        <div className="bg-white p-6 rounded-lg shadow">
+        <div className=" p-6 rounded-lg shadow">
 
         <div className="flex flex-col sm:flex-row items-center space-y-4 sm:space-y-0 sm:space-x-4">
           <Image

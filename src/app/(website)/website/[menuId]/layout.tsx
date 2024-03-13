@@ -2,8 +2,8 @@ import { redirect } from 'next/navigation';
 import prisma from '@/app/lib/db';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/app/utils/auth';
-import Header from '@/components/header';
 import { Metadata } from 'next';
+import Header from '../componenets/header';
 
 
 
@@ -36,6 +36,7 @@ export default async function websiteLayout({
 
   return (
     <>
+    <Header />
       {children}
 
     </>
