@@ -8,7 +8,7 @@ const WebSite = async ({ params }: { params: { menuId: string } }) => {
   const menu = await getMenu(params.menuId);
   const categories = await prisma.category.findMany({
     where: {
-      MenuId: params.menuId, // Assuming you have `menuId` from route params
+      MenuId: params.menuId, 
     },
     include: {
       Items: true,

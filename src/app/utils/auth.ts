@@ -51,17 +51,18 @@ export const authOptions = {
         const emailOptions = {
           from: process.env.EMAIL_FROM,
           to: email,
-          subject: `Welcome to ${host} - Email Address Verification 🚀`,
-          text: "Please click the link below to confirm your email address:",
+          subject: `Bienvenue sur ${host} - Vérification de l'adresse e-mail 🚀`,
+          text: "Veuillez cliquer sur le lien ci-dessous pour confirmer votre adresse e-mail :",
           html: `
             <div style="text-align: center; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #2c3e50; color: #ecf0f1; padding: 40px;">
-              <h2 style="color: #3498db;">Welcome to ${host}!</h2>
-              <p style="color: #bdc3c7; font-size: 16px;">To get started, click the button below to verify your email address:</p>
-              <a href="${url}" style="display: inline-block; background-color: #3498db; color: #fff; text-decoration: none; padding: 15px 30px; border-radius: 8px; cursor: pointer; margin-top: 25px; font-size: 18px;">Verify Email</a>
-              <p style="color: #bdc3c7; font-size: 14px; margin-top: 20px;">Thank you for joining ${host}! 🚀</p>
+              <h2 style="color: #3498db;">Bienvenue sur ${host} !</h2>
+              <p style="color: #bdc3c7; font-size: 16px;">Pour commencer, cliquez sur le bouton ci-dessous pour vérifier votre adresse e-mail :</p>
+              <a href="${url}" style="display: inline-block; background-color: #3498db; color: #fff; text-decoration: none; padding: 15px 30px; border-radius: 8px; cursor: pointer; margin-top: 25px; font-size: 18px;">Vérifier l'e-mail</a>
+              <p style="color: #bdc3c7; font-size: 14px; margin-top: 20px;">Merci de rejoindre ${host} ! 🚀</p>
             </div>
           `,
         };
+        
         
 
         await transporter.sendMail(emailOptions);

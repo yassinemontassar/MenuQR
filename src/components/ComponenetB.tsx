@@ -25,8 +25,9 @@ import { AlertModal } from "@/components/modals/alert-modal";
 import { toast } from "./ui/use-toast";
 
 const formSchema = z.object({
-  name: z.string().min(1),
+  name: z.string().min(1, { message: "Le nom de la catégorie est requis." }),
 });
+
 
 interface Category {
   id: string;

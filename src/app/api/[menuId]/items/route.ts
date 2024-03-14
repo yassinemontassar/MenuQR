@@ -36,7 +36,7 @@ export async function GET(
       const userId = session?.user.id
       const body = await req.json();
   
-      const { categoryId, name, price, imageUrl, discount, isArchived } = body;
+      const { categoryId, name, description,  price, imageUrl, discount, isArchived } = body;
   
       if (!userId) {
         return new NextResponse("Unauthenticated", { status: 403 });
@@ -68,6 +68,7 @@ export async function GET(
           MenuId: params.menuId,
           categoryId,
           name,
+          description,
           price,
           discount,
           isArchived,

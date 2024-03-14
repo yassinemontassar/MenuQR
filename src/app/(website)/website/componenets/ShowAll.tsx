@@ -60,7 +60,7 @@ const ShowAll: React.FC<StatsCard> = ({ data }) => {
                       <CardHeader>
                         <CardTitle>{item.name}</CardTitle>
                         <CardDescription>
-                          3 Tacos au choix + 9 pièces nuggets + 1L soda
+                          {item.description}
                         </CardDescription>
                       </CardHeader>
                       <CardContent>

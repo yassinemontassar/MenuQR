@@ -31,13 +31,15 @@ import Image from "next/image";
 import { toast } from "./ui/use-toast";
 
 const formSchema = z.object({
-  name: z.string().min(1),
-  imageUrl: z.string().min(1),
-  price: z.coerce.number().min(1),
-  discount: z.coerce.number().min(0),
-  categoryId: z.string().min(1),
+  name: z.string().min(1, { message: "Le nom est requis." }),
+  imageUrl: z.string().min(1, { message: "Sélectionnez une image !" }),
+  description: z.string().min(1, { message: "Description est requis." }),
+  price: z.coerce.number().min(1, { message: "Le prix doit être d'au moins 1." }),
+  discount: z.coerce.number().min(0, { message: "La remise doit être d'au moins 0." }),
+  categoryId: z.string().min(1, { message: "L'identifiant de catégorie est requis." }),
   isArchived: z.boolean().default(false).optional(),
 });
+
 
 type ItemFormValues = z.infer<typeof formSchema>;
 
@@ -56,6 +58,7 @@ export const ComponenetC: React.FC = () => {
     defaultValues: {
       name: "",
       imageUrl: "",
+      description: "",
       price: 0,
       categoryId: "",
       isArchived: false,
@@ -249,7 +252,27 @@ export const ComponenetC: React.FC = () => {
                     <FormControl className="mt-1">
                       <Input
                         disabled={loading}
-                        placeholder="Nom de votre plat"
+                        placeholder="Nom de votre élément"
+                        className="w-full px-3 py-2 placeholder-gray-500 border rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+               <FormField
+                control={form.control}
+                name="description"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className="font-medium">
+                      Description de l&apos;élément :
+                    </FormLabel>
+                    <FormControl className="mt-1">
+                      <textarea
+                        disabled={loading}
+                        placeholder="Description de votre élément"
                         className="w-full px-3 py-2 placeholder-gray-500 border rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                         {...field}
                       />

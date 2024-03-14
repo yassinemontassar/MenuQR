@@ -20,7 +20,7 @@ const DevicePreview: React.FC<DevicePreviewProps> = ({ keyProp }) => {
       setIsLoading(true);
 
       // Simulate asynchronous reload, you can replace it with your actual reload logic
-      await new Promise((resolve) => setTimeout(resolve, 2000));
+      await new Promise((resolve) => setTimeout(resolve, 1000));
 
       // Reset loading state after reloading content
       setIsLoading(false);
@@ -38,12 +38,7 @@ const DevicePreview: React.FC<DevicePreviewProps> = ({ keyProp }) => {
     };
   }, [keyProp]); // Include keyProp in the dependency array to trigger the effect on key change
 
-  const reloadContent = () => {
-    // Add any logic or actions you want to perform when reloading content
-    console.log('Content reloaded in DevicePreview');
-    // For example, fetch data, reset state, etc.
-    setReloadCounter((prevCounter) => prevCounter + 1);
-  };
+
   return (
     <>
       <DeviceFrameset device="Samsung Galaxy S5" color="black">

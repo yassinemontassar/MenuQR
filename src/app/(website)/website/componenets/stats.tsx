@@ -4,6 +4,8 @@ import { Badge } from "@/components/ui/badge";
 import { Menu } from "@prisma/client";
 import { ClockIcon, ThumbsUpIcon } from "lucide-react";
 import Image from "next/image";
+import Link from "next/link";
+import { FaInstagram, FaSquareFacebook } from "react-icons/fa6";
 
 interface StatsCard {
     data: Menu;
@@ -38,8 +40,16 @@ const StatsCard: React.FC<StatsCard> = ({
               </div>
               <div className="flex items-center space-x-1">
                 <ClockIcon className="h-5 w-5 text-gray-500" />
-                <span>11:00 - 23:00</span>
+                <span>{data.startTime} - {data.endTime}</span>
               </div>
+              <div className="flex items-center space-x-4">
+                  <Link href={"/a"} target="_blank">
+                    <FaSquareFacebook className="h-6 w-6 text-blue-600 hover:text-blue-800"   />
+                  </Link>
+                  <Link href={"/a"} target="_blank">
+                  <FaInstagram className="h-6 w-6 text-white bg-gradient-to-r from-pink-500 to-purple-500 rounded-2xl p-1" />
+                  </Link>
+                </div>
             </div>
           </div>
         </div>

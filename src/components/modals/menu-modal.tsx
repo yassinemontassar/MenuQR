@@ -32,14 +32,15 @@ import { XIcon } from "lucide-react";
 import { toast } from "../ui/use-toast";
 import { ToastAction } from "../ui/toast";
 
-
 const formSchema = z.object({
   name: z
     .string()
-    .min(1, { message: "Name is required." })
-    .max(50, { message: "Name cannot be longer than 50 characters." }),
-  type: z.string().min(1, {message: "Please you have to select a type"}),
-  imageUrl: z.string().min(1, {message: "Select an image!"})
+    .min(1, { message: "Le nom est requis." })
+    .max(50, { message: "Le nom ne peut pas dépasser 50 caractères." }),
+  type: z.string().min(1, { message: "Veuillez sélectionner un type." }),
+  startTime: z.string().min(1, { message: "Veuillez sélectionner une heure de début." }),
+  endTime: z.string().min(1, { message: "Veuillez sélectionner une heure de fin." }),
+  imageUrl: z.string().min(1, { message: "Sélectionnez une image !" }),
 });
 
 
@@ -55,21 +56,23 @@ export const MenuModal = () => {
     defaultValues: {
       name: "",
       type: "",
-      imageUrl: ""
+      startTime: "",
+      endTime: "",
+      imageUrl: "",
     },
   });
-  const MAX_FILE_SIZE_BYTES = 100 * 1024;; // 1 MB in bytes
+  const MAX_FILE_SIZE_BYTES = 100 * 1024; // 1 MB in bytes
 
   const validateImageSize = (file: File): string | undefined => {
     if (!file) return; // No file selected, so nothing to validate
-  
+
     if (file.size > MAX_FILE_SIZE_BYTES) {
       return "La taille de l'image dépasse la limite maximale de 100 Ko.";
     }
-  
+
     return undefined; // No errors
   };
-  
+
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     if (image) {
       const errorr = validateImageSize(image);
@@ -78,33 +81,36 @@ export const MenuModal = () => {
           title: "Erreur lors de la validation de l'image",
           description: `${errorr}`,
           variant: "destructive",
-      });
+        });
         return;
       }
       setLoading(true);
       const bucket = "MenuLogo";
-      const subfolder = "logo"
+      const subfolder = "logo";
       const folderName = params.userId; // Existing folder name
       const { crypto } = window;
-      const randomString = crypto.getRandomValues(new Uint32Array(1))[0].toString(36).padStart(10, '0');
-      const uniqueFileName = `${randomString}.${image.name.split('.').pop()}`;
+      const randomString = crypto
+        .getRandomValues(new Uint32Array(1))[0]
+        .toString(36)
+        .padStart(10, "0");
+      const uniqueFileName = `${randomString}.${image.name.split(".").pop()}`;
       const filePath = `${folderName}/${subfolder}/${uniqueFileName}`;
-  
+
       const { data, error } = await supabase.storage
         .from(bucket)
         .upload(filePath, image, { upsert: true });
-  
+
       if (error) {
-        alert('Error uploading file.');
+        alert("Error uploading file.");
         return;
       }
-  
+
       values.imageUrl = uniqueFileName;
     }
     try {
-       setLoading(true);
+      setLoading(true);
       // values.imageUrl= params.userId+"logo"
-      const body = { ...values};
+      const body = { ...values };
       const response = await axios.post("/api/menus", body);
       window.location.assign(`menu/${response.data.id}`);
     } catch (error) {
@@ -112,8 +118,8 @@ export const MenuModal = () => {
         title: "Oups ! Quelque chose s'est mal passé.",
         description: "Il y a eu un problème avec votre demande.",
         action: <ToastAction altText="Réessayer">Réessayer</ToastAction>,
-        variant:"destructive"
-      })
+        variant: "destructive",
+      });
     } finally {
       setLoading(false);
     }
@@ -136,10 +142,10 @@ export const MenuModal = () => {
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>Nom</FormLabel>
-                    <FormControl>
+                    <FormControl> 
                       <Input
                         disabled={loading}
-                        placeholder="Nom de votre magasin"
+                        placeholder="Nom de votre Restaurant/Caffe"
                         {...field}
                       />
                     </FormControl>
@@ -169,7 +175,6 @@ export const MenuModal = () => {
                         <SelectContent>
                           <SelectItem value="Restaurant">Restaurant</SelectItem>
                           <SelectItem value="Cafe">Café</SelectItem>
-                          <SelectItem value="CafeR">Café-Restaurant</SelectItem>
                         </SelectContent>
                       </Select>
                     </FormControl>
@@ -177,6 +182,79 @@ export const MenuModal = () => {
                   </FormItem>
                 )}
               />
+              <div className="flex items-center justify-evenly p-2 ">
+                <FormField
+                  control={form.control}
+                  name="startTime"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel className="px-3">Heure d ouverture</FormLabel>
+                      <FormControl>
+                        <Select
+                          disabled={loading}
+                          onValueChange={field.onChange}
+                          value={field.value}
+                          defaultValue={field.value}
+                        >
+                          <SelectTrigger className="">
+                            <SelectValue
+                              defaultValue={field.value}
+                              placeholder="l'heure de début"
+                            />
+                          </SelectTrigger>
+                          <SelectContent>
+                            <SelectItem value="08:00">08:00</SelectItem>
+                            <SelectItem value="09:00">09:00</SelectItem>
+                            <SelectItem value="10:00">10:00</SelectItem>
+                            <SelectItem value="11:00">11:00</SelectItem>
+                            <SelectItem value="12:00">12:00</SelectItem>
+                            <SelectItem value="13:00">13:00</SelectItem>
+                          </SelectContent>
+                        </Select>
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="endTime"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel className="px-6">Heure de fermeture</FormLabel>
+                      <FormControl>
+                        <Select
+                          disabled={loading}
+                          onValueChange={field.onChange}
+                          value={field.value}
+                          defaultValue={field.value}
+                        >
+                          <SelectTrigger className="">
+                            <SelectValue
+                              defaultValue={field.value}
+                              placeholder="l'heure de fermeture"
+                            />
+                          </SelectTrigger>
+                          <SelectContent>
+                            <SelectItem value="14:00">14:00</SelectItem>
+                            <SelectItem value="15:00">15:00</SelectItem>
+                            <SelectItem value="16:00">16:00</SelectItem>
+                            <SelectItem value="17:00">17:00</SelectItem>
+                            <SelectItem value="18:00">18:00</SelectItem>
+                            <SelectItem value="19:00">19:00</SelectItem>
+                            <SelectItem value="20:00">20:00</SelectItem>
+                            <SelectItem value="21:00">21:00</SelectItem>
+                            <SelectItem value="22:00">22:00</SelectItem>
+                            <SelectItem value="23:00">23:00</SelectItem>
+                            <SelectItem value="00:00">00:00</SelectItem>
+                          </SelectContent>
+                        </Select>
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
               <FormField
                 control={form.control}
                 name="imageUrl"
@@ -231,5 +309,4 @@ export const MenuModal = () => {
       </div>
     </Modal>
   );
-  
 };

@@ -20,9 +20,10 @@ import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import Image from "next/image";
 import { toast } from "./ui/use-toast";
 const formSchema = z.object({
-  name: z.string().min(1),
-  newImage: z.string().min(1),
+  name: z.string().min(1, { message: "Le nom est requis." }),
+  newImage: z.string().min(1, { message: "Sélectionnez une nouvelle image !" }),
 });
+
 
 
 type MenuFormValues = z.infer<typeof formSchema>;

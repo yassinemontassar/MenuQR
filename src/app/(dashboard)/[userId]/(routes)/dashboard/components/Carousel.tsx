@@ -22,6 +22,7 @@ interface CategoryProps {
   data: Item[];
 }
 const CarouselOrientation: React.FC<CategoryProps> = ({ data }) => {
+  const [items, setItems] = useState(data); // Manage data state
   const params = useParams();
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -29,10 +30,6 @@ const CarouselOrientation: React.FC<CategoryProps> = ({ data }) => {
 
   const onDelete = async () => {
     try {
-      if (selectedItemId !== null) {
-        console.log("Deleting Item with ID:", selectedItemId);
-      }
-
       setLoading(true);
       await axios.delete(`/api/${params.menuId}/items/${selectedItemId}`);
       toast({
@@ -40,6 +37,8 @@ const CarouselOrientation: React.FC<CategoryProps> = ({ data }) => {
         description: "L'élément sélectionné a été supprimé avec succès.",
         variant: "default",
       });
+      const updatedItems = items.filter((item) => item.id !== selectedItemId);
+      setItems(updatedItems);
     } catch (error) {
       toast({
         title: "Oops...",
@@ -47,6 +46,7 @@ const CarouselOrientation: React.FC<CategoryProps> = ({ data }) => {
           "Assurez-vous d'avoir d'abord supprimé tous les catégories utilisant cette élément !!",
         variant: "destructive",
       });
+      setItems(data); 
     } finally {
       setLoading(false);
       setOpen(false);
@@ -73,7 +73,7 @@ const CarouselOrientation: React.FC<CategoryProps> = ({ data }) => {
           className="w-full max-w-xs"
         >
           <CarouselContent className="ml-1 gap-1">
-  {data.map((item) => (
+  {items.map((item) => (
     <CarouselItem
       key={item.id}
       className="pl-1 md:basis-1/2 lg:basis-1/2 group border-2 border-gray-200 rounded-lg overflow-hidden hover:shadow-lg transition-shadow duration-300"
