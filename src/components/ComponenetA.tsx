@@ -19,9 +19,17 @@ import { useParams, useRouter } from "next/navigation";
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import Image from "next/image";
 import { toast } from "./ui/use-toast";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "./ui/select";
+
+
 const formSchema = z.object({
   name: z.string().min(1, { message: "Le nom est requis." }),
-  newImage: z.string().min(1, { message: "Sélectionnez une nouvelle image !" }),
+  type: z.string().min(1, { message: "Veuillez sélectionner un type." }),
+  startTime: z.string().min(1, { message: "Veuillez sélectionner une heure de début." }),
+  endTime: z.string().min(1, { message: "Veuillez sélectionner une heure de fin." }),
+  imageUrl: z.string().min(1, { message: "Sélectionnez une nouvelle image !" }),
+
+
 });
 
 
@@ -53,8 +61,8 @@ export const ComponenetA: React.FC<MenuFormProps> = ({ initialData }) => {
   const form = useForm<MenuFormValues>({
     resolver: zodResolver(formSchema),
     defaultValues: initialData || {
-      name: "",
-      newImage: "",
+       name: "",
+
     },
   });
 
@@ -89,11 +97,11 @@ export const ComponenetA: React.FC<MenuFormProps> = ({ initialData }) => {
         alert('Error uploading file.');
         return;
       }
-      values.newImage = uniqueFileName
+      values.imageUrl = uniqueFileName
     }
     try {
       setLoading(true);
-      console.log(values.newImage)
+      console.log(values.imageUrl)
       const body = { ...values };
       console.log(body)
       await axios.patch(`/api/menus/${params.menuId}`, body);
@@ -131,7 +139,7 @@ export const ComponenetA: React.FC<MenuFormProps> = ({ initialData }) => {
               render={({ field }) => (
                 <FormItem className="w-full">
                   <FormLabel className="font-medium">
-                    Nom de votre {initialData?.type} :
+                    Nom de votre {initialData?.type} 
                   </FormLabel>
                   <FormControl className="mt-1">
                     <Input
@@ -145,9 +153,111 @@ export const ComponenetA: React.FC<MenuFormProps> = ({ initialData }) => {
                 </FormItem>
               )}
             />
+                <FormField
+              control={form.control}
+              name="type"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Type</FormLabel>
+                  <Select
+                    disabled={loading}
+                    onValueChange={field.onChange}
+                    value={field.value}
+                    defaultValue={field.value}
+                  >
+                    <FormControl>
+                      <SelectTrigger>
+                        <SelectValue
+                          defaultValue={field.value}
+                          placeholder="Select a category"
+                        />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent>
+                          <SelectItem value="Restaurant">Restaurant</SelectItem>
+                          <SelectItem value="Cafe">Café</SelectItem>
+                        </SelectContent>
+                  </Select>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+              <div className="flex items-center justify-evenly p-2 gap-2">
+                <FormField
+                  control={form.control}
+                  name="startTime"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel className="">Heure d ouverture</FormLabel>
+                      <FormControl>
+                        <Select
+                          disabled={loading}
+                          onValueChange={field.onChange}
+                          value={field.value}
+                          defaultValue={field.value}
+                        >
+                          <SelectTrigger className="">
+                            <SelectValue
+                              defaultValue={field.value}
+                              placeholder="l'heure de début"
+                            />
+                          </SelectTrigger>
+                          <SelectContent>
+                            <SelectItem value="08:00">08:00</SelectItem>
+                            <SelectItem value="09:00">09:00</SelectItem>
+                            <SelectItem value="10:00">10:00</SelectItem>
+                            <SelectItem value="11:00">11:00</SelectItem>
+                            <SelectItem value="12:00">12:00</SelectItem>
+                            <SelectItem value="13:00">13:00</SelectItem>
+                          </SelectContent>
+                        </Select>
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="endTime"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel className="">Heure de fermeture</FormLabel>
+                      <FormControl>
+                        <Select
+                          disabled={loading}
+                          onValueChange={field.onChange}
+                          value={field.value}
+                          defaultValue={field.value}
+                        >
+                          <SelectTrigger className="">
+                            <SelectValue
+                              defaultValue={field.value}
+                              placeholder="l'heure de fermeture"
+                            />
+                          </SelectTrigger>
+                          <SelectContent>
+                            <SelectItem value="14:00">14:00</SelectItem>
+                            <SelectItem value="15:00">15:00</SelectItem>
+                            <SelectItem value="16:00">16:00</SelectItem>
+                            <SelectItem value="17:00">17:00</SelectItem>
+                            <SelectItem value="18:00">18:00</SelectItem>
+                            <SelectItem value="19:00">19:00</SelectItem>
+                            <SelectItem value="20:00">20:00</SelectItem>
+                            <SelectItem value="21:00">21:00</SelectItem>
+                            <SelectItem value="22:00">22:00</SelectItem>
+                            <SelectItem value="23:00">23:00</SelectItem>
+                            <SelectItem value="00:00">00:00</SelectItem>
+                          </SelectContent>
+                        </Select>
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
             <FormField
               control={form.control}
-              name="newImage"
+              name="imageUrl"
               render={({ field }) => (
                 <FormItem className="w-full">
                   <FormLabel className="font-medium">Logo</FormLabel>

@@ -41,7 +41,7 @@ const DevicePreview: React.FC<DevicePreviewProps> = ({ keyProp }) => {
 
   return (
     <>
-      <DeviceFrameset device="Samsung Galaxy S5" color="black">
+      <DeviceFrameset device="Nexus 5" color="black">
         <div className="h-full overflow-y-scroll">
           {isLoading ? (
             // Display a loading message while content is being reloaded

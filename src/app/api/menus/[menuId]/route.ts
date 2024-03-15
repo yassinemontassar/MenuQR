@@ -12,7 +12,7 @@ try {
     const session = await getServerSession(authOptions)
 const body = await req.json();
 
-const {name, newImage} = body;
+const {name, imageUrl, type, startTime, endTime} = body;
 
 const userId = session?.user.id
 
@@ -24,7 +24,10 @@ const menu = await prisma.menu.updateMany({
     },
     data: {
         name,
-        imageUrl: process.env.NEXT_PUBLIC_IMAGE_BASE_URL+"/"+userId+"/logo/"+newImage
+        type,
+        startTime,
+        endTime,
+        imageUrl: process.env.NEXT_PUBLIC_IMAGE_BASE_URL+"/"+userId+"/logo/"+imageUrl
     }
 })
 

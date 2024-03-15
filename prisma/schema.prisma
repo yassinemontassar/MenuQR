@@ -67,17 +67,19 @@ model VerificationToken {
 }
 
 model Menu {
-  id          String       @id @default(uuid())
-  name        String
-  userId      String
-  type        String
-  startTime   String      
-  endTime     String      
-  imageUrl    String
-  user        User         @relation(fields: [userId], references: [id])
-  categories  Category[]   @relation("MenuToCategory")
-  Items       Item[]       @relation("MenuToItem")
-  subscribers Subscriber[] @relation("MenuToSubscriber")
+  id            String       @id @default(uuid())
+  name          String
+  userId        String
+  type          String
+  startTime     String
+  endTime       String
+  imageUrl      String
+  facebookLink  String?
+  instagramLink String?
+  user          User         @relation(fields: [userId], references: [id])
+  categories    Category[]   @relation("MenuToCategory")
+  Items         Item[]       @relation("MenuToItem")
+  subscribers   Subscriber[] @relation("MenuToSubscriber")
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -96,19 +98,19 @@ model Category {
 }
 
 model Item {
-  id         String   @id @default(uuid())
-  MenuId     String // Foreign Key to Menu
-  Menu       Menu     @relation("MenuToItem", fields: [MenuId], references: [id])
-  categoryId String // Foreign Key to Category
-  category   Category @relation("CategoryToItem", fields: [categoryId], references: [id])
-  name       String
+  id          String   @id @default(uuid())
+  MenuId      String // Foreign Key to Menu
+  Menu        Menu     @relation("MenuToItem", fields: [MenuId], references: [id])
+  categoryId  String // Foreign Key to Category
+  category    Category @relation("CategoryToItem", fields: [categoryId], references: [id])
+  name        String
   description String
-  price      Decimal
-  discount   Int      @default(0)
-  isArchived Boolean  @default(false)
-  imageUrl   String
-  createdAt  DateTime @default(now())
-  updatedAt  DateTime @updatedAt
+  price       Decimal
+  discount    Int      @default(0)
+  isArchived  Boolean  @default(false)
+  imageUrl    String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
 
   @@index([MenuId])
   @@index([categoryId])

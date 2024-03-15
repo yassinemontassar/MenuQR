@@ -28,10 +28,12 @@ export const Modal: React.FC<ModalProps> = ({
     <Dialog   open={isOpen} onOpenChange={onChange}>
       <DialogContent >
         <DialogHeader>
-          <DialogTitle>{title}</DialogTitle>
+          <div className="flex flex-col justify-center items-center gap-2">
+          <DialogTitle >{title}</DialogTitle>
           <DialogDescription>
             {description}
           </DialogDescription>
+          </div>
         </DialogHeader>
         <div>
           {children}

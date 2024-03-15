@@ -28,9 +28,9 @@ import { useMenuModal } from "@/app/hooks/use-menu-modal";
 import { useParams } from "next/navigation";
 import Image from "next/image";
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
-import { XIcon } from "lucide-react";
 import { toast } from "../ui/use-toast";
 import { ToastAction } from "../ui/toast";
+import { Separator } from "../ui/separator";
 
 const formSchema = z.object({
   name: z
@@ -41,6 +41,8 @@ const formSchema = z.object({
   startTime: z.string().min(1, { message: "Veuillez sélectionner une heure de début." }),
   endTime: z.string().min(1, { message: "Veuillez sélectionner une heure de fin." }),
   imageUrl: z.string().min(1, { message: "Sélectionnez une image !" }),
+  facebookLink: z.string().url({ message: "Veuillez saisir une URL Facebook valide." }).optional(),
+  instagramLink: z.string().url({ message: "Veuillez saisir une URL Instagram valide." }).optional(),
 });
 
 
@@ -182,13 +184,14 @@ export const MenuModal = () => {
                   </FormItem>
                 )}
               />
-              <div className="flex items-center justify-evenly p-2 ">
+              <Separator className="my-4 bg-foreground" />
+              <div className="flex items-center justify-evenly p-2 gap-2">
                 <FormField
                   control={form.control}
                   name="startTime"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel className="px-3">Heure d ouverture</FormLabel>
+                      <FormLabel className="">Heure d ouverture</FormLabel>
                       <FormControl>
                         <Select
                           disabled={loading}
@@ -221,7 +224,7 @@ export const MenuModal = () => {
                   name="endTime"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel className="px-6">Heure de fermeture</FormLabel>
+                      <FormLabel className="">Heure de fermeture</FormLabel>
                       <FormControl>
                         <Select
                           disabled={loading}
@@ -255,6 +258,42 @@ export const MenuModal = () => {
                   )}
                 />
               </div>
+              <Separator className="my-4 bg-foreground" />
+              <FormField
+                control={form.control}
+                name="facebookLink"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Page Facebook (optionnel)</FormLabel>
+                    <FormControl> 
+                      <Input
+                        disabled={loading}
+                        placeholder="https://www.facebook.com/"
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+               <FormField
+                control={form.control}
+                name="instagramLink"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Page Instagram (optionnel)</FormLabel>
+                    <FormControl> 
+                      <Input
+                        disabled={loading}
+                        placeholder="https://www.instagram.com/"
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+               <Separator className="my-4 bg-foreground" />
               <FormField
                 control={form.control}
                 name="imageUrl"

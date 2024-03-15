@@ -6,7 +6,7 @@ import { NextResponse } from "next/server";
 export async function POST(req: Request) {
   try {
     const body = await req.json();
-    const { name, type, imageUrl, startTime, endTime } = body;
+    const { name, type, imageUrl, startTime, endTime, facebookLink, instagramLink } = body;
     const session = await getServerSession(authOptions)
     const userId = session?.user.id
     if (!userId) {
@@ -24,6 +24,8 @@ export async function POST(req: Request) {
             type,
             startTime,
             endTime,
+            facebookLink,
+            instagramLink,
             imageUrl: process.env.NEXT_PUBLIC_IMAGE_BASE_URL+"/"+userId+"/logo/"+imageUrl
         }
     });
