@@ -99,6 +99,8 @@ export const ComponenetB: React.FC = () => {
       
       setLoading(false);
       setShouldFetch(true);
+      form.reset();
+      setIsNewCategoryInputVisible(false);
     }
   };
 

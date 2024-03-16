@@ -28,8 +28,8 @@ const formSchema = z.object({
   startTime: z.string().min(1, { message: "Veuillez sélectionner une heure de début." }),
   endTime: z.string().min(1, { message: "Veuillez sélectionner une heure de fin." }),
   imageUrl: z.string().min(1, { message: "Sélectionnez une nouvelle image !" }),
-
-
+  facebookLink: z.string().url({ message: "Veuillez saisir une URL Facebook valide." }).optional(),
+  instagramLink: z.string().url({ message: "Veuillez saisir une URL Instagram valide." }).default("").optional(),
 });
 
 
@@ -47,23 +47,36 @@ const validateImageSize = (file: File): string | undefined => {
 
   return undefined; // No errors
 };
-
+ 
 interface MenuFormProps {
   initialData: Menu | null;
 }
 export const ComponenetA: React.FC<MenuFormProps> = ({ initialData }) => {
   const router = useRouter();
   const params = useParams();
+  const logoUrl = process.env.NEXT_PUBLIC_IMAGE_BASE_URL+"/"+params.userId+"/logo/"
   const [loading, setLoading] = useState(false);
   const [image, setImage] = useState<File | null>(null);
   const imagePreviewUrl = initialData?.imageUrl ?? "";
   const supabase = createClientComponentClient();
+  const defaultValues = initialData
+  ? {
+    ...initialData,
+    facebookLink: initialData.facebookLink ?? undefined,
+    instagramLink: initialData.instagramLink ?? undefined,
+    }
+  : {
+      name: "",
+      type: "",
+      startTime: "",
+      endTime: "",
+      imageUrl: "",
+      facebookLink: undefined,
+      instagramLink: undefined
+    };
   const form = useForm<MenuFormValues>({
     resolver: zodResolver(formSchema),
-    defaultValues: initialData || {
-       name: "",
-
-    },
+    defaultValues,
   });
 
 
@@ -97,13 +110,11 @@ export const ComponenetA: React.FC<MenuFormProps> = ({ initialData }) => {
         alert('Error uploading file.');
         return;
       }
-      values.imageUrl = uniqueFileName
+      values.imageUrl = logoUrl+uniqueFileName
     }
     try {
       setLoading(true);
-      console.log(values.imageUrl)
       const body = { ...values };
-      console.log(body)
       await axios.patch(`/api/menus/${params.menuId}`, body);
       router.refresh();
     } catch (error) {
@@ -120,14 +131,16 @@ export const ComponenetA: React.FC<MenuFormProps> = ({ initialData }) => {
     }
   };
   return (
-    <div className="bg-background   p-8 rounded-lg shadow-lg ring-1 md:p-12 mt-12 ">
-      <div className="flex items-center justify-center">
+    <>
+    <p className="font-semibold">Formulaire de mise à jour du menu</p>
+    <div className="bg-background   p-8 rounded-lg shadow-lg ring-1 md:p-12 mt-5 ">
+      <div className="flex items-center justify-center mb-5">
         <Image
           src={imagePreviewUrl}
           alt="logo"
-          width={45}
-          height={45}
-          className="object-cover rounded-md border border-gray-300"
+          width={60}
+          height={60}
+          className="object-cover rounded-full border border-gray-300"
         />
       </div>
       <Form {...form}>
@@ -153,6 +166,7 @@ export const ComponenetA: React.FC<MenuFormProps> = ({ initialData }) => {
                 </FormItem>
               )}
             />
+            
                 <FormField
               control={form.control}
               name="type"
@@ -182,6 +196,7 @@ export const ComponenetA: React.FC<MenuFormProps> = ({ initialData }) => {
                 </FormItem>
               )}
             />
+
               <div className="flex items-center justify-evenly p-2 gap-2">
                 <FormField
                   control={form.control}
@@ -255,6 +270,40 @@ export const ComponenetA: React.FC<MenuFormProps> = ({ initialData }) => {
                   )}
                 />
               </div>
+              <FormField
+                control={form.control}
+                name="facebookLink"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Page Facebook (optionnel)</FormLabel>
+                    <FormControl> 
+                      <Input
+                        disabled={loading}
+                        placeholder="https://www.facebook.com/"
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+                <FormField
+                control={form.control}
+                name="instagramLink"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Page Instagram (optionnel)</FormLabel>
+                    <FormControl> 
+                      <Input
+                        disabled={loading}
+                        placeholder="https://www.instagram.com/"
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
             <FormField
               control={form.control}
               name="imageUrl"
@@ -304,6 +353,7 @@ export const ComponenetA: React.FC<MenuFormProps> = ({ initialData }) => {
         </form>
       </Form>
     </div>
+    </>
   );
   
 };

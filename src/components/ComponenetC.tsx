@@ -163,7 +163,9 @@ export const ComponenetC: React.FC = () => {
         <select
           id="categories"
           value={selectedCategory}
-          onChange={(e) => setSelectedCategory(e.target.value)}
+          onChange={(e) => 
+            setSelectedCategory(e.target.value)
+          }
           className="block  p-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:border-blue-500"
         >
           <option value="all">Toutes les catégories</option>

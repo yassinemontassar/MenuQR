@@ -52,6 +52,7 @@ const CarouselOrientation: React.FC<CategoryProps> = ({ data }) => {
       setOpen(false);
     }
   };
+  console.log(data)
 
   return (
     <>
@@ -73,7 +74,7 @@ const CarouselOrientation: React.FC<CategoryProps> = ({ data }) => {
           className="w-full max-w-xs"
         >
           <CarouselContent className="ml-1 gap-1">
-  {items.map((item) => (
+  {data.map((item) => (
     <CarouselItem
       key={item.id}
       className="pl-1 md:basis-1/2 lg:basis-1/2 group border-2 border-gray-200 rounded-lg overflow-hidden hover:shadow-lg transition-shadow duration-300"

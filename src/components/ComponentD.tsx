@@ -15,7 +15,7 @@ import { Loader2, ShieldCheckIcon } from "lucide-react";
 import axios from "axios";
 import { useEffect, useState } from "react";
 export default function ComponenetD() {
-  const { SVG } = useQRCode();
+  const { Canvas } = useQRCode();
   const params = useParams();
   const [menuData, setMenu] = useState<any>([]);
   const [isFetchingMenu, setIsFetchingMenu] = useState(false);
@@ -98,20 +98,27 @@ export default function ComponenetD() {
         </CardHeader>
         <CardContent className="flex flex-col items-center gap-2">
           <div className="border border-gray-200 dark:border-gray-800 p-2 rounded-lg">
-            <SVG
-              text={`${process.env.NEXT_PUBLIC_BASE_URL}/website/${params.menuId}`}
-              options={{
-                type: "image/svg+xml",
-                quality: 1,
-                errorCorrectionLevel: "M",
-                margin: 3,
-                scale: 4,
-                width: 250,
-                color: {
-                  dark: "#0D47A1",
-                },
-              }}
-            />
+          <Canvas
+  text={`${process.env.NEXT_PUBLIC_BASE_URL}/website/${params.menuId}`}
+  options={{
+    type: 'image/svg+xml',
+    quality: 1,
+    errorCorrectionLevel: 'M',
+    margin: 3,
+    scale: 4,
+    width: 250,
+    color: {
+      dark: '#0D47A1',
+    },
+  }}
+  // logo={{
+  //   src: menuData.imageUrl, // Added the missing comma here
+  //   options: {
+  //     width: 50, // Set the width of your logo
+  //     // You can also specify x and y to position the logo if needed
+  //   }
+  // }}
+/>
           </div>
           <CardDescription className="text-center">
             <p className="mb-3">Scannez le code QR pour voir notre menu</p>
