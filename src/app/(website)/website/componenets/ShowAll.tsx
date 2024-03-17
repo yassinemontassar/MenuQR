@@ -7,6 +7,8 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import Currency from "@/components/ui/currency";
+import { Label } from "@/components/ui/label";
 import { Category, Item } from "@prisma/client";
 import Image from "next/image";
 import { useEffect, useState } from "react";
@@ -29,17 +31,18 @@ const ShowAll: React.FC<StatsCard> = ({ data }) => {
     };
   return (
     <div className="mt-6">
+       <h2 className="text-lg font-semibold mb-2">Choisissez une catégorie :</h2> {/* Added label for select box */}
       <div className="flex gap-4 items-center">
         <div className="flex flex-col">
-          <label className="sr-only" htmlFor="sections">
-            Sections
-          </label>
-          <select
+        <Label className="sr-only" htmlFor="categories">
+            Categories
+          </Label>
+         <select
             id="categories"
-            className="block  p-2 border rounded-md shadow-sm focus:outline-none focus:border-blue-500"
+            className="block w-full p-2 pr-8 border rounded-md shadow-sm focus:outline-none focus:border-blue-500"
             onChange={handleCategoryChange}
             value={selectedCategory}
-         >
+          >
             {data.map((category) => (
               <option key={category.id} value={category.id}>
                 {category.name}
@@ -74,8 +77,10 @@ const ShowAll: React.FC<StatsCard> = ({ data }) => {
                           />
                         </div>
                       </CardContent>
-                      <CardFooter className="flex justify-between items-center">
-                        <span className="text-xl font-bold">{`${item.price} DT`}</span>
+                      <CardFooter className="flex items-center justify-center ">
+                        <span className=" text-xl font-medium">
+                          <Currency value={item.price.toString()} />
+                          </span>
                         {/* <span className="text-sm line-through text-gray-500">
                           56,000DT
                         </span> */}

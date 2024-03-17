@@ -6,10 +6,9 @@ export default async function Header() {
         <header className=" py-4 shadow">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center">
           <Link href="/"
-          className="text-2xl sm:text-3xl font-bold text-[#fa4a0c]" >
+           className="font-bold text-3xl bg-gradient-to-r from-orange-600 to-orange-300 text-transparent bg-clip-text hover:cursor-pointer ">
             MenuRapide 
           </Link>
-          <button className="bg-[#fa4a0c] text-white px-2 py-2 rounded-full">Commencer</button>
         </div>
       </header>
     );

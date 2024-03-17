@@ -9,6 +9,7 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/components/ui/carousel";
+import Currency from "@/components/ui/currency";
 import { toast } from "@/components/ui/use-toast";
 import { Category, Item } from "@prisma/client";
 import axios from "axios";
@@ -22,7 +23,6 @@ interface CategoryProps {
   data: Item[];
 }
 const CarouselOrientation: React.FC<CategoryProps> = ({ data }) => {
-  const [items, setItems] = useState(data); // Manage data state
   const params = useParams();
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -37,8 +37,6 @@ const CarouselOrientation: React.FC<CategoryProps> = ({ data }) => {
         description: "L'élément sélectionné a été supprimé avec succès.",
         variant: "default",
       });
-      const updatedItems = items.filter((item) => item.id !== selectedItemId);
-      setItems(updatedItems);
     } catch (error) {
       toast({
         title: "Oops...",
@@ -46,13 +44,11 @@ const CarouselOrientation: React.FC<CategoryProps> = ({ data }) => {
           "Assurez-vous d'avoir d'abord supprimé tous les catégories utilisant cette élément !!",
         variant: "destructive",
       });
-      setItems(data); 
     } finally {
       setLoading(false);
       setOpen(false);
     }
   };
-  console.log(data)
 
   return (
     <>
@@ -99,9 +95,9 @@ const CarouselOrientation: React.FC<CategoryProps> = ({ data }) => {
             />
           </CardContent>
         </Card>
-        <p className="flex items-center justify-center mt-2 text-xl font-semibold">
-          {item.price.toString()} DT
-        </p>
+        <div className="flex items-center justify-center mt-2">
+          <Currency value={item.price.toString()} />
+        </div>
         <div className="flex items-center justify-center p-4">
           <Button
             disabled={loading}

@@ -73,59 +73,49 @@ export default function ComponenetD() {
        </div>
        </>
       ) : (
-      <Card className="w-full max-w-sm rounded-none" id="contentToConvert">
+        <Card className="w-full max-w-sm rounded-none" id="contentToConvert">
         <CardHeader>
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-2">
-              <ShieldCheckIcon />
-              <div className="leading-none">
-                <CardTitle className="text-base">{menuData.name}</CardTitle>
-                <CardDescription className="text-sm">
-                  Gourmet Coffee & Pastries
-                </CardDescription>
-              </div>
-            </div>
-            <div className="overflow-hidden">
-              <Image
-                alt={menuData.name}
-                height={50}
-                src={menuData.imageUrl}
-                width={50}
-                className="rounded-3xl"
-              />
-            </div>
+          <div className="flex flex-col items-center justify-center"> {/* Centering content */}
+          <div className="overflow-hidden">
+            <Image
+              alt={menuData.name}
+              height={60}
+              src={menuData.imageUrl}
+              width={60}
+              className="rounded-full"
+              quality={100}
+              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+            />
+          </div>
+              <div className="font-medium leading-none">{menuData.name}</div>
+
+         
           </div>
         </CardHeader>
         <CardContent className="flex flex-col items-center gap-2">
           <div className="border border-gray-200 dark:border-gray-800 p-2 rounded-lg">
-          <Canvas
-  text={`${process.env.NEXT_PUBLIC_BASE_URL}/website/${params.menuId}`}
-  options={{
-    type: 'image/svg+xml',
-    quality: 1,
-    errorCorrectionLevel: 'M',
-    margin: 3,
-    scale: 4,
-    width: 250,
-    color: {
-      dark: '#0D47A1',
-    },
-  }}
-  // logo={{
-  //   src: menuData.imageUrl, // Added the missing comma here
-  //   options: {
-  //     width: 50, // Set the width of your logo
-  //     // You can also specify x and y to position the logo if needed
-  //   }
-  // }}
-/>
+            <Canvas
+              text={`${process.env.NEXT_PUBLIC_BASE_URL}/website/${params.menuId}`}
+              options={{
+                type: 'image/svg+xml',
+                quality: 1,
+                errorCorrectionLevel: 'M',
+                margin: 3,
+                scale: 4,
+                width: 250,
+                color: {
+                  dark: '#0D47A1',
+                },
+              }}
+            />
           </div>
           <CardDescription className="text-center">
             <p className="mb-3">Scannez le code QR pour voir notre menu</p>
-            <p >Visiter notre siteweb patata.tn</p>
+            <p>Visiter notre siteweb patata.tn</p>
           </CardDescription>
         </CardContent>
       </Card>
+      
       )}
         <Button className="mt-2" size="sm" onClick={downloadPdf}>
           Télécharger PDF
