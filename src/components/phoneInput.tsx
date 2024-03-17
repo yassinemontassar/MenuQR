@@ -95,7 +95,7 @@ export const PhoneInput: React.FC<MenuFormProps> = ({ initialData }) => {
     </div>
   </div>
   <div className="flex flex-col items-center rounded-md border border-gray-300 shadow-md p-6">
-    <p className="text-center mb-5">Aperçu</p>
+    <p className="text-center font-medium mb-8">Aperçu</p>
     <DevicePreview keyProp={reloadDevicePreview} />
   </div>
 </div>

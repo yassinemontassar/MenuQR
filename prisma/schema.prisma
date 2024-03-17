@@ -35,7 +35,7 @@ model Session {
 }
 
 enum UserPlan {
-  Free
+  Gratuit
   Standard
   Pro
 }
@@ -51,7 +51,7 @@ model User {
   email         String?   @unique
   emailVerified DateTime?
   image         String?
-  plan          UserPlan  @default(Free)
+  plan          UserPlan  @default(Gratuit)
   role          UserRole  @default(member)
   menus         Menu[]
   accounts      Account[]
