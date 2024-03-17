@@ -3,25 +3,17 @@ import { useMenuModal } from "@/app/hooks/use-menu-modal";
 import { MenuModal } from "@/components/modals/menu-modal";
 import {
     ContextMenu,
-    ContextMenuCheckboxItem,
     ContextMenuContent,
     ContextMenuItem,
-    ContextMenuLabel,
-    ContextMenuRadioGroup,
-    ContextMenuRadioItem,
-    ContextMenuSeparator,
     ContextMenuShortcut,
-    ContextMenuSub,
-    ContextMenuSubContent,
-    ContextMenuSubTrigger,
     ContextMenuTrigger,
   } from "@/components/ui/context-menu"
 
   import  {Menu}  from "@prisma/client";
 import Image from "next/image";
 import { useParams, useRouter } from "next/navigation";
-import { useState } from "react";
 import logo from "@/assets/avatar.png"
+import {  BarChart4, Pencil } from "lucide-react";
 
   interface MenuProps  {
     items: Menu[];
@@ -78,7 +70,7 @@ import logo from "@/assets/avatar.png"
                         </div>
                         {/* Affichez un message au survol du menu. */}
                         <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-center opacity-0 group-hover:opacity-100 transition duration-300 ease-in-out">
-                            <p className="text-xl font-semibold">Clic droit sur moi</p>
+                            <p className="text-xl font-semibold select-none">Clic droit sur moi</p>
                         </div>
                     </ContextMenuTrigger>
 
@@ -89,13 +81,7 @@ import logo from "@/assets/avatar.png"
                             Éditer votre {menu.type}
                             {/* Utilisez un raccourci avec l'image du logo. */}
                             <ContextMenuShortcut>
-                                <Image
-                                    src="/logo.png"
-                                    alt="logo"
-                                    width={25}
-                                    height={25}
-                                    className="rounded-full"
-                                />
+                              <Pencil size={20} />
                             </ContextMenuShortcut>
                         </ContextMenuItem>
 
@@ -104,52 +90,16 @@ import logo from "@/assets/avatar.png"
                             Retour
                             <ContextMenuShortcut>⌘[</ContextMenuShortcut>
                         </ContextMenuItem>
-                        <ContextMenuItem inset disabled>
-                            Avant
-                            <ContextMenuShortcut>⌘]</ContextMenuShortcut>
+                        <ContextMenuItem inset >
+                            Statistiques
+                            <ContextMenuShortcut><BarChart4 /></ContextMenuShortcut>
                         </ContextMenuItem>
                         <ContextMenuItem inset>
-                            Recharger
+                            Recharger 
                             <ContextMenuShortcut>⌘R</ContextMenuShortcut>
                         </ContextMenuItem>
 
-                        {/* Sous-menu "Plus d'outils". */}
-                        <ContextMenuSub>
-                            <ContextMenuSubTrigger inset>Plus doutils</ContextMenuSubTrigger>
-                            <ContextMenuSubContent className="w-48">
-                                <ContextMenuItem>
-                                    Enregistrer la page sous...
-                                    <ContextMenuShortcut>⇧⌘S</ContextMenuShortcut>
-                                </ContextMenuItem>
-                                <ContextMenuItem>Créer un raccourci...</ContextMenuItem>
-                                <ContextMenuItem>Nommer la fenêtre...</ContextMenuItem>
-                                <ContextMenuSeparator />
-                                <ContextMenuItem>Outils de développement</ContextMenuItem>
-                            </ContextMenuSubContent>
-                        </ContextMenuSub>
-
-                        {/* Séparateur du menu. */}
-                        <ContextMenuSeparator />
-
-                        {/* Éléments de case à cocher du menu. */}
-                        <ContextMenuCheckboxItem checked>
-                            Afficher la barre de favoris
-                            <ContextMenuShortcut>⌘⇧B</ContextMenuShortcut>
-                        </ContextMenuCheckboxItem>
-                        <ContextMenuCheckboxItem>Afficher les URL complètes</ContextMenuCheckboxItem>
-
-                        {/* Séparateur du menu. */}
-                        <ContextMenuSeparator />
-
-                        {/* Groupe d'options radio du menu. */}
-                        <ContextMenuRadioGroup value="pedro">
-                            <ContextMenuLabel inset>Personnes</ContextMenuLabel>
-                            <ContextMenuSeparator />
-                            <ContextMenuRadioItem value="pedro">
-                                Pedro Duarte
-                            </ContextMenuRadioItem>
-                            <ContextMenuRadioItem value="colm">Colm Tuite</ContextMenuRadioItem>
-                        </ContextMenuRadioGroup>
+                     
                     </ContextMenuContent>
                 </ContextMenu>
             ))}

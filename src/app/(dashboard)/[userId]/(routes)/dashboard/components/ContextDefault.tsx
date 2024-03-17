@@ -28,7 +28,7 @@ export default function ContextDefault() {
   return (
       <>
           <ContextMenu>
-              <ContextMenuTrigger className="flex h-[150px] w-[300px] items-center justify-center rounded-md border border-dashed text-lg mb-6">
+              <ContextMenuTrigger className="flex h-[150px] w-[300px] items-center justify-center rounded-md border border-dashed text-lg mb-6 select-none">
                   Cliquez avec le bouton droit ici
               </ContextMenuTrigger>
               <ContextMenuContent className="w-64">

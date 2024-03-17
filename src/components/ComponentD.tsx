@@ -93,7 +93,7 @@ export default function ComponenetD() {
           </div>
         </CardHeader>
         <CardContent className="flex flex-col items-center gap-2">
-          <div className="border border-gray-200 dark:border-gray-800 p-2 rounded-lg">
+          <div className="border shadow-lg border-gray-200 dark:border-gray-800 p-2 rounded-lg">
             <Canvas
               text={`${process.env.NEXT_PUBLIC_BASE_URL}/website/${params.menuId}`}
               options={{
@@ -109,7 +109,7 @@ export default function ComponenetD() {
               }}
             />
           </div>
-          <CardDescription className="text-center">
+          <CardDescription className="text-center mt-2">
             <p className="mb-3">Scannez le code QR pour voir notre menu</p>
             <p>Visiter notre siteweb patata.tn</p>
           </CardDescription>

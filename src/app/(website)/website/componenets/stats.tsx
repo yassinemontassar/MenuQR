@@ -13,7 +13,7 @@ interface StatsCard {
 
 const StatsCard: React.FC<StatsCard> = ({ data }) => {
   return (
-    <div className=" p-6 rounded-lg shadow">
+    <div className=" p-6 rounded-lg shadow-lg">
       <div className="flex flex-col sm:flex-row items-center space-y-4 sm:space-y-0 sm:space-x-4">
         <Image
           alt="Tacos Chaneb Logo"
