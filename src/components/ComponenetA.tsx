@@ -19,24 +19,38 @@ import { useParams, useRouter } from "next/navigation";
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import Image from "next/image";
 import { toast } from "./ui/use-toast";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "./ui/select";
-
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "./ui/select";
 
 const formSchema = z.object({
   name: z.string().min(1, { message: "Le nom est requis." }),
   type: z.string().min(1, { message: "Veuillez sélectionner un type." }),
-  startTime: z.string().min(1, { message: "Veuillez sélectionner une heure de début." }),
-  endTime: z.string().min(1, { message: "Veuillez sélectionner une heure de fin." }),
+  startTime: z
+    .string()
+    .min(1, { message: "Veuillez sélectionner une heure de début." }),
+  endTime: z
+    .string()
+    .min(1, { message: "Veuillez sélectionner une heure de fin." }),
   imageUrl: z.string().min(1, { message: "Sélectionnez une nouvelle image !" }),
-  facebookLink: z.string().url({ message: "Veuillez saisir une URL Facebook valide." }).optional(),
-  instagramLink: z.string().url({ message: "Veuillez saisir une URL Instagram valide." }).default("").optional(),
+  facebookLink: z
+    .string()
+    .url({ message: "Veuillez saisir une URL Facebook valide." })
+    .optional(),
+  instagramLink: z
+    .string()
+    .url({ message: "Veuillez saisir une URL Instagram valide." })
+    .default("")
+    .optional(),
 });
-
-
 
 type MenuFormValues = z.infer<typeof formSchema>;
 
-const MAX_FILE_SIZE_BYTES = 100 * 1024;; // 1 MB in bytes
+const MAX_FILE_SIZE_BYTES = 100 * 1024; // 1 MB in bytes
 
 const validateImageSize = (file: File): string | undefined => {
   if (!file) return; // No file selected, so nothing to validate
@@ -47,40 +61,38 @@ const validateImageSize = (file: File): string | undefined => {
 
   return undefined; // No errors
 };
- 
+
 interface MenuFormProps {
   initialData: Menu | null;
 }
 export const ComponenetA: React.FC<MenuFormProps> = ({ initialData }) => {
   const router = useRouter();
   const params = useParams();
-  const logoUrl = process.env.NEXT_PUBLIC_IMAGE_BASE_URL+"/"+params.userId+"/logo/"
+  const logoUrl =
+    process.env.NEXT_PUBLIC_IMAGE_BASE_URL + "/" + params.userId + "/logo/";
   const [loading, setLoading] = useState(false);
   const [image, setImage] = useState<File | null>(null);
   const imagePreviewUrl = initialData?.imageUrl ?? "";
   const supabase = createClientComponentClient();
   const defaultValues = initialData
-  ? {
-    ...initialData,
-    facebookLink: initialData.facebookLink ?? undefined,
-    instagramLink: initialData.instagramLink ?? undefined,
-    }
-  : {
-      name: "",
-      type: "",
-      startTime: "",
-      endTime: "",
-      imageUrl: "",
-      facebookLink: undefined,
-      instagramLink: undefined
-    };
+    ? {
+        ...initialData,
+        facebookLink: initialData.facebookLink ?? undefined,
+        instagramLink: initialData.instagramLink ?? undefined,
+      }
+    : {
+        name: "",
+        type: "",
+        startTime: "",
+        endTime: "",
+        imageUrl: "",
+        facebookLink: undefined,
+        instagramLink: undefined,
+      };
   const form = useForm<MenuFormValues>({
     resolver: zodResolver(formSchema),
     defaultValues,
   });
-
-
-
 
   const onSubmit = async (values: MenuFormValues) => {
     if (image) {
@@ -90,27 +102,30 @@ export const ComponenetA: React.FC<MenuFormProps> = ({ initialData }) => {
           title: "Erreur lors de la validation de l'image",
           description: `${errorr}`,
           variant: "destructive",
-      });
+        });
         return;
       }
       setLoading(true);
       const bucket = "MenuLogo";
-      const subfolder = "logo"
+      const subfolder = "logo";
       const folderName = params.userId; // Existing folder name
       const { crypto } = window;
-      const randomString = crypto.getRandomValues(new Uint32Array(1))[0].toString(36).padStart(10, '0');
-      const uniqueFileName = `${randomString}.${image.name.split('.').pop()}`;
+      const randomString = crypto
+        .getRandomValues(new Uint32Array(1))[0]
+        .toString(36)
+        .padStart(10, "0");
+      const uniqueFileName = `${randomString}.${image.name.split(".").pop()}`;
       const filePath = `${folderName}/${subfolder}/${uniqueFileName}`;
-  
+
       const { data, error } = await supabase.storage
         .from(bucket)
         .upload(filePath, image, { upsert: true });
-  
+
       if (error) {
-        alert('Error uploading file.');
+        alert("Error uploading file.");
         return;
       }
-      values.imageUrl = logoUrl+uniqueFileName
+      values.imageUrl = logoUrl + uniqueFileName;
     }
     try {
       setLoading(true);
@@ -124,78 +139,77 @@ export const ComponenetA: React.FC<MenuFormProps> = ({ initialData }) => {
         title: "Menu mis à jour",
         description: `Votre menu ${values.name} a été mis à jour avec succès. Les modifications sont prises en compte.`,
         variant: "default",
-    });
-    
-       setLoading(false);
+      });
 
+      setLoading(false);
     }
   };
   return (
     <>
-    <p className="font-semibold">Formulaire de mise à jour du menu</p>
-    <div className="bg-background   p-8 rounded-lg shadow-lg ring-1 md:p-12 mt-5 ">
-      <div className="flex items-center justify-center mb-5">
-        <Image
-          src={imagePreviewUrl}
-          alt="logo"
-          width={60}
-          height={60}
-          className="object-cover rounded-full border border-gray-300"
-        />
-      </div>
-      <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-          <div className="w-full max-w-md">
-            <FormField
-              control={form.control}
-              name="name"
-              render={({ field }) => (
-                <FormItem className="w-full">
-                  <FormLabel className="font-medium">
-                    Nom de votre {initialData?.type} 
-                  </FormLabel>
-                  <FormControl className="mt-1">
-                    <Input
-                      className="w-full px-3 py-2 placeholder-gray-500 border rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                      placeholder="Nom"
-                      disabled={loading}
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormMessage className="text-red-600" />
-                </FormItem>
-              )}
-            />
-            
-                <FormField
-              control={form.control}
-              name="type"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Type</FormLabel>
-                  <Select
-                    disabled={loading}
-                    onValueChange={field.onChange}
-                    value={field.value}
-                    defaultValue={field.value}
-                  >
-                    <FormControl>
-                      <SelectTrigger>
-                        <SelectValue
-                          defaultValue={field.value}
-                          placeholder="Select a category"
-                        />
-                      </SelectTrigger>
+      <p className="font-semibold">Formulaire de mise à jour du menu</p>
+      <div className="bg-background   p-8 rounded-lg shadow-lg ring-1 md:p-12 mt-5 ">
+        <div className="flex items-center justify-center mb-5">
+          <Image
+            src={imagePreviewUrl}
+            alt="logo"
+            width={60}
+            height={60}
+            className="object-cover rounded-full border border-gray-300"
+          />
+        </div>
+        <Form {...form}>
+          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+            <div className="w-full max-w-md">
+              <FormField
+                control={form.control}
+                name="name"
+                render={({ field }) => (
+                  <FormItem className="w-full">
+                    <FormLabel className="font-medium">
+                      Nom de votre {initialData?.type}
+                    </FormLabel>
+                    <FormControl className="mt-1">
+                      <Input
+                        className="w-full px-3 py-2 placeholder-gray-500 border rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                        placeholder="Nom"
+                        disabled={loading}
+                        {...field}
+                      />
                     </FormControl>
-                    <SelectContent>
-                          <SelectItem value="Restaurant">Restaurant</SelectItem>
-                          <SelectItem value="Cafe">Café</SelectItem>
-                        </SelectContent>
-                  </Select>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+                    <FormMessage className="text-red-600" />
+                  </FormItem>
+                )}
+              />
+
+              <FormField
+                control={form.control}
+                name="type"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Type</FormLabel>
+                    <Select
+                      disabled={loading}
+                      onValueChange={field.onChange}
+                      value={field.value}
+                      defaultValue={field.value}
+                    >
+                      <FormControl>
+                        <SelectTrigger>
+                          <SelectValue
+                            defaultValue={field.value}
+                            placeholder="Select a category"
+                          />
+                        </SelectTrigger>
+                      </FormControl>
+                      <SelectContent>
+                        <SelectItem value="Restaurant">Restaurant</SelectItem>
+                        <SelectItem value="Cafe">Café</SelectItem>
+                      </SelectContent>
+                    </Select>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
 
               <div className="flex items-center justify-evenly p-2 gap-2">
                 <FormField
@@ -218,12 +232,30 @@ export const ComponenetA: React.FC<MenuFormProps> = ({ initialData }) => {
                             />
                           </SelectTrigger>
                           <SelectContent>
+                            <SelectItem value="00:00">00:00</SelectItem>
+                            <SelectItem value="01:00">01:00</SelectItem>
+                            <SelectItem value="02:00">02:00</SelectItem>
+                            <SelectItem value="03:00">03:00</SelectItem>
+                            <SelectItem value="04:00">04:00</SelectItem>
+                            <SelectItem value="05:00">05:00</SelectItem>
+                            <SelectItem value="06:00">06:00</SelectItem>
+                            <SelectItem value="07:00">07:00</SelectItem>
                             <SelectItem value="08:00">08:00</SelectItem>
                             <SelectItem value="09:00">09:00</SelectItem>
                             <SelectItem value="10:00">10:00</SelectItem>
                             <SelectItem value="11:00">11:00</SelectItem>
                             <SelectItem value="12:00">12:00</SelectItem>
                             <SelectItem value="13:00">13:00</SelectItem>
+                            <SelectItem value="14:00">14:00</SelectItem>
+                            <SelectItem value="15:00">15:00</SelectItem>
+                            <SelectItem value="16:00">16:00</SelectItem>
+                            <SelectItem value="17:00">17:00</SelectItem>
+                            <SelectItem value="18:00">18:00</SelectItem>
+                            <SelectItem value="19:00">19:00</SelectItem>
+                            <SelectItem value="20:00">20:00</SelectItem>
+                            <SelectItem value="21:00">21:00</SelectItem>
+                            <SelectItem value="22:00">22:00</SelectItem>
+                            <SelectItem value="23:00">23:00</SelectItem>
                           </SelectContent>
                         </Select>
                       </FormControl>
@@ -251,6 +283,20 @@ export const ComponenetA: React.FC<MenuFormProps> = ({ initialData }) => {
                             />
                           </SelectTrigger>
                           <SelectContent>
+                            <SelectItem value="00:00">00:00</SelectItem>
+                            <SelectItem value="01:00">01:00</SelectItem>
+                            <SelectItem value="02:00">02:00</SelectItem>
+                            <SelectItem value="03:00">03:00</SelectItem>
+                            <SelectItem value="04:00">04:00</SelectItem>
+                            <SelectItem value="05:00">05:00</SelectItem>
+                            <SelectItem value="06:00">06:00</SelectItem>
+                            <SelectItem value="07:00">07:00</SelectItem>
+                            <SelectItem value="08:00">08:00</SelectItem>
+                            <SelectItem value="09:00">09:00</SelectItem>
+                            <SelectItem value="10:00">10:00</SelectItem>
+                            <SelectItem value="11:00">11:00</SelectItem>
+                            <SelectItem value="12:00">12:00</SelectItem>
+                            <SelectItem value="13:00">13:00</SelectItem>
                             <SelectItem value="14:00">14:00</SelectItem>
                             <SelectItem value="15:00">15:00</SelectItem>
                             <SelectItem value="16:00">16:00</SelectItem>
@@ -261,7 +307,6 @@ export const ComponenetA: React.FC<MenuFormProps> = ({ initialData }) => {
                             <SelectItem value="21:00">21:00</SelectItem>
                             <SelectItem value="22:00">22:00</SelectItem>
                             <SelectItem value="23:00">23:00</SelectItem>
-                            <SelectItem value="00:00">00:00</SelectItem>
                           </SelectContent>
                         </Select>
                       </FormControl>
@@ -276,7 +321,7 @@ export const ComponenetA: React.FC<MenuFormProps> = ({ initialData }) => {
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>Page Facebook (optionnel)</FormLabel>
-                    <FormControl> 
+                    <FormControl>
                       <Input
                         disabled={loading}
                         placeholder="https://www.facebook.com/"
@@ -287,13 +332,13 @@ export const ComponenetA: React.FC<MenuFormProps> = ({ initialData }) => {
                   </FormItem>
                 )}
               />
-                <FormField
+              <FormField
                 control={form.control}
                 name="instagramLink"
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>Page Instagram (optionnel)</FormLabel>
-                    <FormControl> 
+                    <FormControl>
                       <Input
                         disabled={loading}
                         placeholder="https://www.instagram.com/"
@@ -304,56 +349,57 @@ export const ComponenetA: React.FC<MenuFormProps> = ({ initialData }) => {
                   </FormItem>
                 )}
               />
-            <FormField
-              control={form.control}
-              name="imageUrl"
-              render={({ field }) => (
-                <FormItem className="w-full">
-                  <FormLabel className="font-medium">Logo</FormLabel>
-                  <FormControl className="mt-1">
-                    <Input
-                      disabled={loading}
-                      accept="image/*"
-                      type="file"
-                      className="w-full"
-                      onChange={(e) => {
-                        setImage(e.target.files?.[0] || null);
-                        field.onChange(e);
-                      }}
-                    />
-                  </FormControl>
-                  <FormMessage className="text-red-600" />
-                  {image && (
-                    <div className="flex items-center justify-center gap-2 mt-2">
-                      <Image
-                        src={URL.createObjectURL(image)}
-                        alt="aperçu"
-                        width={50}
-                        height={50}
-                        className="object-cover w-20 h-20 rounded-md border border-gray-300"
+              <FormField
+                control={form.control}
+                name="imageUrl"
+                render={({ field }) => (
+                  <FormItem className="w-full">
+                    <FormLabel className="font-medium">Logo</FormLabel>
+                    <FormControl className="mt-1">
+                      <Input
+                        disabled={loading}
+                        accept="image/*"
+                        type="file"
+                        className="w-full"
+                        onChange={(e) => {
+                          setImage(e.target.files?.[0] || null);
+                          field.onChange(e);
+                        }}
                       />
-                      <XIcon
-                        onClick={() => setImage(null)}
-                        className="cursor-pointer text-red-600"
-                      />
-                    </div>
-                  )}
-                </FormItem>
+                    </FormControl>
+                    <FormMessage className="text-red-600" />
+                    {image && (
+                      <div className="flex items-center justify-center gap-2 mt-2">
+                        <Image
+                          src={URL.createObjectURL(image)}
+                          alt="aperçu"
+                          width={50}
+                          height={50}
+                          className="object-cover w-20 h-20 rounded-md border border-gray-300"
+                        />
+                        <XIcon
+                          onClick={() => setImage(null)}
+                          className="cursor-pointer text-red-600"
+                        />
+                      </div>
+                    )}
+                  </FormItem>
+                )}
+              />
+            </div>
+            <Button
+              className="w-full px-3 py-2"
+              type="submit"
+              disabled={loading}
+            >
+              {loading ? "Mise à jour en cours..." : "Mettre à jour"}
+              {loading && (
+                <Loader size={20} className="text-background animate-spin" />
               )}
-            />
-          </div>
-          <Button
-            className="w-full px-3 py-2"
-            type="submit"
-            disabled={loading}
-          >
-            {loading ? 'Mise à jour en cours...' : 'Mettre à jour'}
-            {loading && <Loader size={20} className="text-background animate-spin" />}
-          </Button>
-        </form>
-      </Form>
-    </div>
+            </Button>
+          </form>
+        </Form>
+      </div>
     </>
   );
-  
 };

@@ -23,6 +23,7 @@ import CarouselOrientation from "@/app/(dashboard)/[userId]/(routes)/dashboard/c
 import { FaTrashCanArrowUp } from "react-icons/fa6";
 import { AlertModal } from "@/components/modals/alert-modal";
 import { toast } from "./ui/use-toast";
+import { useSession } from "next-auth/react";
 
 const formSchema = z.object({
   name: z.string().min(1, { message: "Le nom de la catégorie est requis." }),
@@ -39,6 +40,8 @@ interface Category {
 type CattegoryFormValues = z.infer<typeof formSchema>;
 
 export const ComponenetB: React.FC = () => {
+  const { data: session } = useSession()
+  const plan = session?.user.plan
   const params = useParams();
   const [loading, setLoading] = useState(false);
   const [open, setOpen] = useState(false);
@@ -78,6 +81,14 @@ export const ComponenetB: React.FC = () => {
   };
 
   const onSubmit = async (values: CattegoryFormValues) => {
+    if (plan=="Gratuit" && categories.length>=3) {
+      toast({
+        title: "Erreur",
+        description: "Vous ne pouvez pas ajouter plus de 3 catégories avec le plan gratuit",
+        variant: "destructive",
+      });
+      return;
+    }
     try {
       setLoading(true);
       const body = { ...values };

@@ -38,13 +38,22 @@ const formSchema = z.object({
     .min(1, { message: "Le nom est requis." })
     .max(50, { message: "Le nom ne peut pas dépasser 50 caractères." }),
   type: z.string().min(1, { message: "Veuillez sélectionner un type." }),
-  startTime: z.string().min(1, { message: "Veuillez sélectionner une heure de début." }),
-  endTime: z.string().min(1, { message: "Veuillez sélectionner une heure de fin." }),
+  startTime: z
+    .string()
+    .min(1, { message: "Veuillez sélectionner une heure de début." }),
+  endTime: z
+    .string()
+    .min(1, { message: "Veuillez sélectionner une heure de fin." }),
   imageUrl: z.string().min(1, { message: "Sélectionnez une image !" }),
-  facebookLink: z.string().url({ message: "Veuillez saisir une URL Facebook valide." }).optional(),
-  instagramLink: z.string().url({ message: "Veuillez saisir une URL Instagram valide." }).optional(),
+  facebookLink: z
+    .string()
+    .url({ message: "Veuillez saisir une URL Facebook valide." })
+    .optional(),
+  instagramLink: z
+    .string()
+    .url({ message: "Veuillez saisir une URL Instagram valide." })
+    .optional(),
 });
-
 
 export const MenuModal = () => {
   const supabase = createClientComponentClient();
@@ -144,7 +153,7 @@ export const MenuModal = () => {
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>Nom</FormLabel>
-                    <FormControl> 
+                    <FormControl>
                       <Input
                         disabled={loading}
                         placeholder="Nom de votre Restaurant/Caffe"
@@ -206,12 +215,30 @@ export const MenuModal = () => {
                             />
                           </SelectTrigger>
                           <SelectContent>
+                            <SelectItem value="00:00">00:00</SelectItem>
+                            <SelectItem value="01:00">01:00</SelectItem>
+                            <SelectItem value="02:00">02:00</SelectItem>
+                            <SelectItem value="03:00">03:00</SelectItem>
+                            <SelectItem value="04:00">04:00</SelectItem>
+                            <SelectItem value="05:00">05:00</SelectItem>
+                            <SelectItem value="06:00">06:00</SelectItem>
+                            <SelectItem value="07:00">07:00</SelectItem>
                             <SelectItem value="08:00">08:00</SelectItem>
                             <SelectItem value="09:00">09:00</SelectItem>
                             <SelectItem value="10:00">10:00</SelectItem>
                             <SelectItem value="11:00">11:00</SelectItem>
                             <SelectItem value="12:00">12:00</SelectItem>
                             <SelectItem value="13:00">13:00</SelectItem>
+                            <SelectItem value="14:00">14:00</SelectItem>
+                            <SelectItem value="15:00">15:00</SelectItem>
+                            <SelectItem value="16:00">16:00</SelectItem>
+                            <SelectItem value="17:00">17:00</SelectItem>
+                            <SelectItem value="18:00">18:00</SelectItem>
+                            <SelectItem value="19:00">19:00</SelectItem>
+                            <SelectItem value="20:00">20:00</SelectItem>
+                            <SelectItem value="21:00">21:00</SelectItem>
+                            <SelectItem value="22:00">22:00</SelectItem>
+                            <SelectItem value="23:00">23:00</SelectItem>
                           </SelectContent>
                         </Select>
                       </FormControl>
@@ -239,6 +266,20 @@ export const MenuModal = () => {
                             />
                           </SelectTrigger>
                           <SelectContent>
+                            <SelectItem value="00:00">00:00</SelectItem>
+                            <SelectItem value="01:00">01:00</SelectItem>
+                            <SelectItem value="02:00">02:00</SelectItem>
+                            <SelectItem value="03:00">03:00</SelectItem>
+                            <SelectItem value="04:00">04:00</SelectItem>
+                            <SelectItem value="05:00">05:00</SelectItem>
+                            <SelectItem value="06:00">06:00</SelectItem>
+                            <SelectItem value="07:00">07:00</SelectItem>
+                            <SelectItem value="08:00">08:00</SelectItem>
+                            <SelectItem value="09:00">09:00</SelectItem>
+                            <SelectItem value="10:00">10:00</SelectItem>
+                            <SelectItem value="11:00">11:00</SelectItem>
+                            <SelectItem value="12:00">12:00</SelectItem>
+                            <SelectItem value="13:00">13:00</SelectItem>
                             <SelectItem value="14:00">14:00</SelectItem>
                             <SelectItem value="15:00">15:00</SelectItem>
                             <SelectItem value="16:00">16:00</SelectItem>
@@ -249,7 +290,6 @@ export const MenuModal = () => {
                             <SelectItem value="21:00">21:00</SelectItem>
                             <SelectItem value="22:00">22:00</SelectItem>
                             <SelectItem value="23:00">23:00</SelectItem>
-                            <SelectItem value="00:00">00:00</SelectItem>
                           </SelectContent>
                         </Select>
                       </FormControl>
@@ -265,7 +305,7 @@ export const MenuModal = () => {
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>Page Facebook (optionnel)</FormLabel>
-                    <FormControl> 
+                    <FormControl>
                       <Input
                         disabled={loading}
                         placeholder="https://www.facebook.com/"
@@ -276,13 +316,13 @@ export const MenuModal = () => {
                   </FormItem>
                 )}
               />
-               <FormField
+              <FormField
                 control={form.control}
                 name="instagramLink"
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>Page Instagram (optionnel)</FormLabel>
-                    <FormControl> 
+                    <FormControl>
                       <Input
                         disabled={loading}
                         placeholder="https://www.instagram.com/"
@@ -293,7 +333,7 @@ export const MenuModal = () => {
                   </FormItem>
                 )}
               />
-               <Separator className="my-4 bg-foreground" />
+              <Separator className="my-4 bg-foreground" />
               <FormField
                 control={form.control}
                 name="imageUrl"

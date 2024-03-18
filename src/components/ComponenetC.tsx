@@ -29,23 +29,30 @@ import {
 import { Category, Item } from "@prisma/client";
 import Image from "next/image";
 import { toast } from "./ui/use-toast";
+import { useSession } from "next-auth/react";
 
 const formSchema = z.object({
   name: z.string().min(1, { message: "Le nom est requis." }),
   imageUrl: z.string().min(1, { message: "Sélectionnez une image !" }),
   description: z.string().min(1, { message: "Description est requis." }),
-  price: z.coerce.number().min(1, { message: "Le prix doit être d'au moins 1." }),
-  discount: z.coerce.number().min(0, { message: "La remise doit être d'au moins 0." }),
-  categoryId: z.string().min(1, { message: "L'identifiant de catégorie est requis." }),
+  price: z.coerce
+    .number()
+    .min(1, { message: "Le prix doit être d'au moins 1." }),
+  discount: z.coerce
+    .number()
+    .min(0, { message: "La remise doit être d'au moins 0." }),
+  categoryId: z
+    .string()
+    .min(1, { message: "L'identifiant de catégorie est requis." }),
   isArchived: z.boolean().default(false).optional(),
 });
-
 
 type ItemFormValues = z.infer<typeof formSchema>;
 
 export const ComponenetC: React.FC = () => {
   const params = useParams();
-  const router = useRouter();
+  const { data: session } = useSession();
+  const plan = session?.user.plan;
   const supabase = createClientComponentClient();
   const [loading, setLoading] = useState(false);
   const [image, setImage] = useState<File | null>(null);
@@ -92,14 +99,28 @@ export const ComponenetC: React.FC = () => {
   const MAX_FOOD_IMAGE_SIZE_BYTES = 300 * 1024; // 300 KB in bytes
   const validateImageSize = (file: File): string | undefined => {
     if (!file) return; // No file selected, so nothing to validate
-  
+
     if (file.size > MAX_FOOD_IMAGE_SIZE_BYTES) {
       return "La taille de l'image dépasse la limite maximale de 300 Ko.";
     }
-  
+
     return undefined; // No errors
   };
+
   const onSubmit = async (values: ItemFormValues) => {
+    // Count items in selected category
+    const selectedCategoryItems = categories.find(
+      (category) => category.id === values.categoryId
+    )?.Items;
+    const itemsCount = selectedCategoryItems ? selectedCategoryItems.length : 0;
+    if (plan == "Gratuit" && itemsCount >= 1) {
+      toast({
+        title: "Erreur",
+        description: `Impossible d'ajouter un nouvel élément. Vous avez atteint le nombre maximum d'éléments dans cette catégorie 6 pour le plan Gratuit.`,
+        variant: "destructive",
+      });
+      return;
+    }
     if (image) {
       const errorr = validateImageSize(image);
       if (errorr) {
@@ -107,7 +128,7 @@ export const ComponenetC: React.FC = () => {
           title: "Erreur lors de la validation de l'image",
           description: `${errorr}`,
           variant: "destructive",
-      });
+        });
         return;
       }
       setLoading(true);
@@ -163,9 +184,7 @@ export const ComponenetC: React.FC = () => {
         <select
           id="categories"
           value={selectedCategory}
-          onChange={(e) => 
-            setSelectedCategory(e.target.value)
-          }
+          onChange={(e) => setSelectedCategory(e.target.value)}
           className="block  p-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:border-blue-500"
         >
           <option value="all">Toutes les catégories</option>
@@ -263,7 +282,7 @@ export const ComponenetC: React.FC = () => {
                   </FormItem>
                 )}
               />
-               <FormField
+              <FormField
                 control={form.control}
                 name="description"
                 render={({ field }) => (
