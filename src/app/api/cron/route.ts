@@ -1,26 +1,18 @@
 import prisma from "@/app/lib/db";
-import { NextResponse } from "next/server";
 
-export async function PATCH (
-req: Request, 
-) {
-try {
-
+async function updateMenu() {
+  try {
     const result = await prisma.menu.updateMany({
-        data: {
-          name: {
-            set: "a"
-          }, 
+      data: {
+        name: {
+          set: "a", // Replace with your actual update logic
         },
-      });
-console.log(result)
-return NextResponse.json(result);
-
-
-} catch (error) {
-    console.log('[CRON-JOB]', error);
-    return new NextResponse("Internal error", {status: 500});
-    
+      },
+    });
+    console.log('Menu updated successfully:', result);
+  } catch (error) {
+    console.error('Error updating menu:', error);
+  }
 }
 
-};
+updateMenu(); // Call the function immediately
