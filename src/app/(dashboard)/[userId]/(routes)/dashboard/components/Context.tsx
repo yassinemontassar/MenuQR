@@ -1,6 +1,7 @@
 "use client"
 import { useMenuModal } from "@/app/hooks/use-menu-modal";
 import { MenuModal } from "@/components/modals/menu-modal";
+import {format} from "date-fns";
 import {
     ContextMenu,
     ContextMenuContent,
@@ -34,7 +35,8 @@ import {  BarChart4, Pencil } from "lucide-react";
         userId: item.userId,
         type: item.type,
         imageUrl: item.imageUrl,
-        MenuId: item.id
+        MenuId: item.id,
+        lastModified: format(item.updatedAt,"MMM do, yyyy 'at' h:mm a")
     }));
 
     // Filtrer les menus actuels en fonction de l'utilisateur.
@@ -50,8 +52,11 @@ import {  BarChart4, Pencil } from "lucide-react";
     return (
         <>
             {/* Mappez chaque menu dans un composant ContextMenu. */}
+           
             {currenStore.map((menu) => (
+                 
                 <ContextMenu key={menu.MenuId}>
+                    <div>
                     <ContextMenuTrigger
                         key={menu.MenuId}
                         className="group relative flex h-[150px] w-[300px] items-center justify-center rounded-md border-2 border-dashed text-lg mb-6 transition duration-300 ease-in-out hover:border-gray-600"
@@ -73,7 +78,6 @@ import {  BarChart4, Pencil } from "lucide-react";
                             <p className="text-xl font-semibold select-none">Clic droit sur moi</p>
                         </div>
                     </ContextMenuTrigger>
-
                     {/* Contenu du menu contextuel. */}
                     <ContextMenuContent className="w-64">
                         {/* Élément du menu pour éditer le type du menu. */}
@@ -101,7 +105,10 @@ import {  BarChart4, Pencil } from "lucide-react";
 
                      
                     </ContextMenuContent>
+                    <h1 className="text-xs font-light text-center -mt-5">Dernière modification: {menu.lastModified}</h1>
+                    </div>
                 </ContextMenu>
+
             ))}
         </>
     );
