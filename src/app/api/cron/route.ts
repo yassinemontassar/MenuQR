@@ -6,7 +6,7 @@ type Data = {
   result: Menu[];
 };
 
-export async function GET(req: Request, res: NextResponse<Data>) {
+export async function PATCH(req: Request, res: NextResponse<Data>) {
   const result = await prisma.menu.findMany({
     where: {
       name: "cron",
