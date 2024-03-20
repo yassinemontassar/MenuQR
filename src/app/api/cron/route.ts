@@ -1,17 +1,24 @@
-import { Menu } from "@prisma/client";
+import { User } from "@prisma/client";
 import prisma from "@/app/lib/db";
 import { NextResponse } from "next/server";
 import { NextApiResponse } from "next";
 
 type Data = {
-  result: Menu[];
+  result: User[];
 };
 
 export async function PATCH(req: Request, res: NextApiResponse<Data>) {
   const result = await prisma.menu.findMany({
     where: {
-      name: "cron",
+      user: {
+        expirePlan: {
+          lte: new Date(new Date().toISOString().split('T')[0] + 'T23:59:59.999Z')
+        }
+      },
     },
+    include: {
+      user: true,
+    }
   });
 
   await Promise.all(
@@ -21,11 +28,11 @@ export async function PATCH(req: Request, res: NextApiResponse<Data>) {
           id: menu.id,
         },
         data: {
-          name: "yes",
+          published: false
         },
       });
     })
+    
   );
-
   return NextResponse.json(result);
 }

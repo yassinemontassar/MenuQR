@@ -3,8 +3,18 @@ import StatsCard from "../componenets/stats";
 import getMenu from "../../../../../actions/get-menu";
 import prisma from "@/app/lib/db";
 import ShowAll from "../componenets/ShowAll";
+import { notFound } from "next/navigation";
 
 const WebSite = async ({ params }: { params: { menuId: string } }) => {
+  const store = await prisma.menu.findFirst({ 
+    where: {
+      id: params.menuId,
+      published: true,
+    }
+   });
+   if (!store) {
+    return notFound(); 
+  }
   const menu = await getMenu(params.menuId);
   const categories = await prisma.category.findMany({
     where: {

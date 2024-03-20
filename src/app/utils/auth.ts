@@ -71,11 +71,9 @@ export const authOptions = {
   ],
   callbacks: {
     async signIn({ user, account, profile, email, credentials }) {
-       // Use slugify to generate a username from the email address
        const slugify = require('slugify')
        if (account?.provider === 'email') {
          const username = slugify(user.email?.split("@")[0], { lower: true })
-         console.log(username)
          user.name = username
        }
 
@@ -86,8 +84,10 @@ export const authOptions = {
         }
       })
       if ( userExist) { 
+        console.log("exist")
         return true
       } else {
+        console.log("no exist")
         return true
       }
     },

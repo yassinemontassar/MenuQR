@@ -52,6 +52,7 @@ model User {
   emailVerified DateTime?
   image         String?
   plan          UserPlan  @default(Gratuit)
+  expirePlan    DateTime  @default(dbgenerated("NOW() + interval '7 days'"))
   role          UserRole  @default(member)
   menus         Menu[]
   accounts      Account[]
@@ -59,6 +60,8 @@ model User {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
+
+
 
 model VerificationToken {
   identifier String
@@ -78,6 +81,7 @@ model Menu {
   imageUrl      String
   facebookLink  String?
   instagramLink String?
+  published     Boolean      @default(true)
   user          User         @relation(fields: [userId], references: [id])
   categories    Category[]   @relation("MenuToCategory")
   Items         Item[]       @relation("MenuToItem")
