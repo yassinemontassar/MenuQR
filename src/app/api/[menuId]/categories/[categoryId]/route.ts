@@ -35,6 +35,7 @@ export async function GET (
 
 
 
+        
 
 
 export async function DELETE (
@@ -86,3 +87,54 @@ export async function DELETE (
 
 
     
+    export async function PATCH (
+        req: Request, 
+        {params} : {params: {menuId: string, categoryId: string}}
+        ) {
+        try {
+            const body = await req.json();
+            const {name} = body;
+            const session = await getServerSession(authOptions)
+            const userId = session?.user.id
+    
+        
+        if (!userId) {
+            return new NextResponse("Unauthenticated!", {status: 401});
+        }
+            
+       
+        
+        if (!params.categoryId) {
+            return new NextResponse("Category ID is required!", {status: 400});
+        }
+    
+        const menuByUserId = await prisma.menu.findFirst({
+            where: {
+                id: params.menuId,
+                userId
+            }
+        });
+        
+        if (!menuByUserId) {
+            return new NextResponse("Unauthorized", {status: 403});
+        }
+        
+        
+        const category = await prisma.category.updateMany({
+            where: {
+                id: params.categoryId,
+            },
+            data: {
+                name
+            }
+        });
+        
+        return NextResponse.json(category);
+        
+        } catch (error) {
+            console.log('[CATEGORY_UPDATE]', error);
+            return new NextResponse("Internal error", {status: 500});
+            
+        }
+        
+        };

@@ -36,7 +36,7 @@ import {  BarChart4, Pencil } from "lucide-react";
         type: item.type,
         imageUrl: item.imageUrl,
         MenuId: item.id,
-        lastModified: format(item.updatedAt,"MMM do, yyyy 'at' h:mm a")
+        lastModified: format(item.updatedAt, "yyyy/MM/dd HH:mm")
     }));
 
     // Filtrer les menus actuels en fonction de l'utilisateur.

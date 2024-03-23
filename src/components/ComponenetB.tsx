@@ -5,10 +5,9 @@ import { Button } from "@/components/ui/button";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useEffect, useState } from "react";
-import { Label } from "./ui/label";
-import { Loader2, Trash, XIcon } from "lucide-react";
+import { Loader2 } from "lucide-react";
 import axios from "axios";
-import { useParams, useRouter } from "next/navigation";
+import { useParams } from "next/navigation";
 import {
   Form,
   FormControl,
@@ -17,10 +16,8 @@ import {
   FormLabel,
   FormMessage,
 } from "./ui/form";
-import Image from "next/image";
-import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
-import CarouselOrientation from "@/app/(dashboard)/[userId]/(routes)/dashboard/components/Carousel";
-import { FaTrashCanArrowUp } from "react-icons/fa6";
+import {  FaTrashCanArrowUp } from "react-icons/fa6";
+import { FaRegEdit } from "react-icons/fa";
 import { AlertModal } from "@/components/modals/alert-modal";
 import { toast } from "./ui/use-toast";
 import { useSession } from "next-auth/react";
@@ -48,8 +45,10 @@ export const ComponenetB: React.FC = () => {
   const [selectedCategoryId, setSelectedCategoryId] = useState<string | null>(
     null
   );
+  const [newName, setNewName] = useState<string>('');
   const [shouldFetch, setShouldFetch] = useState(false);
   const [categories, setCategories] = useState<Category[]>([]);
+  const [categoryInputs, setCategoryInputs] = useState<{ [key: string]: string }>({});
   const form = useForm<CattegoryFormValues>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -72,6 +71,13 @@ export const ComponenetB: React.FC = () => {
     fetchCategories();
     setShouldFetch(false);
   }, [shouldFetch, params.menuId]);
+
+  const handleInputChange = (categoryId: string, value: string) => {
+    setCategoryInputs((prevInputs) => ({
+      ...prevInputs,
+      [categoryId]: value,
+    }));
+  };
 
   const [isNewCategoryInputVisible, setIsNewCategoryInputVisible] =
     useState(false);
@@ -140,6 +146,40 @@ export const ComponenetB: React.FC = () => {
     }
   };
 
+  const updateCategory = async (categoryId: string) => {
+    const newName = categoryInputs[categoryId];
+    if (!newName || newName.trim() === '') {
+      toast({
+        title: "Erreur",
+        description: "Le nom de la catégorie ne peut pas être vide.",
+        variant: "destructive",
+      });
+      return;
+    }
+    try {
+      setLoading(true);
+      const payload = { name: newName };
+      await axios.patch(`/api/${params.menuId}/categories/${categoryId}`, payload );
+      toast({
+        title: "Modification de la catégorie",
+        description: "La catégorie sélectionnée a été modifiée  avec succès.",
+        variant: "default",
+      });
+    } catch (error) {
+      toast({
+        title: "Oops...",
+        description: 
+          "Une erreur s'est produite lors de la modification de la catégorie.",
+        variant: "destructive",
+      });
+    } finally {
+      setLoading(false);
+      setOpen(false);
+      setShouldFetch(true);
+    }
+  };
+
+
   return (
     <>
       <AlertModal
@@ -167,7 +207,9 @@ export const ComponenetB: React.FC = () => {
                 key={category.id}
                 className="flex items-center justify-center p-3 gap-3"
               >
-                <Input key={category.id} defaultValue={category.name} />
+                <Input key={category.id} defaultValue={category.name} 
+                 onChange={(e) => handleInputChange(category.id, e.target.value)}
+                />
                 <Button
                   disabled={loading}
                   variant="destructive"
@@ -178,6 +220,14 @@ export const ComponenetB: React.FC = () => {
                   }}
                 >
                   <FaTrashCanArrowUp className="h-5 w-4" />
+                </Button>
+                <Button
+                  disabled={loading}
+                  variant="secondary"
+                  size="sm"
+                  onClick={() => updateCategory(category.id)} 
+                >
+                  <FaRegEdit   className="h-5 w-4" />
                 </Button>
               </div>
             ))}
