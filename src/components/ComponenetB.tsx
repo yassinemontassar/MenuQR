@@ -16,7 +16,7 @@ import {
   FormLabel,
   FormMessage,
 } from "./ui/form";
-import {  FaTrashCanArrowUp } from "react-icons/fa6";
+import {  FaTrashCan, FaTrashCanArrowUp } from "react-icons/fa6";
 import { FaRegEdit } from "react-icons/fa";
 import { AlertModal } from "@/components/modals/alert-modal";
 import { toast } from "./ui/use-toast";
@@ -217,8 +217,9 @@ export const ComponenetB: React.FC = () => {
                     setSelectedCategoryId(category.id);
                     setOpen(true);
                   }}
+                  className="rounded-full "
                 >
-                  <FaTrashCanArrowUp className="h-5 w-4" />
+                  <FaTrashCan className="h-5 w-4" />
                 </Button>
                 <Button
                   disabled={loading}
