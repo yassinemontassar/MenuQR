@@ -11,7 +11,7 @@ import {
 } from "@/components/ui/card";
 import { Button } from "./ui/button";
 import Image from "next/image";
-import { Loader2, ShieldCheckIcon } from "lucide-react";
+import { Loader2 } from "lucide-react";
 import axios from "axios";
 import { useEffect, useState } from "react";
 export default function ComponenetD() {
@@ -22,18 +22,18 @@ export default function ComponenetD() {
   useEffect(() => {
     const fetchMenu = async () => {
       try {
-        setIsFetchingMenu(true)
+        setIsFetchingMenu(true);
         const response = await axios.get(`/api/menus/${params.menuId}`);
         setMenu(response.data);
-        console.log(response.data)
+        console.log(response.data);
       } catch (error) {
         console.error("Error fetching menu:", error);
       } finally {
-        setIsFetchingMenu(false)
+        setIsFetchingMenu(false);
       }
     };
     fetchMenu();
-  }, [ params.menuId]);
+  }, [params.menuId]);
 
   const downloadPdf = async () => {
     const element = document.getElementById("contentToConvert");
@@ -43,17 +43,20 @@ export default function ComponenetD() {
         .then((canvas) => {
           const pdf = new jsPDF({
             orientation: "p",
-            unit: "pt",
-            format: "a4",
+            unit: "in",
+            format: [6, 4],
           });
-
+          const margin = 30;
+          const pageSize = pdf.internal.pageSize;
+          const imageWidth = pageSize.getWidth() ;
+          const imageHeight = pageSize.getHeight() ;
           pdf.addImage(
             canvas.toDataURL("image/png"),
             "PNG",
             0,
             0,
-            pdf.internal.pageSize.getWidth(),
-            pdf.internal.pageSize.getHeight()
+            imageWidth,
+            imageHeight
           );
           pdf.save("download.pdf");
         });
@@ -67,60 +70,58 @@ export default function ComponenetD() {
       </p>
       {isFetchingMenu ? (
         <>
-         <div className="flex items-center justify-center p-16">
-         <Loader2 size={40} className="text-primary animate-spin" />
-         <p className="text-gray-500 ml-4">Chargement QR CODE</p>
-       </div>
-       </>
+          <div className="flex items-center justify-center p-16">
+            <Loader2 size={40} className="text-primary animate-spin" />
+            <p className="text-gray-500 ml-4">Chargement QR CODE</p>
+          </div>
+        </>
       ) : (
         <Card className="w-full max-w-sm rounded-none" id="contentToConvert">
-        <CardHeader>
-          <div className="flex flex-col items-center justify-center"> {/* Centering content */}
-          <div className="overflow-hidden">
-            <Image
-              alt={menuData.name}
-              height={60}
-              src={menuData.imageUrl}
-              width={60}
-              className="rounded-full"
-              quality={100}
-              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-            />
-          </div>
+          <CardHeader>
+            <div className="flex flex-col items-center justify-center">
+              {" "}
+              {/* Centering content */}
+              <div className="overflow-hidden">
+                <Image
+                  alt={menuData.name}
+                  height={60}
+                  src={menuData.imageUrl}
+                  width={60}
+                  className="rounded-full"
+                  quality={100}
+                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                />
+              </div>
               <div className="font-medium leading-none">{menuData.name}</div>
-
-         
-          </div>
-        </CardHeader>
-        <CardContent className="flex flex-col items-center gap-2">
-          <div className="border shadow-lg border-gray-200 dark:border-gray-800 p-2 rounded-lg">
-            <Canvas
-              text={`${process.env.NEXT_PUBLIC_BASE_URL}/website/${params.menuId}`}
-              options={{
-                type: 'image/svg+xml',
-                quality: 1,
-                errorCorrectionLevel: 'M',
-                margin: 3,
-                scale: 4,
-                width: 250,
-                color: {
-                  dark: '#0D47A1',
-                },
-              }}
-            />
-          </div>
-          <CardDescription className="text-center mt-2">
-            <p className="mb-3">Scannez le code QR pour voir notre menu</p>
-            <p>Visiter notre siteweb patata.tn</p>
-          </CardDescription>
-        </CardContent>
-      </Card>
-      
+            </div>
+          </CardHeader>
+          <CardContent className="flex flex-col items-center gap-2">
+            <div className="border shadow-lg border-gray-200 dark:border-gray-800 p-2 rounded-lg">
+              <Canvas
+                text={`${process.env.NEXT_PUBLIC_BASE_URL}/website/${params.menuId}`}
+                options={{
+                  type: "image/svg+xml",
+                  quality: 1,
+                  errorCorrectionLevel: "M",
+                  margin: 3,
+                  scale: 4,
+                  width: 250,
+                  color: {
+                    dark: "#0D47A1",
+                  },
+                }}
+              />
+            </div>
+            <CardDescription className="text-center mt-2">
+              <p className="mb-3">Scannez le code QR pour voir notre menu</p>
+              <p>Visiter notre siteweb patata.tn</p>
+            </CardDescription>
+          </CardContent>
+        </Card>
       )}
-        <Button className="mt-2" size="sm" onClick={downloadPdf}>
-          Télécharger PDF
-        </Button>
-         </>
- 
+      <Button className="mt-2" size="sm" onClick={downloadPdf}>
+        Télécharger PDF
+      </Button>
+    </>
   );
 }

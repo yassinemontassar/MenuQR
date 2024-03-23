@@ -45,7 +45,6 @@ export const ComponenetB: React.FC = () => {
   const [selectedCategoryId, setSelectedCategoryId] = useState<string | null>(
     null
   );
-  const [newName, setNewName] = useState<string>('');
   const [shouldFetch, setShouldFetch] = useState(false);
   const [categories, setCategories] = useState<Category[]>([]);
   const [categoryInputs, setCategoryInputs] = useState<{ [key: string]: string }>({});
