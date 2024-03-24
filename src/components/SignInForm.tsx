@@ -18,7 +18,7 @@ export default function SignInForm() {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button>Connexion</Button>
+        <Button size="sm" className="text-xs">Connexion</Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px] flex flex-col items-center  ">
         <DialogHeader className="flex flex-col items-center">

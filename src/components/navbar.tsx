@@ -88,7 +88,7 @@ const Navbar = () => {
             <span className="sr-only"></span>
 <Link
   href={"/"}
-  className="font-bold text-xl sm:text-3xl bg-gradient-to-r from-orange-600 to-orange-300 text-transparent bg-clip-text hover:cursor-pointer "
+  className="font-bold text-xs sm:text-3xl bg-gradient-to-r from-orange-600 to-orange-300 text-transparent bg-clip-text hover:cursor-pointer "
 >
   MenuRapide
 </Link>
@@ -99,7 +99,8 @@ const Navbar = () => {
         <div className="flex lg:hidden">
           <Button
             type="button"
-            className="-m-2.5 inline-flex items-center justify-center rounded-md p-2 "
+            size="sm"
+            className="-m-2.5 inline-flex items-center justify-center rounded-md p-2  "
             onClick={() => setMobileMenuOpen(true)}
           >
             <span className="sr-only">Ouvrir le menu principal</span>

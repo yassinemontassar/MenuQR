@@ -7,7 +7,7 @@ export default function Home() {
   return (
     <main>
       <Header />
-       <div className="flex flex-col items-center justify-center py-3">
+       <div className="flex flex-col items-center justify-center ">
         <Hero />
         <Feature />
        </div> 

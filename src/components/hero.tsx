@@ -58,7 +58,7 @@ const Hero = ({
                 quality={100}
                 width={612}
                 height={383}
-                layout="responsive"
+                priority={true}
                 className="rounded-xl"
               />
             </motion.div>
