@@ -34,7 +34,7 @@ const Hero = ({
     <div className="max-w-screen-xl mt-24 px-8 xl:px-16 mx-auto" id="about">
       <ScrollAnimationWrapper>
         <motion.div
-          className="grid grid-flow-row sm:grid-flow-col grid-rows-2 md:grid-rows-1 sm:grid-cols-2 gap-8"
+          className="grid grid-cols-1 lg:grid-cols-2 gap-8"
          
         >
           <div className=" flex flex-col justify-center items-start row-start-2 sm:row-start-1">
