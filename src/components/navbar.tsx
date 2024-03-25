@@ -1,74 +1,11 @@
 "use client";
-import { Fragment, useContext, useEffect, useState } from "react";
-import { Dialog, Disclosure, Popover, Transition } from "@headlessui/react";
-import {
-  ArrowPathIcon,
-  Bars3Icon,
-  ChartPieIcon,
-  CursorArrowRaysIcon,
-  FingerPrintIcon,
-  SquaresPlusIcon,
-  XMarkIcon,
-} from "@heroicons/react/24/outline";
-import {
-  ChevronDownIcon,
-  PhoneIcon,
-  PlayCircleIcon,
-} from "@heroicons/react/20/solid";
-import useStore from "@/app/hooks/use-items";
-import Image from "next/image";
-import { Button } from "@/components/ui/button";
-import {
-  Dialog as DialogShade,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import SigninWithGithub from "./SignInWithGithub";
+import {  useEffect, useState } from "react";
+import {  Popover } from "@headlessui/react";
+
 import Link from "next/link";
 import { ThemeToggle } from "./theme-toggle";
 import { Link as LinkScroll } from "react-scroll";
-const products = [
-  {
-    name: "Analytics",
-    description: "Obtenez une meilleure compréhension de votre trafic",
-    href: "#",
-    icon: ChartPieIcon,
-  },
-  {
-    name: "Engagement",
-    description: "Parlez directement à vos clients",
-    href: "#",
-    icon: CursorArrowRaysIcon,
-  },
-  {
-    name: "Sécurité",
-    description: "Les données de vos clients seront sûres et sécurisées",
-    href: "#",
-    icon: FingerPrintIcon,
-  },
-  {
-    name: "Intégrations",
-    description: "Connectez-vous à des outils tiers",
-    href: "#",
-    icon: SquaresPlusIcon,
-  },
-  {
-    name: "Automatisations",
-    description: "Créez des entonnoirs stratégiques qui convertiront",
-    href: "#",
-    icon: ArrowPathIcon,
-  },
-];
-const callsToAction = [
-  { name: "Regarder la démo", href: "#", icon: PlayCircleIcon },
-  { name: "Contacter les ventes", href: "#", icon: PhoneIcon },
-];
+
 
 
 
@@ -99,8 +36,7 @@ const Navbar = () => {
         
         </div>
         <Popover.Group className="hidden lg:flex lg:gap-x-12">
-     
-
+      
         <LinkScroll
               activeClass="active"
               to="about"
