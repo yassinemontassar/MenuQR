@@ -4,9 +4,10 @@ import Link from "next/link";
 // Import react scroll
 import { Link as LinkScroll } from "react-scroll";
 import { Button } from "./ui/button";
+import SignInForm from "./SignInForm";
+
 
 export default  function HeaderTest() {
-
   const [activeLink, setActiveLink] = useState('');
   const [scrollActive, setScrollActive] = useState(false);
   useEffect(() => {
@@ -18,7 +19,7 @@ export default  function HeaderTest() {
     <>
       <header
         className={
-          "fixed top-0 w-full  z-10 bg-background transition-all " +
+          "fixed top-0 w-full  z-10  transition-all " +
           (scrollActive ? " shadow-md pt-0" : " pt-4")
         }
       >
@@ -106,7 +107,7 @@ export default  function HeaderTest() {
             </LinkScroll>
           </ul>
           {/* <div className="col-start-10 col-end-12 font-medium flex justify-end items-center">
-            <Button>Sign Up</Button>
+            <button>test</button>
           </div> */}
         </nav>
       </header>

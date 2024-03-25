@@ -7,7 +7,7 @@ import DropDown from "./DropDown";
 export default async function Header() {
     const session = await getServerSession(authOptions);
     return (
-        <header className="">
+        <header className="fixed  w-full  z-10  transition-all bg-background shadow-md pt-0">
         <div className="container mx-auto px-4 flex items-center justify-between">
           <div className="flex-1">
             <Navbar />
