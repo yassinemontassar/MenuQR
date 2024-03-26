@@ -27,7 +27,7 @@ const DashboardPage: React.FC<DashboardPageProps> = async ({
     
     return (
         <div className="flex flex-col sm:flex-row">
-            <div className="flex-1 p-6 sm:min-w-0 sm:flex-1 mt-14">
+            <div className="flex-1 p-6 sm:min-w-0 sm:flex-1 mt-20">
                 <h1 className="text-2xl font-bold mb-4 flex items-center justify-between">
                     <span className="text-foreground text-base font-medium">
                         {plan === 'Gratuit'

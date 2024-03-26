@@ -72,7 +72,7 @@ export const PhoneInput: React.FC<MenuFormProps> = ({ initialData }) => {
   };
 
   return (
-  <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 gap-4 mt-14">
+  <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 gap-4 mt-20">
   <div className="flex flex-col items-center rounded-md border border-gray-300 shadow-md p-6">
     {currentComponent}
     <div className="mt-6 flex items-center justify-center space-x-4">

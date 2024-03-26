@@ -14,11 +14,13 @@ import logo from "@/assets/logo.png";
 import Image from "next/image";
 import SignInEmail from "./SignInEmail";
 import SigninWithGoogle from "./SignInWithGoogle";
+import { LogInIcon } from "lucide-react";
 export default function SignInForm() {
   return (
     <Dialog>
       <DialogTrigger asChild>
         <Button size="sm" className="text-xs">Connexion</Button>
+     
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px] flex flex-col items-center  ">
         <DialogHeader className="flex flex-col items-center">
