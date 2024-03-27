@@ -46,7 +46,7 @@ const DevicePreview: React.FC<DevicePreviewProps> = ({ keyProp }) => {
         <div className="h-full overflow-y-scroll">
           {isLoading ? (
             // Display a loading message while content is being reloaded
-            <div className="flex items-center justify-center h-full">
+            <div className="bg-background flex items-center justify-center h-full">
             <Image
             src="/images/gif/scan.gif"
             alt="gif"
