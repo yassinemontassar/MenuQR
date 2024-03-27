@@ -6,6 +6,7 @@ import 'react-device-frameset/styles/marvel-devices.min.css'
 import { Button } from './ui/button';
 import Link from 'next/link';
 import { useParams } from 'next/navigation';
+import Image from 'next/image';
 interface DevicePreviewProps {
   keyProp: boolean; // Assuming keyProp is a boolean, change the type accordingly
 }
@@ -20,7 +21,7 @@ const DevicePreview: React.FC<DevicePreviewProps> = ({ keyProp }) => {
       setIsLoading(true);
 
       // Simulate asynchronous reload, you can replace it with your actual reload logic
-      await new Promise((resolve) => setTimeout(resolve, 1000));
+      await new Promise((resolve) => setTimeout(resolve, 3000));
 
       // Reset loading state after reloading content
       setIsLoading(false);
@@ -45,7 +46,16 @@ const DevicePreview: React.FC<DevicePreviewProps> = ({ keyProp }) => {
         <div className="h-full overflow-y-scroll">
           {isLoading ? (
             // Display a loading message while content is being reloaded
-            <p className="text-2xl text-gray-500 animate-pulse flex items-center justify-center h-full">Loading...</p>
+            <div className="flex items-center justify-center h-full">
+            <Image
+            src="/images/gif/scan.gif"
+            alt="gif"
+            quality={100}
+            height={120}
+            width={120}
+            className='animate-bounce'
+          />
+          </div>
 
           ) : (
             // Render the iframe when not in loading state

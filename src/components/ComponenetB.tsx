@@ -37,6 +37,7 @@ interface Category {
 type CattegoryFormValues = z.infer<typeof formSchema>;
 
 export const ComponenetB: React.FC = () => {
+
   const { data: session } = useSession()
   const plan = session?.user.plan
   const params = useParams();
@@ -54,6 +55,7 @@ export const ComponenetB: React.FC = () => {
       name: "",
     },
   });
+  
   const [isFetchingCategories, setIsFetchingCategories] = useState(false);
   useEffect(() => {
     const fetchCategories = async () => {
@@ -85,15 +87,26 @@ export const ComponenetB: React.FC = () => {
     setIsNewCategoryInputVisible(true);
   };
 
+
   const onSubmit = async (values: CattegoryFormValues) => {
-    if (plan=="Gratuit" && categories.length>=3) {
+    
+    if ((plan === "Gratuit" && categories.length >= 6) || (plan === "Standard" && categories.length >= 15)) {
+      const errorMessage =
+          plan === "Gratuit"
+              ? "Vous ne pouvez pas ajouter plus de 6 catégories avec le plan gratuit"
+              : "Vous ne pouvez pas ajouter plus de 15 catégories avec le plan Standard";
+  
       toast({
-        title: "Erreur",
-        description: "Vous ne pouvez pas ajouter plus de 3 catégories avec le plan gratuit",
-        variant: "destructive",
+          title: "Erreur",
+          description: errorMessage,
+          variant: "destructive",
       });
+  
       return;
-    }
+  }
+  
+  // No limit for Pro plan, so no need for a check here
+  
     try {
       setLoading(true);
       const body = { ...values };

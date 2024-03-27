@@ -113,14 +113,18 @@ export const ComponenetC: React.FC = () => {
       (category) => category.id === values.categoryId
     )?.Items;
     const itemsCount = selectedCategoryItems ? selectedCategoryItems.length : 0;
-    if (plan == "Gratuit" && itemsCount >= 1) {
+    if ((plan === "Gratuit" && itemsCount >= 10) || (plan === "Standard" && itemsCount >= 20)) {
+      const errorMessage =
+      plan === "Gratuit"
+          ? "Vous ne pouvez pas ajouter plus de 10 éléments avec le plan gratuit"
+          : "Vous ne pouvez pas ajouter plus de 20 éléments avec le plan Standard";
       toast({
-        title: "Erreur",
-        description: `Impossible d'ajouter un nouvel élément. Vous avez atteint le nombre maximum d'éléments dans cette catégorie 6 pour le plan Gratuit.`,
-        variant: "destructive",
-      });
-      return;
-    }
+      title: "Erreur",
+      description: errorMessage,
+      variant: "destructive",
+    });
+    return;
+  }
     if (image) {
       const errorr = validateImageSize(image);
       if (errorr) {

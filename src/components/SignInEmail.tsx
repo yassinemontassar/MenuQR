@@ -38,7 +38,7 @@ export default function SignInEmail() {
 
         return toast({
           title: "Vérifiez votre e-mail",
-          description: "Un lien magique vous a été envoyé",
+          description: "Un lien magique a été envoyé à votre adresse e-mail.",
         });
       } else {
         return toast({
