@@ -84,10 +84,10 @@ export const authOptions = {
         }
       })
       if ( userExist) { 
-        console.log("exist")
+        console.log(user.id)
         return true
       } else {
-        console.log("no exist")
+        console.log(user.id)
         return true
       }
     },

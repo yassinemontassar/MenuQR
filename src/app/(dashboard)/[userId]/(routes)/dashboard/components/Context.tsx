@@ -1,6 +1,5 @@
 "use client"
-import { useMenuModal } from "@/app/hooks/use-menu-modal";
-import { MenuModal } from "@/components/modals/menu-modal";
+
 import {format} from "date-fns";
 import {
     ContextMenu,
@@ -9,11 +8,10 @@ import {
     ContextMenuShortcut,
     ContextMenuTrigger,
   } from "@/components/ui/context-menu"
-
+  import { useMediaQuery } from "react-responsive";
   import  {Menu}  from "@prisma/client";
 import Image from "next/image";
 import { useParams, useRouter } from "next/navigation";
-import logo from "@/assets/avatar.png"
 import {  BarChart4, Pencil } from "lucide-react";
 
   interface MenuProps  {
@@ -28,7 +26,7 @@ import {  BarChart4, Pencil } from "lucide-react";
 
     // Utilisez le hook "useRouter" pour la gestion de la navigation.
     const router = useRouter();
-
+    const isTabletOrMobile = useMediaQuery({ query: "(max-width: 1224px)" });
     // Transformez les données des menus pour les adapter à l'interface utilisateur.
     const formattedItems = items.map((item) => ({
         name: item.name,
@@ -75,7 +73,9 @@ import {  BarChart4, Pencil } from "lucide-react";
                         </div>
                         {/* Affichez un message au survol du menu. */}
                         <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-center opacity-0 group-hover:opacity-100 transition duration-300 ease-in-out">
-                            <p className="text-xl font-semibold select-none">Clic droit sur moi</p>
+                            <p className="text-xl font-semibold select-none"> {isTabletOrMobile
+            ? "Appuyez et maintenez"
+            : "Cliquez avec le bouton droit ici"}</p>
                         </div>
                     </ContextMenuTrigger>
                     {/* Contenu du menu contextuel. */}
