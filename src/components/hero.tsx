@@ -2,13 +2,23 @@
 
 import Image from "next/image";
 import { Button } from "./ui/button";
-import Link from "next/link";
-import { QrCode } from "lucide-react";
+import {  VideoIcon } from "lucide-react";
 import React, { useMemo } from "react";
 import { motion } from "framer-motion";
 import getScrollAnimation from "@/app/utils/getScrollAnimation";
 import ScrollAnimationWrapper from "./ScrollAnimationWrapper";
-
+import {
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog"
+import { Label } from "./ui/label";
+import { Input } from "./ui/input";
 const Hero = ({
   listUser = [
     {
@@ -46,9 +56,29 @@ const Hero = ({
             <p className="text-black-500 mt-4 mb-6">
             Doté de toutes les fonctionnalités essentielles pour simplifier la création de menus pour votre restaurant ou café. Interface intuitive, génération de code QR inclus, et plus encore.
             </p>
-            <Button className="text-xl sm:text-2xl bg-gradient-to-r from-orange-600 to-orange-300 ">
-              Commencer
+  
+            <Dialog >
+      <DialogTrigger asChild>
+      <Button className="text-xl sm:text-2xl bg-gradient-to-r from-orange-600 to-orange-300 gap-2 ">
+            Voir le tutoriel <VideoIcon  />
             </Button>
+      </DialogTrigger>
+      <DialogContent className="" >
+      <DialogHeader>
+          <DialogTitle className="text-center">Notre tutoriel</DialogTitle>
+        </DialogHeader>
+      <div className="aspect-video">
+        <iframe
+         className="w-full h-full rounded-md"
+        width="560"
+        height="315"
+         src="https://www.youtube.com/embed/h9hGc1bc610"
+          allow="autoplay; encrypted-media"
+          allowFullScreen
+        ></iframe>
+        </div>
+      </DialogContent>
+    </Dialog>
           </div>
           <div className="flex w-full">
             <motion.div className="h-full w-full" >
