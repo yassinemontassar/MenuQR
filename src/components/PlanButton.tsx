@@ -3,8 +3,13 @@
 import { Button } from "@/components/ui/button";
 import { useSession } from "next-auth/react";
 
-export default function PlanButton() {
+interface PlanButtonProps {
+  type: string 
+}
+
+export const  PlanButton: React.FC<PlanButtonProps> = ({ type }) => {
     const { data: session, status } = useSession()
+    console.log(type)
   return (
     <Button
     >

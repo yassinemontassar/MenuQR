@@ -5,8 +5,9 @@ import { motion } from "framer-motion";
 import getScrollAnimation from "@/app/utils/getScrollAnimation";
 import ScrollAnimationWrapper from "./ScrollAnimationWrapper";
 import { Button } from "./ui/button";
-import PlanButton from "./PlanButton";
+
 import { SessionProvider } from "next-auth/react";
+import { PlanButton } from "./PlanButton";
 
 const Pricing = () => {
   const scrollAnimation = useMemo(() => getScrollAnimation(), []);
@@ -124,7 +125,7 @@ const Pricing = () => {
                     $9 <span className="text-black-500">/ mo</span>
                   </p>
                   <SessionProvider>
-                  <PlanButton />
+                  <PlanButton type="yesofc"/>
                   </SessionProvider>
                 </div>
               </motion.div>
