@@ -2,6 +2,7 @@
 import Feature from "@/components/feature";
 import Header from "@/components/header";
 import Hero from "@/components/hero";
+import Pricing from "@/components/pricing";
 
 
 export default async function Home() {
@@ -12,6 +13,7 @@ export default async function Home() {
        <div className="flex flex-col items-center justify-center ">
         <Hero />
         <Feature />
+        <Pricing />
        </div> 
        </main>
   );
