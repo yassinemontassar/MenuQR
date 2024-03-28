@@ -64,15 +64,15 @@ const Pricing = () => {
                   <li className="relative check custom-list my-2">
                     No Traffic Logs
                   </li>
-                  <li className="relative check custom-list my-2">
+                  <li className="relative notcheck custom-list my-2">
                     Works on All Devices
                   </li>
                 </ul>
                 <div className="flex flex-col w-full justify-center mb-8 flex-none mt-12">
                   <p className="text-2xl text-black-600 text-center mb-4 ">
-                    Free
+                    Grauit
                   </p>
-                  <Button>Select</Button>
+                 
                 </div>
               </motion.div>
             </ScrollAnimationWrapper>

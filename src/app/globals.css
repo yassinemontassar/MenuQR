@@ -93,6 +93,13 @@ li.check:before {
   top: -0.5em;
   font-size: 400%;
 }
+
+li.notcheck:before {
+  left: -0.5em;
+  background-image: url("/images/icon/notcheck.svg");
+  top: -0.5em;
+  font-size: 400%;
+}
 /* Slideshow */
 .slick-dots li {
   @apply inline-block;
