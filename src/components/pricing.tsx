@@ -6,13 +6,20 @@ import getScrollAnimation from "@/app/utils/getScrollAnimation";
 import ScrollAnimationWrapper from "./ScrollAnimationWrapper";
 import { SessionProvider } from "next-auth/react";
 import { PlanButton } from "./PlanButton";
+import { Headset } from "lucide-react";
+import { FaQuestionCircle } from "react-icons/fa";
 
 const Pricing = () => {
   const [selectedOption, setSelectedOption] = useState("monthly");
   const scrollAnimation = useMemo(() => getScrollAnimation(), []);
-  const buttonBaseStyles = 'px-4 py-2 font-semibold  transition-colors duration-300';
-  const buttonSelectedStyles = 'bg-gradient-to-r from-orange-600 to-orange-300 border-orange-700 hover:from-orange-700 hover:to-orange-400';
-  const buttonUnselectedStyles = 'bg-gray-200 dark:bg-gray-600  hover:bg-gray-300 border-gray-400';
+  const buttonBaseStyles =
+    "px-4 py-2 font-semibold  transition-colors duration-300";
+  const buttonSelectedStyles =
+    "bg-gradient-to-r from-orange-600 to-orange-300 border-orange-700 hover:from-orange-700 hover:to-orange-400";
+  const buttonUnselectedStyles =
+    "bg-gray-200 dark:bg-gray-600  hover:bg-gray-300 border-gray-400";
+  const discount = 0.15; // 15% discount
+
   return (
     <div
       className="bg-gradient-to-b from-white-300 to-white-500 w-full py-14"
@@ -34,38 +41,44 @@ const Pricing = () => {
               Choisissons le forfait qui vous convient le mieux et explorez-le
               joyeusement et avec entrain.
             </motion.p>
-            <motion.div className="mt-9"
-            variants={scrollAnimation}>
- <div className="flex flex-col items-center">
-    <div className="flex">
-      <button
-        className={`${buttonBaseStyles} ${selectedOption === 'monthly' ? buttonSelectedStyles : buttonUnselectedStyles} rounded-l-lg`}
-        onClick={() => setSelectedOption('monthly')}
-      >
-        Monthly
-      </button>
-      <button
-        className={`${buttonBaseStyles} ${selectedOption === 'annually' ? buttonSelectedStyles : buttonUnselectedStyles} rounded-r-lg`}
-        onClick={() => setSelectedOption('annually')}
-      >
-        Annually
-      </button>
-    </div>
-    {selectedOption === 'annually' && (
-      <span className="mt-2 inline-block px-3 py-1.5 text-base font-bold text-orange-600 bg-orange-200 rounded-full animate-pulse">
-        -15%
-      </span>
-    )}
-  </div>
-   
-    </motion.div>
+            <motion.div className="mt-9" variants={scrollAnimation}>
+              <div className="flex flex-col items-center">
+                <div className="flex">
+                  <button
+                    className={`${buttonBaseStyles} ${
+                      selectedOption === "monthly"
+                        ? buttonSelectedStyles
+                        : buttonUnselectedStyles
+                    } rounded-l-lg`}
+                    onClick={() => setSelectedOption("monthly")}
+                  >
+                    Mensuel
+                  </button>
+                  <button
+                    className={`${buttonBaseStyles} ${
+                      selectedOption === "annually"
+                        ? buttonSelectedStyles
+                        : buttonUnselectedStyles
+                    } rounded-r-lg`}
+                    onClick={() => setSelectedOption("annually")}
+                  >
+                    Annuel
+                  </button>
+                </div>
+                {selectedOption === "annually" && (
+                  <span className="mt-2 inline-block px-3 py-1.5 text-base font-bold text-orange-600 bg-orange-200 rounded-full animate-pulse">
+                    -15%
+                  </span>
+                )}
+              </div>
+            </motion.div>
           </ScrollAnimationWrapper>
           <div className="grid grid-flow-row sm:grid-flow-col grid-cols-1 sm:grid-cols-3 gap-4 lg:gap-12 py-8 lg:py-12 px-6 sm:px-0 lg:px-6">
             <SessionProvider>
               <ScrollAnimationWrapper className="flex justify-center">
                 <motion.div
                   variants={scrollAnimation}
-                  className="flex flex-col justify-center items-center border-2 border-gray-500 rounded-xl py-4 px-6 lg:px-12 xl:px-20"
+                  className="flex flex-col justify-center items-center border-2 border-gray-500 rounded-xl py-4 px-6 lg:px-12 xl:px-16"
                   whileHover={{
                     scale: 1.1,
                     transition: {
@@ -86,25 +99,64 @@ const Pricing = () => {
                   </p>
                   <ul className="flex flex-col list-inside pl-6 xl:pl-0 items-start justify-start text-left text-black-500 flex-grow">
                     <li className="relative check custom-list my-2">
-                      Unlimited Bandwitch
+                      <div className="flex items-center gap-1">
+                        Limité à un seul menu
+                        <div className="group">
+                          <FaQuestionCircle className="inline-block mb-2" />
+                          <div className="z-10 absolute hidden text-sm bg-gray-700 text-white px-2 py-1 rounded group-hover:block  whitespace-break-spaces">
+                            Vous pouvez créer un seul menu
+                          </div>
+                        </div>
+                      </div>
                     </li>
                     <li className="relative check custom-list my-2">
-                      Encrypted Connection
+                      <div className="flex items-center gap-1">
+                        Limité à 6 catégories
+                        <div className="group">
+                          <FaQuestionCircle className="inline-block mb-2" />
+                          <div className="z-10 absolute hidden text-sm bg-gray-700 text-white px-2 py-1 rounded group-hover:block  whitespace-break-spaces">
+                            Vous pouvez ajouter jusquà 6 catégories dans votre
+                            menu.
+                          </div>
+                        </div>
+                      </div>
                     </li>
                     <li className="relative check custom-list my-2">
-                      No Traffic Logs
+                      <div className="flex items-center gap-1">
+                        Limité à 10 éléments
+                        <div className="group">
+                          <FaQuestionCircle className="inline-block mb-2" />
+                          <div className="z-10 absolute hidden text-sm bg-gray-700 text-white px-2 py-1 rounded group-hover:block  whitespace-break-spaces">
+                            Vous pouvez inclure jusquà 10 éléments dans chaque
+                            catégorie de votre menu.
+                          </div>
+                        </div>
+                      </div>
                     </li>
                     <li className="relative notcheck custom-list my-2">
-                      Works on All Devices
+                      <div className="flex gap-2">
+                      <div className="flex items-center gap-1">
+                        <Headset /> Support 24/7
+                        <div className="group">
+                          <FaQuestionCircle className="inline-block mb-2 " />
+                          <div className="z-10 absolute hidden text-sm bg-gray-700 text-white px-2 py-1 rounded group-hover:block  whitespace-break-spaces">
+                          Assistance essentielle pour vous aider dans lutilisation quotidienne de nos services, offrant des réponses rapides à vos questions courantes.
+                          </div>
+                        </div>
+                      </div>
+                      </div>
                     </li>
                   </ul>
-                  <div className="flex flex-col w-full justify-center mb-8 flex-none mt-12"></div>
+
+                  <div className="flex flex-col w-full justify-center mb-8 flex-none mt-12">
+                    <p>Essai gratuit de 7 jours</p>
+                  </div>
                 </motion.div>
               </ScrollAnimationWrapper>
               <ScrollAnimationWrapper className="flex justify-center">
                 <motion.div
                   variants={scrollAnimation}
-                  className="flex flex-col justify-center items-center border-2 border-orange-700 rounded-xl py-4 px-6 lg:px-12 xl:px-20"
+                  className="flex flex-col justify-center items-center border-2 border-orange-700 rounded-xl py-4 px-6 lg:px-12 xl:px-16"
                   whileHover={{
                     scale: 1.1,
                     transition: {
@@ -142,7 +194,16 @@ const Pricing = () => {
                   </ul>
                   <div className="flex flex-col w-full justify-center mb-8 flex-none mt-12">
                     <p className="text-2xl text-black-600 text-center mb-4 ">
-                      25 DT <span className="text-black-500">/ mo</span>
+                      {selectedOption === "monthly"
+                        ? "25 TND / mois"
+                        : `${25 * 12 * (1 - discount)} TND / an`}{" "}
+                      {selectedOption === "annually" && (
+                        <div>
+                          <span className="text-sm text-orange-600">
+                            (15% de réduction)
+                          </span>
+                        </div>
+                      )}
                     </p>
 
                     <PlanButton type="yesofc" />
@@ -152,7 +213,7 @@ const Pricing = () => {
               <ScrollAnimationWrapper className="flex justify-center">
                 <motion.div
                   variants={scrollAnimation}
-                  className="flex flex-col justify-center items-center border-2 border-gray-500 rounded-xl py-4 px-6 lg:px-12 xl:px-20"
+                  className="flex flex-col justify-center items-center border-2 border-gray-500 rounded-xl py-4 px-6 lg:px-12 xl:px-16"
                   whileHover={{
                     scale: 1.1,
                     transition: {
@@ -193,7 +254,16 @@ const Pricing = () => {
                   </ul>
                   <div className="flex flex-col w-full justify-center mb-8 flex-none mt-12">
                     <p className="text-2xl text-black-600 text-center mb-4 ">
-                      80 DT <span className="text-black-500">/ mo</span>
+                      {selectedOption === "monthly"
+                        ? "80 TND / mois"
+                        : `${80 * 12 * (1 - discount)} TND / an`}{" "}
+                      {selectedOption === "annually" && (
+                        <div>
+                          <span className="text-sm text-orange-600">
+                            (15% de réduction)
+                          </span>
+                        </div>
+                      )}
                     </p>
 
                     <PlanButton type="yesno" />
