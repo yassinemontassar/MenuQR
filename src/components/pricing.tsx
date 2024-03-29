@@ -12,7 +12,7 @@ const Pricing = () => {
   const scrollAnimation = useMemo(() => getScrollAnimation(), []);
   const buttonBaseStyles = 'px-4 py-2 font-semibold  transition-colors duration-300';
   const buttonSelectedStyles = 'bg-gradient-to-r from-orange-600 to-orange-300 border-orange-700 hover:from-orange-700 hover:to-orange-400';
-  const buttonUnselectedStyles = 'bg-gray-200 dark:bg-gray-400  hover:bg-gray-300 border-gray-400';
+  const buttonUnselectedStyles = 'bg-gray-200 dark:bg-gray-600  hover:bg-gray-300 border-gray-400';
   return (
     <div
       className="bg-gradient-to-b from-white-300 to-white-500 w-full py-14"
