@@ -10,9 +10,9 @@ import { PlanButton } from "./PlanButton";
 const Pricing = () => {
   const [selectedOption, setSelectedOption] = useState("monthly");
   const scrollAnimation = useMemo(() => getScrollAnimation(), []);
-  const buttonBaseStyles = 'px-4 py-2 font-semibold text-white transition-colors duration-300';
+  const buttonBaseStyles = 'px-4 py-2 font-semibold  transition-colors duration-300';
   const buttonSelectedStyles = 'bg-gradient-to-r from-orange-600 to-orange-300 border-orange-700 hover:from-orange-700 hover:to-orange-400';
-  const buttonUnselectedStyles = 'bg-gray-200 text-gray-700 hover:bg-gray-300 border-gray-400';
+  const buttonUnselectedStyles = 'bg-gray-200 dark:bg-gray-400  hover:bg-gray-300 border-gray-400';
   return (
     <div
       className="bg-gradient-to-b from-white-300 to-white-500 w-full py-14"
@@ -34,7 +34,8 @@ const Pricing = () => {
               Choisissons le forfait qui vous convient le mieux et explorez-le
               joyeusement et avec entrain.
             </motion.p>
-            <div className="mt-9">
+            <motion.p className="mt-9"
+            variants={scrollAnimation}>
       <button
         className={`${buttonBaseStyles} ${selectedOption === 'monthly' ? buttonSelectedStyles : buttonUnselectedStyles} rounded-l-lg`}
         onClick={() => setSelectedOption('monthly')}
@@ -47,7 +48,8 @@ const Pricing = () => {
       >
         Annually
       </button>
-    </div>
+   
+    </motion.p>
           </ScrollAnimationWrapper>
           <div className="grid grid-flow-row sm:grid-flow-col grid-cols-1 sm:grid-cols-3 gap-4 lg:gap-12 py-8 lg:py-12 px-6 sm:px-0 lg:px-6">
             <SessionProvider>
