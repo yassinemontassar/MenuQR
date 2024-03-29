@@ -34,8 +34,10 @@ const Pricing = () => {
               Choisissons le forfait qui vous convient le mieux et explorez-le
               joyeusement et avec entrain.
             </motion.p>
-            <motion.p className="mt-9"
+            <motion.div className="mt-9"
             variants={scrollAnimation}>
+ <div className="flex flex-col items-center">
+    <div className="flex">
       <button
         className={`${buttonBaseStyles} ${selectedOption === 'monthly' ? buttonSelectedStyles : buttonUnselectedStyles} rounded-l-lg`}
         onClick={() => setSelectedOption('monthly')}
@@ -48,8 +50,15 @@ const Pricing = () => {
       >
         Annually
       </button>
+    </div>
+    {selectedOption === 'annually' && (
+      <span className="mt-2 inline-block px-3 py-1.5 text-base font-bold text-orange-600 bg-orange-200 rounded-full animate-pulse">
+        -15%
+      </span>
+    )}
+  </div>
    
-    </motion.p>
+    </motion.div>
           </ScrollAnimationWrapper>
           <div className="grid grid-flow-row sm:grid-flow-col grid-cols-1 sm:grid-cols-3 gap-4 lg:gap-12 py-8 lg:py-12 px-6 sm:px-0 lg:px-6">
             <SessionProvider>
