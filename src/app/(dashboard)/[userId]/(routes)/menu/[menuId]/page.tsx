@@ -19,12 +19,6 @@ const CategoryPage = async ({
         }
     });
 
-    const categories = await prisma.category.findMany({
-        where: { 
-            MenuId: params.menuId
-        },
-         
-    });
     if (!menu) {
         redirect('/') 
     }

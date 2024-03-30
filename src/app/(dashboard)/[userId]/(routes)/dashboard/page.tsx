@@ -21,7 +21,6 @@ const DashboardPage: React.FC<DashboardPageProps> = async ({ params }) => {
       userId: params.userId,
     },
   });
-
   return (
     <div className="flex flex-col sm:flex-row">
       <div className="flex-1 p-6 sm:min-w-0 sm:flex-1 mt-20">
@@ -32,10 +31,10 @@ const DashboardPage: React.FC<DashboardPageProps> = async ({ params }) => {
               : plan === "Pro"
               ? `(${menus.length} sur 5 menus disponibles)`
               : plan === "Standard"
-              ? `(${menus.length} sur 3 menus disponibles)`
+              ? `(${menus.length} sur 2 menus disponibles)`
               : "(Aucun menu actif)"}
             {(plan === "Gratuit" ||
-              (plan === "Standard" && menus.length >= 3)) && (
+              (plan === "Standard" && menus.length >= 2)) && (
               <Button className="h-8 transition-transform duration-200 ease-in-out hover:scale-95  sm:ml-2">
                 Passer à Pro
                 <Crown className="ml-1 text-yellow-500" />
@@ -44,7 +43,7 @@ const DashboardPage: React.FC<DashboardPageProps> = async ({ params }) => {
           </span>
         </h1>
         <div className="flex flex-col sm:flex-row sm:space-x-4">
-        {(plan === "Pro" || (plan === "Standard" && menus.length<=3 )) && <ContextDefault />}{" "}
+        {(plan === "Pro" || (plan === "Standard" && menus.length<2 )) && <ContextDefault />}{" "}
           {/* Only show ContextDefault for Pro users */}
           {plan === "Gratuit" && menus.length == 0 && <ContextDefault />}{" "}
           {/* Show ContextDefault for Free users with 0 menus */}

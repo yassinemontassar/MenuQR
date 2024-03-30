@@ -6,7 +6,7 @@ import getScrollAnimation from "@/app/utils/getScrollAnimation";
 import ScrollAnimationWrapper from "./ScrollAnimationWrapper";
 import { SessionProvider } from "next-auth/react";
 import { PlanButton } from "./PlanButton";
-import { Headset } from "lucide-react";
+import { Headset, PhoneCall } from "lucide-react";
 import { FaQuestionCircle } from "react-icons/fa";
 
 const Pricing = () => {
@@ -177,26 +177,59 @@ const Pricing = () => {
                   </p>
                   <ul className="flex flex-col list-inside pl-6 xl:pl-0 items-start justify-start text-left text-black-500 flex-grow">
                     <li className="relative check custom-list my-2">
-                      Unlimited Bandwitch
+                      <div className="flex items-center gap-1">
+                      Limité à 2 menus
+                        <div className="group">
+                          <FaQuestionCircle className="inline-block mb-2" />
+                          <div className="z-10 absolute hidden text-sm bg-gray-700 text-white px-2 py-1 rounded group-hover:block  whitespace-break-spaces">
+                          Vous pouvez créer seulement 2 menus
+                          </div>
+                        </div>
+                      </div>
                     </li>
                     <li className="relative check custom-list my-2">
-                      Encrypted Connection
+                      <div className="flex items-center gap-1">
+                        Limité à 15 catégories
+                        <div className="group">
+                          <FaQuestionCircle className="inline-block mb-2" />
+                          <div className="z-10 absolute hidden text-sm bg-gray-700 text-white px-2 py-1 rounded group-hover:block  whitespace-break-spaces">
+                            Vous pouvez ajouter jusquà 15 catégories dans votre
+                            menu.
+                          </div>
+                        </div>
+                      </div>
                     </li>
                     <li className="relative check custom-list my-2">
-                      No Traffic Logs
+                      <div className="flex items-center gap-1">
+                        Limité à 20 éléments
+                        <div className="group">
+                          <FaQuestionCircle className="inline-block mb-2" />
+                          <div className="z-10 absolute hidden text-sm bg-gray-700 text-white px-2 py-1 rounded group-hover:block  whitespace-break-spaces">
+                            Vous pouvez inclure jusquà 20 éléments dans chaque
+                            catégorie de votre menu.
+                          </div>
+                        </div>
+                      </div>
                     </li>
                     <li className="relative check custom-list my-2">
-                      Works on All Devices
-                    </li>
-                    <li className="relative check custom-list my-2">
-                      Connect Anyware{" "}
+                      <div className="flex gap-2">
+                      <div className="flex items-center gap-1">
+                        <Headset /> Support 24/7
+                        <div className="group">
+                          <FaQuestionCircle className="inline-block mb-2 " />
+                          <div className="z-10 absolute hidden text-sm bg-gray-700 text-white px-2 py-1 rounded group-hover:block  whitespace-break-spaces">
+                          Assistance essentielle pour vous aider dans lutilisation quotidienne de nos services, offrant des réponses rapides à vos questions courantes.
+                          </div>
+                        </div>
+                      </div>
+                      </div>
                     </li>
                   </ul>
                   <div className="flex flex-col w-full justify-center mb-8 flex-none mt-12">
                     <p className="text-2xl text-black-600 text-center mb-4 ">
                       {selectedOption === "monthly"
-                        ? "25 TND / mois"
-                        : `${25 * 12 * (1 - discount)} TND / an`}{" "}
+                        ? "30 TND / mois"
+                        : `${30 * 12 * (1 - discount)} TND / an`}{" "}
                       {selectedOption === "annually" && (
                         <div>
                           <span className="text-sm text-orange-600">
@@ -206,7 +239,7 @@ const Pricing = () => {
                       )}
                     </p>
 
-                    <PlanButton type="yesofc" />
+                    <PlanButton type="Standard" />
                   </div>
                 </motion.div>
               </ScrollAnimationWrapper>
@@ -221,7 +254,7 @@ const Pricing = () => {
                     },
                   }}
                 >
-                  <div className="p-4 lg:p-0 mt-6 lg:mt-16">
+                  <div className="p-4 lg:p-0 mt-6 lg:mt-18">
                     <Image
                       src="/images/pricing/Premium.png"
                       width={145}
@@ -234,22 +267,63 @@ const Pricing = () => {
                   </p>
                   <ul className="flex flex-col list-inside pl-6 xl:pl-0 items-start justify-start text-left text-black-500 flex-grow">
                     <li className="relative check custom-list my-2">
-                      Unlimited Bandwitch
+                      <div className="flex items-center gap-1">
+                      Limité à 5 menus
+                        <div className="group">
+                          <FaQuestionCircle className="inline-block mb-2" />
+                          <div className="z-10 absolute hidden text-sm bg-gray-700 text-white px-2 py-1 rounded group-hover:block  whitespace-break-spaces">
+                          Vous pouvez créer seulement 5 menus
+                          </div>
+                        </div>
+                      </div>
                     </li>
                     <li className="relative check custom-list my-2">
-                      Encrypted Connection
+                      <div className="flex items-center gap-1">
+                      Catégories illimitées
+                        <div className="group">
+                          <FaQuestionCircle className="inline-block mb-2" />
+                          <div className="z-10 absolute hidden text-sm bg-gray-700 text-white px-2 py-1 rounded group-hover:block  whitespace-break-spaces">
+                          Vous pouvez ajouter autant de catégories que nécessaire dans vos menus.
+                          </div>
+                        </div>
+                      </div>
                     </li>
                     <li className="relative check custom-list my-2">
-                      No Traffic Logs
+                      <div className="flex items-center gap-1">
+                      Éléments illimités
+                        <div className="group">
+                          <FaQuestionCircle className="inline-block mb-2" />
+                          <div className="z-10 absolute hidden text-sm bg-gray-700 text-white px-2 py-1 rounded group-hover:block  whitespace-break-spaces">
+                          Vous pouvez inclure autant déléments que nécessaire dans chaque menu.
+                          </div>
+                        </div>
+                      </div>
                     </li>
                     <li className="relative check custom-list my-2">
-                      Works on All Devices
+                      <div className="flex gap-2">
+                      <div className="flex items-center gap-1">
+                        <Headset /> Support 24/7
+                        <div className="group">
+                          <FaQuestionCircle className="inline-block mb-2 " />
+                          <div className="z-10 absolute hidden text-sm bg-gray-700 text-white px-2 py-1 rounded group-hover:block  whitespace-break-spaces">
+                          Assistance essentielle pour vous aider dans lutilisation quotidienne de nos services, offrant des réponses rapides à vos questions courantes.
+                          </div>
+                        </div>
+                      </div>
+                      </div>
                     </li>
                     <li className="relative check custom-list my-2">
-                      Connect Anyware{" "}
-                    </li>
-                    <li className="relative check custom-list my-2">
-                      Get New Features{" "}
+                      <div className="flex gap-2">
+                      <div className="flex items-center gap-1">
+                        Support téléphonique
+                        <div className="group">
+                          <FaQuestionCircle className="inline-block mb-2 " />
+                          <div className="z-10 absolute hidden text-sm bg-gray-700 text-white px-2 py-1 rounded group-hover:block  whitespace-break-spaces">
+                          Nos experts sont disponibles pour vous aider à créer lintégralité de votre menu par téléphone.
+                          </div>
+                        </div>
+                      </div>
+                      </div>
                     </li>
                   </ul>
                   <div className="flex flex-col w-full justify-center mb-8 flex-none mt-12">
@@ -266,7 +340,7 @@ const Pricing = () => {
                       )}
                     </p>
 
-                    <PlanButton type="yesno" />
+                    <PlanButton type="Pro" />
                   </div>
                 </motion.div>
               </ScrollAnimationWrapper>
