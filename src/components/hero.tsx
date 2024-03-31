@@ -22,7 +22,7 @@ import { Input } from "./ui/input";
 const Hero = ({
   listUser = [
     {
-      name: "Utilisateurs",
+      name: "Profils",
       number: "60",
       icon: "/images/icon/heroicons_sm-user.svg",
     },

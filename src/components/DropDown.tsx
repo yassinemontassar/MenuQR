@@ -15,6 +15,7 @@ import {
   Users,
 } from "lucide-react";
 import logo from "@/assets/avatar.png";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -47,13 +48,10 @@ export default async function DropDown() {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger>
-        <Image
-          src={session?.user?.image ?? logo}
-          width={50}
-          height={50}
-          className="rounded-full cursor-pointer p-1 mt-1"
-          alt="avatar"
-        />
+      <Avatar>
+  <AvatarImage className="hover:animate-pulse" src={session?.user?.image ?? logo} />
+  <AvatarFallback>IMG</AvatarFallback>
+</Avatar>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="w-56">
         <div className="flex flex-col items-center justify-center">
