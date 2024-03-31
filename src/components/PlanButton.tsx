@@ -53,7 +53,11 @@ export const PlanButton: React.FC<PlanButtonProps> = ({ type }) => {
       d17: false,
       especes: true,
     },
-  });
+  }); 
+  const handleCheckboxClick = (fieldName: string) => {
+    const otherFieldName = fieldName === "especes" ? "d17" : "especes";
+    form.setValue(otherFieldName, false); // Uncheck the other checkbox
+  };
 
   useEffect(() => {
     if (session?.user?.email) {
@@ -136,7 +140,10 @@ export const PlanButton: React.FC<PlanButtonProps> = ({ type }) => {
                               <Checkbox
                                 id="especes"
                                 checked={field.value}
-                                onCheckedChange={field.onChange}
+                                onCheckedChange={(value) => {
+                                  field.onChange(value);
+                                  handleCheckboxClick("especes");
+                                }}
                               />
                             </FormControl>
 
@@ -155,7 +162,10 @@ export const PlanButton: React.FC<PlanButtonProps> = ({ type }) => {
                               <Checkbox
                                 id="d17"
                                 checked={field.value}
-                                onCheckedChange={field.onChange}
+                                onCheckedChange={(value) => {
+                                  field.onChange(value);
+                                  handleCheckboxClick("d17");
+                                }}
                               />
                             </FormControl>
 
