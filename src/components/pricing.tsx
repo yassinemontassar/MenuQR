@@ -146,6 +146,20 @@ const Pricing = () => {
                       </div>
                       </div>
                     </li>
+                    <li className="relative notcheck custom-list my-2">
+                      <div className="flex gap-2">
+                      <div className="flex items-center gap-1">
+                        Support téléphonique
+                        <div className="group">
+                          <FaQuestionCircle className="inline-block mb-2 " />
+                          <div className="z-10 absolute hidden text-sm bg-gray-700 text-white px-2 py-1 rounded group-hover:block  whitespace-break-spaces">
+                          Nos experts sont disponibles pour vous aider à créer lintégralité de votre menu par téléphone.
+                          </div>
+                        </div>
+                      </div>
+                      </div>
+                    </li>
+                    
                   </ul>
 
                   <div className="flex flex-col w-full justify-center mb-8 flex-none mt-12">
@@ -224,6 +238,20 @@ const Pricing = () => {
                       </div>
                       </div>
                     </li>
+                    <li className="relative notcheck custom-list my-2">
+                      <div className="flex gap-2">
+                      <div className="flex items-center gap-1">
+                        Support téléphonique
+                        <div className="group">
+                          <FaQuestionCircle className="inline-block mb-2 " />
+                          <div className="z-10 absolute hidden text-sm bg-gray-700 text-white px-2 py-1 rounded group-hover:block  whitespace-break-spaces">
+                          Nos experts sont disponibles pour vous aider à créer lintégralité de votre menu par téléphone.
+                          </div>
+                        </div>
+                      </div>
+                      </div>
+                    </li>
+                    
                   </ul>
                   <div className="flex flex-col w-full justify-center mb-8 flex-none mt-12">
                     <p className="text-2xl text-black-600 text-center mb-4 ">
@@ -239,7 +267,7 @@ const Pricing = () => {
                       )}
                     </p>
 
-                    <PlanButton type="Standard" />
+                    <PlanButton type="Standard" period={selectedOption} />
                   </div>
                 </motion.div>
               </ScrollAnimationWrapper>
@@ -340,7 +368,7 @@ const Pricing = () => {
                       )}
                     </p>
 
-                    <PlanButton type="Pro" />
+                    <PlanButton type="Pro" period={selectedOption}  />
                   </div>
                 </motion.div>
               </ScrollAnimationWrapper>

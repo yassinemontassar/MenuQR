@@ -84,7 +84,7 @@ const Navbar = () => {
           >
             Tarification
           </LinkScroll>
-          <LinkScroll
+          {/* <LinkScroll
             activeClass="active"
             to="testimoni"
             spy={true}
@@ -101,7 +101,7 @@ const Navbar = () => {
             }
           >
             Témoignages
-          </LinkScroll>
+          </LinkScroll> */}
         </Popover.Group>
         <div className=" lg:flex lg:mr-0 lg:flex-1 lg:justify-end mr-5">
           <ThemeToggle />

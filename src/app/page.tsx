@@ -1,4 +1,5 @@
 
+import Footer from "@/components/Footer";
 import Feature from "@/components/feature";
 import Header from "@/components/header";
 import Hero from "@/components/hero";
@@ -14,6 +15,7 @@ export default async function Home() {
         <Hero />
         <Feature />
         <Pricing />
+        <Footer />
        </div> 
        </main>
   );

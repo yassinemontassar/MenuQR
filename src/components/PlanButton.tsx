@@ -27,8 +27,10 @@ import {
 import { useEffect } from "react";
 import PhoneInput from "react-phone-number-input";
 import "react-phone-number-input/style.css";
+import { DollarSign } from "lucide-react";
 interface PlanButtonProps {
   type: string;
+  period: string;
 }
 
 const formSchema = z.object({
@@ -43,7 +45,7 @@ const formSchema = z.object({
     .regex(/^[0-9\-\+\s\.]*$/, { message: "Invalid phone number format." }),
 });
 
-export const PlanButton: React.FC<PlanButtonProps> = ({ type }) => {
+export const PlanButton: React.FC<PlanButtonProps> = ({ type, period }) => {
   const { data: session, status } = useSession();
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -67,6 +69,8 @@ export const PlanButton: React.FC<PlanButtonProps> = ({ type }) => {
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     console.log(values);
+    console.log(type)
+    console.log(period)
   };
 
   const handleChooseButtonClick = () => {
@@ -74,6 +78,7 @@ export const PlanButton: React.FC<PlanButtonProps> = ({ type }) => {
       alert("You need to be logged in to perform this action.");
     }
   };
+
 
   return (
     <>
@@ -84,9 +89,9 @@ export const PlanButton: React.FC<PlanButtonProps> = ({ type }) => {
           </DialogTrigger>
           <DialogContent className="sm:max-w-[425px]">
             <DialogHeader>
-              <DialogTitle className="text-center">Pay with Vercel</DialogTitle>
-              <DialogDescription>
-                Enter your payment information.
+              <DialogTitle className="flex justify-center "><DollarSign  /></DialogTitle>
+              <DialogDescription className="text-center p-2">
+              Entrez vos informations
               </DialogDescription>
             </DialogHeader>
             <Form {...form}>
@@ -128,7 +133,7 @@ export const PlanButton: React.FC<PlanButtonProps> = ({ type }) => {
                   )}
                 />
                 <div className="space-y-2">
-                  <Label>Payment method</Label>
+                  <Label>Mode de paiement</Label>
                   <div className="flex items-center justify-center gap-4 p-3">
                     <div className="flex items-center space-x-2">
                       <FormField
@@ -178,7 +183,7 @@ export const PlanButton: React.FC<PlanButtonProps> = ({ type }) => {
                 </div>
                 <DialogFooter>
                   <Button type="submit" className="w-full px-3 py-2">
-                    Pay
+                    Envoyer
                   </Button>
                 </DialogFooter>
               </form>
