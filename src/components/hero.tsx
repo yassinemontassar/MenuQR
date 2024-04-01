@@ -54,18 +54,18 @@ const Hero = ({
             </h1>
 
             <p className="text-black-500 mt-4 mb-6">
-            Doté de toutes les fonctionnalités essentielles pour simplifier la création de menus pour votre restaurant ou café. Interface intuitive, génération de code QR inclus, et plus encore.
+            Doté de toutes les fonctionnalités essentielles pour simplifier la création de menus pour votre restaurant ou café. Interface intuitive, génération de code QR inclus, et plus encore...
             </p>
   
             <Dialog >
       <DialogTrigger asChild>
       <Button className="text-xl sm:text-2xl bg-gradient-to-r from-orange-600 to-orange-300 gap-2 ">
-            Voir le tutoriel <VideoIcon  />
+      Regarder la Démo<VideoIcon  />
             </Button>
       </DialogTrigger>
       <DialogContent className="" >
       <DialogHeader>
-          <DialogTitle className="text-center">Notre tutoriel</DialogTitle>
+          <DialogTitle className="text-center">Un aperçu complet de toutes les fonctionnalités</DialogTitle>
         </DialogHeader>
       <div className="aspect-video">
         <iframe
