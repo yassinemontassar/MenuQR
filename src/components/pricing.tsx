@@ -10,7 +10,7 @@ import { Headset, PhoneCall } from "lucide-react";
 import { FaQuestionCircle } from "react-icons/fa";
 
 const Pricing = () => {
-  const [selectedOption, setSelectedOption] = useState("monthly");
+  const [selectedOption, setSelectedOption] = useState('monthly');
   const scrollAnimation = useMemo(() => getScrollAnimation(), []);
   const buttonBaseStyles =
     "px-4 py-2 font-semibold  transition-colors duration-300";
@@ -46,26 +46,26 @@ const Pricing = () => {
                 <div className="flex">
                   <button
                     className={`${buttonBaseStyles} ${
-                      selectedOption === "monthly"
+                      selectedOption === 'monthly'
                         ? buttonSelectedStyles
                         : buttonUnselectedStyles
                     } rounded-l-lg`}
-                    onClick={() => setSelectedOption("monthly")}
+                    onClick={() => setSelectedOption('monthly')}
                   >
                     Mensuel
                   </button>
                   <button
                     className={`${buttonBaseStyles} ${
-                      selectedOption === "annually"
+                      selectedOption === 'annually'
                         ? buttonSelectedStyles
                         : buttonUnselectedStyles
                     } rounded-r-lg`}
-                    onClick={() => setSelectedOption("annually")}
+                    onClick={() => setSelectedOption('annually')}
                   >
                     Annuel
                   </button>
                 </div>
-                {selectedOption === "annually" && (
+                {selectedOption === 'annually' && (
                   <span className="mt-2 inline-block px-3 py-1.5 text-base font-bold text-orange-600 bg-orange-200 rounded-full animate-pulse">
                     -15%
                   </span>
@@ -255,10 +255,10 @@ const Pricing = () => {
                   </ul>
                   <div className="flex flex-col w-full justify-center mb-8 flex-none mt-12">
                     <p className="text-2xl text-black-600 text-center mb-4 ">
-                      {selectedOption === "monthly"
+                      {selectedOption === 'monthly'
                         ? "30 TND / mois"
                         : `${30 * 12 * (1 - discount)} TND / an`}{" "}
-                      {selectedOption === "annually" && (
+                      {selectedOption === 'annually' && (
                         <div>
                           <span className="text-sm text-orange-600">
                             (15% de réduction)
@@ -267,7 +267,7 @@ const Pricing = () => {
                       )}
                     </p>
 
-                    <PlanButton type="Standard" period={selectedOption} />
+                    <PlanButton type='Standard' period={selectedOption} />
                   </div>
                 </motion.div>
               </ScrollAnimationWrapper>
@@ -356,10 +356,10 @@ const Pricing = () => {
                   </ul>
                   <div className="flex flex-col w-full justify-center mb-8 flex-none mt-12">
                     <p className="text-2xl text-black-600 text-center mb-4 ">
-                      {selectedOption === "monthly"
+                      {selectedOption === 'monthly'
                         ? "80 TND / mois"
                         : `${80 * 12 * (1 - discount)} TND / an`}{" "}
-                      {selectedOption === "annually" && (
+                      {selectedOption === 'annually' && (
                         <div>
                           <span className="text-sm text-orange-600">
                             (15% de réduction)
@@ -368,7 +368,7 @@ const Pricing = () => {
                       )}
                     </p>
 
-                    <PlanButton type="Pro" period={selectedOption}  />
+                    <PlanButton type='Pro' period={selectedOption}  />
                   </div>
                 </motion.div>
               </ScrollAnimationWrapper>
