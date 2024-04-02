@@ -17,7 +17,7 @@ const Footer = () => {
             className='rounded-xl'
           />
           <p className="mb-4 mt-4 ">
-            <strong className="text-lg font-medium bg-gradient-to-r from-orange-600 to-orange-300 text-transparent bg-clip-text p-2 ">MenuRapide</strong> 
+            <strong className="text-lg font-medium bg-gradient-to-r from-orange-600 to-orange-300 text-transparent bg-clip-text ">MenuRapide </strong> 
             La solution simple et rapide pour créer des menus dynamiques et générer des QR codes. Simplifiez la gestion de vos menus dès aujourdhui !
           </p>
           <div className="flex w-full mt-2 mb-8 -mx-2">

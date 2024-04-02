@@ -24,10 +24,12 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import PhoneInput from "react-phone-number-input";
 import "react-phone-number-input/style.css";
 import { DollarSign } from "lucide-react";
+import { sendPlan } from "../../actions/sendPlan";
+import { toast } from "./ui/use-toast";
 interface PlanButtonProps {
   type: string;
   period: string;
@@ -38,8 +40,8 @@ const formSchema = z.object({
     .string()
     .email({ message: "Please enter a valid email address." })
     .optional(),
-  d17: z.boolean().default(false).optional(),
-  especes: z.boolean().default(true).optional(),
+  d17: z.boolean(),
+  especes: z.boolean(),
   phoneNumber: z
     .string()
     .regex(/^[0-9\-\+\s\.]*$/, { message: "Invalid phone number format." }),
@@ -47,13 +49,11 @@ const formSchema = z.object({
 
 export const PlanButton: React.FC<PlanButtonProps> = ({ type, period }) => {
   const { data: session, status } = useSession();
-
+  const [isDialogOpen, setDialogOpen] = useState(true);
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       email: "",
-      d17: false,
-      especes: true,
     },
   }); 
   const handleCheckboxClick = (fieldName: string) => {
@@ -68,15 +68,30 @@ export const PlanButton: React.FC<PlanButtonProps> = ({ type, period }) => {
   }, [session, form]);
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
-    console.log(values);
-    console.log(type)
-    console.log(period)
+    try {
+      const formData = new FormData();
+      formData.append("email", values.email || "");
+      formData.append("d17", JSON.stringify(values.d17));
+      formData.append("especes", JSON.stringify(values.especes));
+      formData.append("phoneNumber", values.phoneNumber);
+      setDialogOpen(false)
+      await sendPlan(formData);
+      return toast({
+        title: "Votre commande a été prise en compte !",
+        description: "Nous avons bien reçu vos informations. Notre équipe vous contactera sous peu pour finaliser votre commande. Merci de votre confiance !",
+      });
+      
+    } catch (error) {
+      console.error('Error sending plan:', error);
+    }
   };
+  
 
   const handleChooseButtonClick = () => {
     if (!session) {
       alert("You need to be logged in to perform this action.");
     }
+    setDialogOpen(true) 
   };
 
 
@@ -87,7 +102,8 @@ export const PlanButton: React.FC<PlanButtonProps> = ({ type, period }) => {
           <DialogTrigger asChild>
             <Button onClick={handleChooseButtonClick}>Choisir</Button>
           </DialogTrigger>
-          <DialogContent className="sm:max-w-[425px]">
+          {isDialogOpen && (
+          <DialogContent  className="sm:max-w-[425px]">
             <DialogHeader>
               <DialogTitle className="flex justify-center "><DollarSign  /></DialogTitle>
               <DialogDescription className="text-center p-2">
@@ -104,9 +120,9 @@ export const PlanButton: React.FC<PlanButtonProps> = ({ type, period }) => {
                   name="email"
                   render={({ field }) => (
                     <FormItem className="space-y-2">
-                      <FormLabel>Email</FormLabel>
+                      {/* <FormLabel>Email</FormLabel> */}
                       <FormControl>
-                        <Input placeholder="email adress" disabled {...field} />
+                        <Input placeholder="email adress" type="hidden" {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -189,7 +205,9 @@ export const PlanButton: React.FC<PlanButtonProps> = ({ type, period }) => {
               </form>
             </Form>
           </DialogContent>
+          )}
         </Dialog>
+          
       ) : null}
     </>
   );
