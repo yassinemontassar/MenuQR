@@ -39,14 +39,36 @@ const formSchema = z.object({
   imageUrl: z.string().min(1, { message: "Sélectionnez une nouvelle image !" }),
   facebookLink: z
     .string()
-    .url({ message: "Veuillez saisir une URL Facebook valide." })
-    .optional(),
+    .optional()
+    .refine(
+      (value) => {
+        return value === "" || isValidUrl(value);
+      },
+      { message: "Veuillez saisir une URL Facebook valide." }
+    ),
   instagramLink: z
     .string()
-    .url({ message: "Veuillez saisir une URL Instagram valide." })
-    .default("")
-    .optional(),
+    .optional()
+    .refine(
+      (value) => {
+        return value === "" || isValidUrl(value);
+      },
+      { message: "Veuillez saisir une URL Instagram valide." }
+    ),
 });
+
+// Function to check if a given string is a valid URL
+function isValidUrl(url: string | undefined): boolean {
+  if (typeof url === "undefined") {
+    return true; // Treat undefined as valid
+  }
+  try {
+    new URL(url);
+    return true;
+  } catch {
+    return false;
+  }
+}
 
 type MenuFormValues = z.infer<typeof formSchema>;
 

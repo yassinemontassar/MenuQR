@@ -14,6 +14,7 @@ const Footer = () => {
             quality={100}
             height={50}
             width={50}
+            priority
             className='rounded-xl'
           />
           <p className="mb-4 mt-4 ">

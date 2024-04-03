@@ -119,7 +119,7 @@ model Item {
   categoryId  String // Foreign Key to Category
   category    Category @relation("CategoryToItem", fields: [categoryId], references: [id])
   name        String
-  description String
+  description String  @default("")
   price       Decimal
   discount    Int      @default(0)
   isArchived  Boolean  @default(false)

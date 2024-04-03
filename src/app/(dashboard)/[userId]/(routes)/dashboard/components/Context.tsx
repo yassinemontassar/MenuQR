@@ -12,7 +12,8 @@ import {
   import  {Menu}  from "@prisma/client";
 import Image from "next/image";
 import { useParams, useRouter } from "next/navigation";
-import {  BarChart4, Pencil } from "lucide-react";
+import {  BarChart4, Copy, Pencil } from "lucide-react";
+import { toast } from "@/components/ui/use-toast";
 
   interface MenuProps  {
     items: Menu[];
@@ -46,6 +47,21 @@ import {  BarChart4, Pencil } from "lucide-react";
         // Par exemple, naviguez vers une nouvelle page en fonction du menuId.
         router.push(`menu/${menuId}`);
     }
+
+    const onCopy = async (id: string) => {
+        const textToCopy = `${process.env.NEXT_PUBLIC_BASE_URL}/website/${id}`;
+        try {
+            await navigator.clipboard.writeText(textToCopy);
+            return toast({
+                title: "Lien copié !",
+                description: "Le lien vers le menu a été copié avec succès. Vous pouvez maintenant le partager où vous le souhaitez.",
+              });
+              
+        } catch (err) {
+            console.error('Failed to copy: ', err);
+        }
+    };
+    
 
     return (
         <>
@@ -90,16 +106,16 @@ import {  BarChart4, Pencil } from "lucide-react";
                         </ContextMenuItem>
 
                         {/* Éléments supplémentaires du menu. */}
-                        <ContextMenuItem inset>
-                            Retour
-                            <ContextMenuShortcut>⌘[</ContextMenuShortcut>
+                        <ContextMenuItem onClick={() => onCopy(menu.MenuId)} inset>
+                        Copier le lien du menu
+                            <ContextMenuShortcut><Copy size={20} /></ContextMenuShortcut>
                         </ContextMenuItem>
-                        <ContextMenuItem inset >
-                            Statistiques
+                        <ContextMenuItem inset disabled >
+                            Statistiques(Soon)
                             <ContextMenuShortcut><BarChart4 /></ContextMenuShortcut>
                         </ContextMenuItem>
                         <ContextMenuItem inset>
-                            Recharger 
+                            Retour 
                             <ContextMenuShortcut>⌘R</ContextMenuShortcut>
                         </ContextMenuItem>
 

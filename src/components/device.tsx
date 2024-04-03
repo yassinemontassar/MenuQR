@@ -53,6 +53,7 @@ const DevicePreview: React.FC<DevicePreviewProps> = ({ keyProp }) => {
             quality={100}
             height={120}
             width={120}
+            priority
             className='rounded-xl animate-bounce'
           />
           </div>

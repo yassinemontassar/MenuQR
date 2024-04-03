@@ -34,7 +34,7 @@ import { useSession } from "next-auth/react";
 const formSchema = z.object({
   name: z.string().min(1, { message: "Le nom est requis." }),
   imageUrl: z.string().min(1, { message: "Sélectionnez une image !" }),
-  description: z.string().min(1, { message: "Description est requis." }),
+  description: z.string().min(0, { message: "Description est requis." }).default("").optional(),
   price: z.coerce
     .number()
     .min(1, { message: "Le prix doit être d'au moins 1." }),
@@ -65,8 +65,8 @@ export const ComponenetC: React.FC = () => {
     defaultValues: {
       name: "",
       imageUrl: "",
-      description: "",
       price: 0,
+      description: "",
       categoryId: "",
       isArchived: false,
       discount: 0,

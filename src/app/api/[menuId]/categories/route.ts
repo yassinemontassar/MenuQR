@@ -76,6 +76,9 @@ export async function GET(
       },
       include: {
         Items: true
+      },
+      orderBy: {
+        createdAt: 'asc'
       }
     });
   

@@ -23,6 +23,9 @@ const WebSite = async ({ params }: { params: { menuId: string } }) => {
     include: {
       Items: true,
     },
+    orderBy: {
+      createdAt: 'asc'
+    }
   });
   return (
     <div>
