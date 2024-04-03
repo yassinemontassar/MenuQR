@@ -1,14 +1,10 @@
 
-import { authOptions } from "@/app/utils/auth";
-import { getServerSession } from "next-auth";
+import prisma from "@/app/lib/db";
+import { SettingsForm } from "./components/settings-form";
 import { redirect } from "next/navigation";
-import prisma from '@/app/lib/db';
-import { Suspense } from "react";
-
-
 interface SettingsPageProps {
     params: {
-        storeId: string;
+        userId: string;
     }
 };
 
@@ -16,11 +12,20 @@ const SettingsPage: React.FC<SettingsPageProps> = async ({
 params
 }) => {
 
+    const user = await prisma.user.findFirst({
+        where: {
+            id: params.userId,
+        },
+    }); 
+    
+    if (!user) {
+        redirect("/");
+    }
 
     return (
         <div className="flex-col">
             <div className="flex-1 space-y-4 pt-6">
-            <p>Settings</p>
+            <SettingsForm initialData={user} />
             </div>
         </div>
     );
