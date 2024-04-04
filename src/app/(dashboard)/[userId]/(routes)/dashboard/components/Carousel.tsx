@@ -13,11 +13,12 @@ import Currency from "@/components/ui/currency";
 import { toast } from "@/components/ui/use-toast";
 import { Category, Item } from "@prisma/client";
 import axios from "axios";
-import { Trash2Icon } from "lucide-react";
+import { Settings, Trash2Icon } from "lucide-react";
 import Image from "next/image";
 import { useParams, useRouter } from "next/navigation";
 import { useState } from "react";
 import { FaTrashCan } from "react-icons/fa6";
+import ElementModal from "./ElementModal";
 
 interface CategoryProps {
   data: Item[];
@@ -27,7 +28,19 @@ const CarouselOrientation: React.FC<CategoryProps> = ({ data }) => {
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
   const [selectedItemId, setSelectedItemId] = useState<string | null>(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedItem, setSelectedItem] = useState<Item | null>(null);
 
+  const handleButtonClick = (item: Item) => {
+    setSelectedItem(item);
+    setIsModalOpen(true);
+  };
+  
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+    setSelectedItem(null); // Reset selectedItem when modal is closed
+  };
+  
   const onDelete = async () => {
     try {
       setLoading(true);
@@ -98,7 +111,7 @@ const CarouselOrientation: React.FC<CategoryProps> = ({ data }) => {
         <div className="flex items-center justify-center mt-2">
           <Currency value={item.price.toString()} />
         </div>
-        <div className="flex items-center justify-center p-4">
+        <div className="flex items-center justify-center p-4 gap-2">
           <Button
             disabled={loading}
             variant="destructive"
@@ -111,6 +124,18 @@ const CarouselOrientation: React.FC<CategoryProps> = ({ data }) => {
           >
             <FaTrashCan className="h-4 w-4" />
           </Button>
+          <Button
+            disabled={loading}
+            variant="secondary"
+            size="sm"
+            onClick={() => handleButtonClick(item)}
+          >
+            <Settings className="h-4 w-4" />
+          </Button>
+          {selectedItem && (
+  <ElementModal isOpen={isModalOpen} onClose={handleCloseModal} item={selectedItem} />
+)}
+
         </div>
       </div>
     </CarouselItem>
