@@ -27,13 +27,20 @@ const WebSite = async ({ params }: { params: { menuId: string } }) => {
       createdAt: 'asc'
     }
   });
+  const modifiedCategories = categories.map(category => ({
+    ...category,
+    Items: category.Items.map(item => ({
+      ...item,
+      price: item.price.toNumber() // Convert Decimal to number to resolve the plain object error
+    }))
+  }));
   return (
     <div>
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="flex flex-col sm:flex-row gap-8">
           <div className="w-full sm:w-3/4">
             <StatsCard data={menu} />
-            <ShowAll data={categories} />
+            <ShowAll data={modifiedCategories} />
           </div>
         </div>
       </main>

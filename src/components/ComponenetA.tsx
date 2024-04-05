@@ -72,13 +72,13 @@ function isValidUrl(url: string | undefined): boolean {
 
 type MenuFormValues = z.infer<typeof formSchema>;
 
-const MAX_FILE_SIZE_BYTES = 100 * 1024; // 1 MB in bytes
+const MAX_FILE_SIZE_BYTES = 2 * 1024 * 1024; // 2 MB
 
 const validateImageSize = (file: File): string | undefined => {
   if (!file) return; // No file selected, so nothing to validate
 
   if (file.size > MAX_FILE_SIZE_BYTES) {
-    return "La taille de l'image dépasse la limite maximale de 100 Ko.";
+    return "La taille de l'image dépasse la limite maximale de 2 MB.";
   }
 
   return undefined; // No errors
@@ -143,7 +143,7 @@ export const ComponenetA: React.FC<MenuFormProps> = ({ initialData }) => {
         .from(bucket)
         .upload(filePath, image, { upsert: true });
 
-      if (error) {
+      if (error) { 
         alert("Error uploading file.");
         return;
       }
