@@ -110,7 +110,6 @@ export const ComponenetB: React.FC = () => {
     try {
       setLoading(true);
       const body = { ...values };
-      console.log(body);
       await axios.post(`/api/${params.menuId}/categories`, body);
     } catch (error) {
       toast({

@@ -26,6 +26,9 @@ import {
   SelectTrigger,
   SelectValue,
 } from "./ui/select";
+import getRandom from "@/app/utils/RandomStringGenerator";
+import uploadImage from "@/app/utils/UploadImage";
+import deleteImage from "@/app/utils/DeleteImage";
 
 const formSchema = z.object({
   name: z.string().min(1, { message: "Le nom est requis." }),
@@ -72,13 +75,13 @@ function isValidUrl(url: string | undefined): boolean {
 
 type MenuFormValues = z.infer<typeof formSchema>;
 
-const MAX_FILE_SIZE_BYTES = 2 * 1024 * 1024; // 2 MB
+const MAX_FILE_SIZE_BYTES = 2 * 1024 * 1024 * 0.14648; // 300 KB
 
 const validateImageSize = (file: File): string | undefined => {
   if (!file) return; // No file selected, so nothing to validate
 
   if (file.size > MAX_FILE_SIZE_BYTES) {
-    return "La taille de l'image dépasse la limite maximale de 2 MB.";
+    return "La taille de l'image dépasse la limite maximale de 300 KB.";
   }
 
   return undefined; // No errors
@@ -128,26 +131,24 @@ export const ComponenetA: React.FC<MenuFormProps> = ({ initialData }) => {
         return;
       }
       setLoading(true);
-      const bucket = "MenuLogo";
       const subfolder = "logo";
       const folderName = params.userId; // Existing folder name
-      const { crypto } = window;
-      const randomString = crypto
-        .getRandomValues(new Uint32Array(1))[0]
-        .toString(36)
-        .padStart(10, "0");
-      const uniqueFileName = `${randomString}.${image.name.split(".").pop()}`;
+      const uniqueFileName = `${getRandom(2)}.${image.name.split(".").pop()}`;
       const filePath = `${folderName}/${subfolder}/${uniqueFileName}`;
 
-      const { data, error } = await supabase.storage
-        .from(bucket)
-        .upload(filePath, image, { upsert: true });
-
-      if (error) { 
-        alert("Error uploading file.");
-        return;
+      // Remove an existing image
+      const extractedPath = initialData?.imageUrl
+        .split("/storage/v1/object/public/MenuLogo")[1]
+        .slice(1);
+      if (extractedPath) {
+        console.log(initialData?.imageUrl) 
+        await deleteImage("MenuLogo", extractedPath);
       }
+
+      // Upload a new image
+      await uploadImage("MenuLogo", filePath, image);
       values.imageUrl = logoUrl + uniqueFileName;
+      console.log(initialData?.imageUrl)
     }
     try {
       setLoading(true);
@@ -162,7 +163,6 @@ export const ComponenetA: React.FC<MenuFormProps> = ({ initialData }) => {
         description: `Votre menu ${values.name} a été mis à jour avec succès. Les modifications sont prises en compte.`,
         variant: "default",
       });
-
       setLoading(false);
     }
   };
@@ -382,12 +382,23 @@ export const ComponenetA: React.FC<MenuFormProps> = ({ initialData }) => {
                     <FormControl className="mt-1">
                       <Input
                         disabled={loading}
-                        accept="image/*"
+                        accept="image/jpeg, image/png" // Updated accept attribute to accept JPEG and PNG
                         type="file"
                         className="w-full"
                         onChange={(e) => {
-                          setImage(e.target.files?.[0] || null);
-                          field.onChange(e);
+                          const selectedFile = e.target.files?.[0];
+                          if (
+                            selectedFile &&
+                            (selectedFile.type === "image/jpeg" ||
+                              selectedFile.type === "image/png")
+                          ) {
+                            // Updated condition to check for JPEG or PNG
+                            setImage(selectedFile);
+                            field.onChange(e);
+                          } else {
+                            // Handle error or provide feedback to the user
+                            alert("Please select a JPG or PNG file.");
+                          }
                         }}
                       />
                     </FormControl>

@@ -72,13 +72,13 @@ export const MenuModal = () => {
       imageUrl: "",
     },
   });
-  const MAX_FILE_SIZE_BYTES = 2 * 1024 * 1024; // 2 MB
+  const MAX_FILE_SIZE_BYTES = (2 * 1024 * 1024) * 0.14648; // 300 KB
 
   const validateImageSize = (file: File): string | undefined => {
     if (!file) return; // No file selected, so nothing to validate
 
     if (file.size > MAX_FILE_SIZE_BYTES) {
-      return "La taille de l'image dépasse la limite maximale de 2 MB.";
+      return "La taille de l'image dépasse la limite maximale de 300 KB.";
     }
 
     return undefined; // No errors

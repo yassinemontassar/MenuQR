@@ -19,15 +19,18 @@ import { useParams, useRouter } from "next/navigation";
 import { useState } from "react";
 import { FaTrashCan } from "react-icons/fa6";
 import ElementModal from "./ElementModal";
+import deleteImage from "@/app/utils/DeleteImage";
 
 interface CategoryProps {
   data: Item[];
 }
 const CarouselOrientation: React.FC<CategoryProps> = ({ data }) => {
   const params = useParams();
+  const router = useRouter();
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
   const [selectedItemId, setSelectedItemId] = useState<string | null>(null);
+  const [selectedItemImg, setSelectedItemImg] = useState<string | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedItem, setSelectedItem] = useState<Item | null>(null);
 
@@ -44,7 +47,12 @@ const CarouselOrientation: React.FC<CategoryProps> = ({ data }) => {
   const onDelete = async () => {
     try {
       setLoading(true);
+      if (selectedItemImg) {
+        const extractedPath = selectedItemImg.split('/storage/v1/object/public/MenuLogo')[1].slice(1);
+        await deleteImage("MenuLogo",extractedPath)
+      }
       await axios.delete(`/api/${params.menuId}/items/${selectedItemId}`);
+      router.push(`?modified=${selectedItemId}`)
       toast({
         title: "Suppression de l'élément",
         description: "L'élément sélectionné a été supprimé avec succès.",
@@ -118,6 +126,7 @@ const CarouselOrientation: React.FC<CategoryProps> = ({ data }) => {
             size="sm"
             onClick={() => {
               setSelectedItemId(item.id);
+              setSelectedItemImg(item.imageUrl)
               setOpen(true);
             }}
             className="bg-red-500 hover:bg-red-600 text-white"

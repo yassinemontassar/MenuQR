@@ -32,6 +32,7 @@ export function ThemeToggle() {
       alt="logo"
       width={21}
       height={21}
+      priority
       className="dark:hidden"
     />
 
@@ -40,6 +41,7 @@ export function ThemeToggle() {
       alt="logo"
       width={22}
       height={22}
+      priority
       className="hidden dark:block"
     />
   </button>

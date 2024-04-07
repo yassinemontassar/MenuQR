@@ -8,7 +8,7 @@ import { useEffect, useState } from "react";
 import { Label } from "./ui/label";
 import { Loader2, Trash, XIcon } from "lucide-react";
 import axios from "axios";
-import { useParams, useRouter } from "next/navigation";
+import { useParams, useSearchParams } from "next/navigation";
 import {
   Form,
   FormControl,
@@ -30,11 +30,17 @@ import { Category, Item } from "@prisma/client";
 import Image from "next/image";
 import { toast } from "./ui/use-toast";
 import { useSession } from "next-auth/react";
+import uploadImage from "@/app/utils/UploadImage";
+import getRandom from "@/app/utils/RandomStringGenerator";
 
 const formSchema = z.object({
   name: z.string().min(1, { message: "Le nom est requis." }),
   imageUrl: z.string().min(1, { message: "Sélectionnez une image !" }),
-  description: z.string().min(0, { message: "Description est requis." }).default("").optional(),
+  description: z
+    .string()
+    .min(0, { message: "Description est requis." })
+    .default("")
+    .optional(),
   price: z.coerce
     .number()
     .min(1, { message: "Le prix doit être d'au moins 1." }),
@@ -51,6 +57,8 @@ type ItemFormValues = z.infer<typeof formSchema>;
 
 export const ComponenetC: React.FC = () => {
   const params = useParams();
+  const searchParams = useSearchParams();
+  const modified = searchParams.get("modified");
   const { data: session } = useSession();
   const plan = session?.user.plan;
   const supabase = createClientComponentClient();
@@ -85,9 +93,10 @@ export const ComponenetC: React.FC = () => {
         setIsFetchingCategories(false);
       }
     };
+
     fetchCategories();
     setShouldFetch(false);
-  }, [shouldFetch, params.menuId]);
+  }, [shouldFetch, params.menuId, modified]);
 
   const [isNewCategoryInputVisible, setIsNewCategoryInputVisible] =
     useState(false);
@@ -113,18 +122,21 @@ export const ComponenetC: React.FC = () => {
       (category) => category.id === values.categoryId
     )?.Items;
     const itemsCount = selectedCategoryItems ? selectedCategoryItems.length : 0;
-    if ((plan === "Gratuit" && itemsCount >= 10) || (plan === "Standard" && itemsCount >= 20)) {
+    if (
+      (plan === "Gratuit" && itemsCount >= 10) ||
+      (plan === "Standard" && itemsCount >= 20)
+    ) {
       const errorMessage =
-      plan === "Gratuit"
+        plan === "Gratuit"
           ? "Vous ne pouvez pas ajouter plus de 10 éléments avec le plan gratuit"
           : "Vous ne pouvez pas ajouter plus de 20 éléments avec le plan Standard";
       toast({
-      title: "Erreur",
-      description: errorMessage,
-      variant: "destructive",
-    });
-    return;
-  }
+        title: "Erreur",
+        description: errorMessage,
+        variant: "destructive",
+      });
+      return;
+    }
     if (image) {
       const errorr = validateImageSize(image);
       if (errorr) {
@@ -139,22 +151,10 @@ export const ComponenetC: React.FC = () => {
       const bucket = "MenuLogo";
       const subfolder = "items";
       const folderName = params.userId; // Existing folder name
-      const { crypto } = window;
-      const randomString = crypto
-        .getRandomValues(new Uint32Array(1))[0]
-        .toString(36)
-        .padStart(10, "0");
-      const uniqueFileName = `${randomString}.${image.name.split(".").pop()}`;
+      const uniqueFileName = `${getRandom(2)}.${image.name.split(".").pop()}`;
       const filePath = `${folderName}/${subfolder}/${uniqueFileName}`;
-
-      const { data, error } = await supabase.storage
-        .from(bucket)
-        .upload(filePath, image, { upsert: true });
-
-      if (error) {
-        alert("Error uploading file.");
-        return;
-      }
+      // Upload a new image
+      await uploadImage(bucket, filePath, image);
       values.imageUrl = uniqueFileName;
     }
     try {
