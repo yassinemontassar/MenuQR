@@ -154,7 +154,7 @@ export const ComponenetA: React.FC<MenuFormProps> = ({ initialData }) => {
       setLoading(true);
       const body = { ...values };
       await axios.patch(`/api/menus/${params.menuId}`, body);
-      router.refresh();
+      location.reload();
     } catch (error) {
       // toast.error("Something went wrong!");
     } finally {

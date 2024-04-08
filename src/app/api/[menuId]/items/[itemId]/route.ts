@@ -48,9 +48,6 @@ export async function PATCH(
             return new NextResponse("price is required", {status: 400});
         }
 
-        if (!description) {
-            return new NextResponse("description is required", {status: 400});
-        }
 
         if (!imageUrl) {
           return new NextResponse("image is required", {status: 400});

@@ -37,7 +37,6 @@ const formSchema = z.object({
   description: z
     .string()
     .min(0, { message: "Description est requis." })
-    .default("")
     .optional(),
   price: z.coerce
     .number()
@@ -70,7 +69,6 @@ const ElementModal: React.FC<MyModalProps> = ({ isOpen, onClose, item }) => {
   const logoUrl =
   process.env.NEXT_PUBLIC_IMAGE_BASE_URL + "/" + params.userId + "/items/";
   const [loading, setLoading] = useState(false);
-  const supabase = createClientComponentClient();
   const onChange = (open: boolean) => {
     if (!open) {
       onClose();
@@ -82,10 +80,12 @@ const ElementModal: React.FC<MyModalProps> = ({ isOpen, onClose, item }) => {
     ? {
         ...item,
         price: parseFloat(String(item?.price)),
+        description: item.description ?? undefined,
       }
     : {
         name: "",
         price: 0,
+        description: undefined,
         imageUrl: "",
       };
 
@@ -119,6 +119,7 @@ const ElementModal: React.FC<MyModalProps> = ({ isOpen, onClose, item }) => {
 const imageUrl = item.imageUrl;
 const extractedPath = imageUrl.split('/storage/v1/object/public/MenuLogo')[1].slice(1);
 await deleteImage(bucket,extractedPath)
+
     }
 
     try {
@@ -176,11 +177,11 @@ await deleteImage(bucket,extractedPath)
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>Description</FormLabel>
-                    <FormControl>
-                      <Input
-                        className="w-auto"
-                        placeholder="Description de votre élément"
+                    <FormControl className="mt-1">
+                      <textarea
                         disabled={loading}
+                        placeholder="Description de votre élément"
+                        className="w-full px-3 py-2 placeholder-gray-500 border rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                         {...field}
                       />
                     </FormControl>

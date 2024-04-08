@@ -39,7 +39,6 @@ const formSchema = z.object({
   description: z
     .string()
     .min(0, { message: "Description est requis." })
-    .default("")
     .optional(),
   price: z.coerce
     .number()
@@ -74,7 +73,6 @@ export const ComponenetC: React.FC = () => {
       name: "",
       imageUrl: "",
       price: 0,
-      description: "",
       categoryId: "",
       isArchived: false,
       discount: 0,
