@@ -11,7 +11,7 @@ import {
 } from "@/components/ui/card";
 import { Button } from "./ui/button";
 import Image from "next/image";
-import { Loader2 } from "lucide-react";
+import { Loader, Loader2 } from "lucide-react";
 import axios from "axios";
 import { useEffect, useState } from "react";
 export default function ComponenetD() {
@@ -19,13 +19,13 @@ export default function ComponenetD() {
   const params = useParams();
   const [menuData, setMenu] = useState<any>([]);
   const [isFetchingMenu, setIsFetchingMenu] = useState(false);
+  const [isDownloadingPdf, setIsDownloadingPdf] = useState(false);
   useEffect(() => {
     const fetchMenu = async () => {
       try {
         setIsFetchingMenu(true);
         const response = await axios.get(`/api/menus/${params.menuId}`);
         setMenu(response.data);
-        console.log(response.data);
       } catch (error) {
         console.error("Error fetching menu:", error);
       } finally {
@@ -36,6 +36,7 @@ export default function ComponenetD() {
   }, [params.menuId]);
 
   const downloadPdf = async () => {
+    setIsDownloadingPdf(true);
     const element = document.getElementById("contentToConvert");
     if (element) {
       // Use html2canvas with the scale option
@@ -48,8 +49,8 @@ export default function ComponenetD() {
           });
           const margin = 30;
           const pageSize = pdf.internal.pageSize;
-          const imageWidth = pageSize.getWidth() ;
-          const imageHeight = pageSize.getHeight() ;
+          const imageWidth = pageSize.getWidth();
+          const imageHeight = pageSize.getHeight();
           pdf.addImage(
             canvas.toDataURL("image/png"),
             "PNG",
@@ -58,7 +59,8 @@ export default function ComponenetD() {
             imageWidth,
             imageHeight
           );
-          pdf.save("download.pdf");
+          pdf.save(`${menuData.name}.pdf`);
+          setIsDownloadingPdf(false);
         });
     }
   };
@@ -92,7 +94,7 @@ export default function ComponenetD() {
                   sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                 />
               </div>
-              <div className="font-medium leading-none">{menuData.name}</div>
+              <div className="font-medium leading-none p-2">{menuData.name}</div>
             </div>
           </CardHeader>
           <CardContent className="flex flex-col items-center gap-2">
@@ -114,13 +116,22 @@ export default function ComponenetD() {
             </div>
             <CardDescription className="text-center mt-2">
               <p className="mb-3">Scannez le code QR pour voir notre menu</p>
-              <p>Visiter notre siteweb patata.tn</p>
+              <p>Visiter notre siteweb</p>
+              <p className="text-black">menu-qr-cycd.vercel.app</p>
             </CardDescription>
           </CardContent>
         </Card>
       )}
-      <Button className="mt-2" size="sm" onClick={downloadPdf}>
-        Télécharger PDF
+      <Button
+        className="mt-2"
+        size="sm"
+        disabled={isDownloadingPdf}
+        onClick={downloadPdf}
+      >
+        {isDownloadingPdf ? "Téléchargement en cours..." : "Télécharger PDF"}
+              {isDownloadingPdf && (
+                <Loader size={20} className="text-background animate-spin" />
+              )}
       </Button>
     </>
   );

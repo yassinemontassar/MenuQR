@@ -97,8 +97,9 @@ export const ComponenetA: React.FC<MenuFormProps> = ({ initialData }) => {
     process.env.NEXT_PUBLIC_IMAGE_BASE_URL + "/" + params.userId + "/logo/";
   const [loading, setLoading] = useState(false);
   const [image, setImage] = useState<File | null>(null);
-  const imagePreviewUrl = initialData?.imageUrl ?? "";
-  const supabase = createClientComponentClient();
+  const [imagePreviewUrl, setImagePreviewUrl] = useState<string>(
+    initialData?.imageUrl ?? ""
+  );
   const defaultValues = initialData
     ? {
         ...initialData,
@@ -147,14 +148,21 @@ export const ComponenetA: React.FC<MenuFormProps> = ({ initialData }) => {
 
       // Upload a new image
       await uploadImage("MenuLogo", filePath, image);
-      values.imageUrl = logoUrl + uniqueFileName;
-      console.log(initialData?.imageUrl)
+      const newImageUrl = logoUrl + uniqueFileName;
+      setImagePreviewUrl(newImageUrl);
+      values.imageUrl = newImageUrl
+      
+      if (initialData) {
+        initialData.imageUrl = values.imageUrl
+        console.log( initialData.imageUrl )
+      }
+
     }
     try {
       setLoading(true);
       const body = { ...values };
       await axios.patch(`/api/menus/${params.menuId}`, body);
-      location.reload();
+      router.refresh()
     } catch (error) {
       // toast.error("Something went wrong!");
     } finally {

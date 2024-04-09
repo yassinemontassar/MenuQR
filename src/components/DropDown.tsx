@@ -38,8 +38,8 @@ export default async function DropDown() {
       <DropdownMenuTrigger>
         <Image
           src={session?.user?.image ?? logo}
-          width={50}
-          height={50}
+          width={40}
+          height={40}
           className="rounded-full cursor-pointer p-1 mt-1"
           alt="avatar"
         />
@@ -47,7 +47,7 @@ export default async function DropDown() {
       <DropdownMenuContent className="w-56">
         <div className="flex flex-col items-center justify-center">
           <DropdownMenuLabel> {session?.user?.name}</DropdownMenuLabel>
-          Plan actuel : {session?.user?.plan}
+          Plan: {session?.user?.plan}
         </div>
         <DropdownMenuSeparator />
         <DropdownMenuGroup>

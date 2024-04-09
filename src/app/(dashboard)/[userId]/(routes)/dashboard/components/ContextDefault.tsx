@@ -6,10 +6,10 @@ import {
   ContextMenuShortcut,
   ContextMenuTrigger,
 } from "@/components/ui/context-menu";
-import Image from "next/image";
 import { useMenuModal } from "@/app/hooks/use-menu-modal";
 import { useSession } from "next-auth/react";
 import { useMediaQuery } from "react-responsive";
+import { MenuSquare } from "lucide-react";
 export default function ContextDefault() {
   const isTabletOrMobile = useMediaQuery({ query: "(max-width: 1224px)" });
   const menuModal = useMenuModal();
@@ -28,13 +28,7 @@ export default function ContextDefault() {
           <ContextMenuItem inset onSelect={menuModal.onOpen}>
             Créez votre menu
             <ContextMenuShortcut>
-              <Image
-                src="/logo.png"
-                alt="logo"
-                width={25}
-                height={25}
-                className="rounded-full"
-              />
+              <MenuSquare />
             </ContextMenuShortcut>
           </ContextMenuItem>
         </ContextMenuContent>
