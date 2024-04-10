@@ -165,6 +165,8 @@ export const ComponenetC: React.FC = () => {
         description: "Oops, quelque chose s'est mal passé. Veuillez réessayer.",
         variant: "destructive",
       });
+      setLoading(false);
+      setIsNewCategoryInputVisible(false);
     } finally {
       toast({
         title: "Élément ajouté",
@@ -176,6 +178,7 @@ export const ComponenetC: React.FC = () => {
       setShouldFetch(true);
       form.reset();
       setImage(null);
+      setIsNewCategoryInputVisible(false);
     }
   };
 

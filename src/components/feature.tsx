@@ -6,6 +6,7 @@ import getScrollAnimation from "@/app/utils/getScrollAnimation";
 import ScrollAnimationWrapper from "./ScrollAnimationWrapper";
 import { Button } from "./ui/button";
 import { Star } from "lucide-react";
+import Link from "next/link";
 const features = [
   "QR Code Généré Automatiquement.",
   "Aperçu en Temps Réel sur Téléphone Mobile.",
@@ -71,7 +72,9 @@ const Feature = () => {
             variants={scrollAnimation}
           >
             <Button className="text-xl sm:text-2xl bg-gradient-to-r from-orange-600 to-orange-300 gap-2 ">
-            Menu en Direct
+            <Link href="https://menu-qr-cycd.vercel.app/website/726f4840-01df-430f-b753-892af40a136c">
+            Aperçu en direct
+          </Link>
             <Star />
             </Button>
           </motion.div>
