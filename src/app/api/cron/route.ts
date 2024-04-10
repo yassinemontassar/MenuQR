@@ -10,6 +10,7 @@ type Data = {
 export async function PATCH(req: Request, res: NextApiResponse<Data>) {
   const result = await prisma.menu.findMany({
     where: {
+      published: true,
       user: {
         expirePlan: {
           lte: new Date(new Date().toISOString().split('T')[0] + 'T23:59:59.999Z')
@@ -26,7 +27,6 @@ export async function PATCH(req: Request, res: NextApiResponse<Data>) {
       await prisma.menu.update({
         where: {
           id: menu.id,
-          published: true,
         },
         data: {
           published: false
