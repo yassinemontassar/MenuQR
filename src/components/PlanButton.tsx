@@ -27,7 +27,7 @@ import {
 import { useEffect, useState } from "react";
 import PhoneInput from "react-phone-number-input";
 import "react-phone-number-input/style.css";
-import { DollarSign } from "lucide-react";
+import { DollarSign, Loader, Wallet } from "lucide-react";
 import { sendPlan } from "../../actions/sendPlan";
 import { toast } from "./ui/use-toast";
 interface PlanButtonProps {
@@ -51,7 +51,9 @@ const formSchema = z.object({
 
 export const PlanButton: React.FC<PlanButtonProps> = ({ type, period }) => {
   const { data: session, status } = useSession();
+  const [loading, setLoading] = useState(false);
   const [isDialogOpen, setDialogOpen] = useState(true);
+  
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -73,6 +75,7 @@ export const PlanButton: React.FC<PlanButtonProps> = ({ type, period }) => {
   }, [session, form, period]);
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
+    setLoading(true)
     try {
       const formData = new FormData();
 
@@ -89,8 +92,10 @@ export const PlanButton: React.FC<PlanButtonProps> = ({ type, period }) => {
           "Nous avons bien reçu vos informations. Notre équipe vous contactera sous peu pour finaliser votre commande. Merci de votre confiance !",
       });
             setDialogOpen(false);
+            setLoading(false)
     } catch (error) {
       console.error("Error sending plan:", error);
+      setLoading(false)
     }
   };
 
@@ -112,7 +117,7 @@ export const PlanButton: React.FC<PlanButtonProps> = ({ type, period }) => {
             <DialogContent className="sm:max-w-[425px]">
               <DialogHeader>
                 <DialogTitle className="flex justify-center ">
-                  <DollarSign />
+                  <Wallet />
                 </DialogTitle>
                 <DialogDescription className="text-center p-2">
                   Entrez vos informations
@@ -210,7 +215,10 @@ export const PlanButton: React.FC<PlanButtonProps> = ({ type, period }) => {
                   </div>
                   <DialogFooter>
                     <Button type="submit" className="w-full px-3 py-2">
-                      Envoyer
+                    {loading ? "Envoi en cours..." : "Envoyer"}
+              {loading && (
+                <Loader size={20} className="text-background animate-spin" />
+              )}
                     </Button>
                   </DialogFooter>
                 </form>

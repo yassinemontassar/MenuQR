@@ -9,21 +9,16 @@ import getScrollAnimation from "@/app/utils/getScrollAnimation";
 import ScrollAnimationWrapper from "./ScrollAnimationWrapper";
 import {
   Dialog,
-  DialogClose,
   DialogContent,
-  DialogDescription,
-  DialogFooter,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog"
-import { Label } from "./ui/label";
-import { Input } from "./ui/input";
 const Hero = ({
   listUser = [
     {
       name: "Profils",
-      number: "60",
+      number: "22",
       icon: "/images/icon/heroicons_sm-user.svg",
     },
     {
@@ -33,7 +28,7 @@ const Hero = ({
     },
     {
       name: "Menus",
-      number: "25",
+      number: "6",
       icon: "/images/icon/menu-icon.svg",
     },
   ],
@@ -65,7 +60,7 @@ const Hero = ({
       </DialogTrigger>
       <DialogContent className="" >
       <DialogHeader>
-          <DialogTitle className="text-center">Un aperçu complet de toutes les fonctionnalités</DialogTitle>
+          <DialogTitle className="text-center">Découvrez comment créer votre menu en quelques étapes simples ! </DialogTitle>
         </DialogHeader>
       <div className="aspect-video">
         <iframe

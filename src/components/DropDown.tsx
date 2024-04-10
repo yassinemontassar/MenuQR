@@ -54,17 +54,17 @@ export default async function DropDown() {
           <DropdownMenuItem>
             <User className="mr-2 h-4 w-4" />
             <Link href={`/${user?.id}/dashboard`}>Tableau de bord</Link>
-            <DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut>
+            <DropdownMenuShortcut>⇧⌘T</DropdownMenuShortcut>
           </DropdownMenuItem>
           <DropdownMenuItem>
             <CreditCard className="mr-2 h-4 w-4" />
-            <span>Facturation</span>
-            <DropdownMenuShortcut>⌘B</DropdownMenuShortcut>
+            <Link href={`/${user?.id}/abonnement`}>Abonnement</Link>
+            <DropdownMenuShortcut>⌘A</DropdownMenuShortcut>
           </DropdownMenuItem>
           <DropdownMenuItem>
             <Settings className="mr-2 h-4 w-4" />
             <Link href={`/${user?.id}/settings`}>Paramètres</Link>
-            <DropdownMenuShortcut>⌘S</DropdownMenuShortcut>
+            <DropdownMenuShortcut>⌘P</DropdownMenuShortcut>
           </DropdownMenuItem>
         </DropdownMenuGroup>
         <DropdownMenuSeparator />
