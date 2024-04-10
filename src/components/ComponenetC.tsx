@@ -290,7 +290,7 @@ export const ComponenetC: React.FC = () => {
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel className="font-medium">
-                      Description de l&apos;élément :
+                      Description de l&apos;élément(optionnel) :
                     </FormLabel>
                     <FormControl className="mt-1">
                       <textarea

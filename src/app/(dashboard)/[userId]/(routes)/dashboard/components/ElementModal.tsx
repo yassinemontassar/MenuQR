@@ -176,7 +176,7 @@ await deleteImage(bucket,extractedPath)
                 name="description"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Description</FormLabel>
+                    <FormLabel>Description(optionnel)</FormLabel>
                     <FormControl className="mt-1">
                       <textarea
                         disabled={loading}

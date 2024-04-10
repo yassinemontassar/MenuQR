@@ -67,7 +67,7 @@ const Hero = ({
          className="w-full h-full rounded-md"
         width="560"
         height="315"
-         src="https://www.youtube.com/embed/h9hGc1bc610"
+         src="https://www.youtube.com/embed/vSZNlyx7hgI"
           allow="autoplay; encrypted-media"
           allowFullScreen
         ></iframe>
