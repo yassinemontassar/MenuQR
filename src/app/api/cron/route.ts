@@ -26,6 +26,7 @@ export async function PATCH(req: Request, res: NextApiResponse<Data>) {
       await prisma.menu.update({
         where: {
           id: menu.id,
+          published: true,
         },
         data: {
           published: false
