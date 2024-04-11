@@ -100,7 +100,7 @@ export function DataTable<TData, TValue>({
           ) : (
             <TableRow>
               <TableCell colSpan={columns.length} className="h-24 text-center">
-              Vous êtes actuellement sur un abonnement gratuit. Les détails de votre abonnement ne sont pas affichés dans lhistorique.
+              Aucun Resultat
               </TableCell>
             </TableRow>
           )}
