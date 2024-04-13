@@ -16,6 +16,7 @@ const Footer = () => {
             width={50}
             priority
             className='rounded-xl'
+            unoptimized
           />
           <p className="mb-4 mt-4 ">
             <strong className="text-lg font-medium bg-gradient-to-r from-orange-600 to-orange-300 text-transparent bg-clip-text ">MenuRapide </strong> 
