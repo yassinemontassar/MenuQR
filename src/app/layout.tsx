@@ -8,7 +8,7 @@ const inter = Inter({ subsets: ["latin"] });
 
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://menu-qr-cycd.vercel.app/'),
+  metadataBase: new URL('https://www.menurapide.tn/'),
   title: {
     default: 'MenuRapide - Créez Facilement le Menu de Votre Restaurant ou Café',
     template: '%s - MenuRapide - Créez Facilement le Menu de Votre Restaurant ou Café'

@@ -117,7 +117,7 @@ export default function ComponenetD() {
             <CardDescription className="text-center mt-2">
               <p className="mb-3">Scannez le code QR pour voir notre menu</p>
               <p>Visiter notre siteweb</p>
-              <p className="text-black">menu-qr-cycd.vercel.app</p>
+              <p className="text-black">menurapide.tn</p>
             </CardDescription>
           </CardContent>
         </Card>

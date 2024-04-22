@@ -72,7 +72,7 @@ const Feature = () => {
             variants={scrollAnimation}
           >
             <Button className="text-xl sm:text-2xl bg-gradient-to-r from-orange-600 to-orange-300 gap-2 ">
-            <Link href="https://menu-qr-cycd.vercel.app/website/726f4840-01df-430f-b753-892af40a136c">
+            <Link href="https://www.menurapide.tn/website/726f4840-01df-430f-b753-892af40a136c">
             Aperçu en direct
           </Link>
             <Star />
