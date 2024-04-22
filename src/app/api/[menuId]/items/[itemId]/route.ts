@@ -1,7 +1,6 @@
 import { NextResponse } from "next/server";
 import prisma from "@/app/lib/db";
-import { getServerSession } from "next-auth";
-import { authOptions } from "@/app/utils/auth";
+import { auth } from "@/app/utils/auth";
 
 export async function GET(
   req: Request,
@@ -34,7 +33,7 @@ export async function PATCH(
     const body = await req.json();
 
     const {name, description, price, imageUrl} = body;
-    const session = await getServerSession(authOptions);
+    const session = await auth()
     const userId = session?.user.id;
 
      if (!userId) {
@@ -95,7 +94,7 @@ export async function DELETE(
   { params }: { params: { menuId: string; itemId: string } }
 ) {
   try {
-    const session = await getServerSession(authOptions);
+    const session = await auth()
     const userId = session?.user.id;
 
     if (!userId) {

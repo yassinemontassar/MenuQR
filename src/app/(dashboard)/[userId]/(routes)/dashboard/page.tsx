@@ -2,10 +2,9 @@ import Context from "./components/Context";
 import prisma from "@/app/lib/db";
 import ContextDefault from "./components/ContextDefault";
 import { MenuModal } from "@/components/modals/menu-modal";
-import { getServerSession } from "next-auth";
-import { authOptions } from "@/app/utils/auth";
 import { Button } from "@/components/ui/button";
 import { Crown } from "lucide-react";
+import { auth } from "@/app/utils/auth";
 
 interface DashboardPageProps {
   params: {
@@ -14,7 +13,7 @@ interface DashboardPageProps {
 }
 
 const DashboardPage: React.FC<DashboardPageProps> = async ({ params }) => {
-  const session = await getServerSession(authOptions);
+  const session = await auth()
   const plan = session?.user.plan;
   const menus = await prisma.menu.findMany({
     where: {

@@ -1,6 +1,5 @@
 import prisma from "@/app/lib/db";
-import { authOptions } from "@/app/utils/auth";
-import { getServerSession } from "next-auth";
+import { auth } from "@/app/utils/auth";
 
 import { NextResponse } from "next/server";
 
@@ -9,7 +8,7 @@ req: Request,
 {params} : {params: {menuId: string}}
 ) {
 try {
-    const session = await getServerSession(authOptions)
+    const session = await auth()
 const body = await req.json();
 
 const {name, imageUrl, type, startTime, endTime, facebookLink, instagramLink} = body;

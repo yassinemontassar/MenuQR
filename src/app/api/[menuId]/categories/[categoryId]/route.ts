@@ -1,8 +1,8 @@
 
 import { NextResponse } from "next/server";
 import prisma from '@/app/lib/db';
-import { getServerSession } from "next-auth";
-import { authOptions } from "@/app/utils/auth";
+import { auth } from "@/app/utils/auth";
+
 
 export async function GET (
 
@@ -43,7 +43,7 @@ export async function DELETE (
     {params} : {params: {menuId: string, categoryId: string}}
     ) {
     try {
-        const session = await getServerSession(authOptions)
+        const session = await auth()
         const userId = session?.user.id
 
     
@@ -94,7 +94,7 @@ export async function DELETE (
         try {
             const body = await req.json();
             const {name} = body;
-            const session = await getServerSession(authOptions)
+            const session = await auth()
             const userId = session?.user.id
     
         

@@ -1,11 +1,11 @@
-import { getServerSession } from "next-auth";
+
 import SignInForm from "./SignInForm";
 import Navbar from "./navbar";
-import { authOptions } from "@/app/utils/auth";
 import DropDown from "./DropDown";
+import { auth } from "@/app/utils/auth";
 
 export default async function Header() {
-    const session = await getServerSession(authOptions);
+  const session = await auth()
     return (
         <header className="fixed  w-full  z-10  transition-all bg-background shadow-md p-4 pt-3">
         <div className="container mx-auto px-4 flex items-center justify-between">

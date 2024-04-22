@@ -1,7 +1,5 @@
 import { redirect } from 'next/navigation';
 import prisma from '@/app/lib/db';
-import { getServerSession } from 'next-auth';
-import { authOptions } from '@/app/utils/auth';
 import { Metadata } from 'next';
 import Header from '../componenets/header';
 

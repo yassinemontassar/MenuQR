@@ -1,7 +1,6 @@
 import { redirect } from 'next/navigation';
 import prisma from '@/app/lib/db';
-import { getServerSession } from 'next-auth';
-import { authOptions } from '@/app/utils/auth';
+import { auth } from "@/app/utils/auth"
 import Header from '@/components/header';
 import { Metadata } from 'next';
 import { Toaster } from '@/components/ui/toaster';
@@ -25,7 +24,7 @@ export default async function DashboardLayout({
   children: React.ReactNode
   params: { userId: string }
 }) {
-const session = await getServerSession(authOptions)
+const session = await auth()
   if (!session) {
     redirect('/');
   }

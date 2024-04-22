@@ -12,7 +12,7 @@ export default function SignInEmail() {
   async function SignInWithEmail() {
     try {
       if (email) {
-        const signInResult = await signIn("email", {
+        const signInResult = await signIn("nodemailer", {
           email: email,
           callbackUrl: `${window.location.origin}`,
           redirect: false,

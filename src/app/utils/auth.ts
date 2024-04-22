@@ -1,12 +1,13 @@
-import type { NextAuthOptions } from "next-auth";
+import NextAuth from "next-auth";
 import GitHubProvider from "next-auth/providers/github";
 import GoogleProvider from "next-auth/providers/google";
-import EmailProvider from "next-auth/providers/email";
+import Nodemailer from "next-auth/providers/nodemailer"
 import { PrismaAdapter } from "@auth/prisma-adapter";
 import prisma from "../lib/db";
 import nodemailer from 'nodemailer';
+import { UserPlan, UserRole } from "@prisma/client";
 
-export const authOptions = {
+export const { handlers: {GET, POST}, signIn, signOut, auth } = NextAuth({
   adapter: PrismaAdapter(prisma),
   session: {
     strategy: 'jwt'
@@ -27,10 +28,9 @@ export const authOptions = {
         clientSecret: process.env.GITHUB_SECRET as string,
          allowDangerousEmailAccountLinking: true,
     }),
-    EmailProvider({
+    Nodemailer({
       server: {
         host: process.env.EMAIL_SERVER_HOST,
-        port: process.env.EMAIL_SERVER_PORT,
         auth: {
           user: process.env.EMAIL_SERVER_USER,
           pass: process.env.EMAIL_SERVER_PASSWORD,
@@ -96,8 +96,8 @@ export const authOptions = {
     async session({ session, token }) {
       if (token  ) {
         session.user.id = token.id,
-        session.user.plan = token.plan
-        session.user.role = token.role
+        session.user.plan = token.plan as UserPlan;
+        session.user.role = token.role  as UserRole;
       }
       return session;
     },
@@ -122,4 +122,5 @@ export const authOptions = {
     }
   }
   
-} as NextAuthOptions;
+}
+) ;

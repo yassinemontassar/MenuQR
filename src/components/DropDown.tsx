@@ -21,12 +21,11 @@ import {
 import LogoutButton from "./LogoutButton";
 import Link from "next/link";
 import Image from "next/image";
-import { getServerSession } from "next-auth";
-import { authOptions } from "@/app/utils/auth";
 import prisma from "@/app/lib/db";
+import { auth } from "@/app/utils/auth";
 
 export default async function DropDown() {
-  const session = await getServerSession(authOptions);
+  const session = await auth()
   const user = await prisma.user.findFirst({
     where: {
       email: session?.user?.email,

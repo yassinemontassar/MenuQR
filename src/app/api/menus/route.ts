@@ -1,13 +1,12 @@
 import prisma from "@/app/lib/db";
-import { authOptions } from "@/app/utils/auth";
-import { getServerSession } from "next-auth";
+import { auth } from "@/app/utils/auth";
 import { NextResponse } from "next/server";
 
 export async function POST(req: Request) {
   try {
     const body = await req.json();
     const { name, type, imageUrl, startTime, endTime, facebookLink, instagramLink } = body;
-    const session = await getServerSession(authOptions)
+    const session = await auth()
     const userId = session?.user.id
     if (!userId) {
         return new NextResponse("Unauthorized", {status: 401});
