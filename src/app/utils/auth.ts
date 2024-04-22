@@ -1,6 +1,6 @@
 import NextAuth from "next-auth";
 import GitHubProvider from "next-auth/providers/github";
-import GoogleProvider from "next-auth/providers/google";
+import Google from "next-auth/providers/google";
 import Nodemailer from "next-auth/providers/nodemailer"
 import { PrismaAdapter } from "@auth/prisma-adapter";
 import prisma from "../lib/db";
@@ -18,7 +18,7 @@ export const { handlers: {GET, POST}, signIn, signOut, auth } = NextAuth({
 // newUser: "/jdid"
 //   },
   providers: [
-    GoogleProvider({
+    Google({
       clientId: process.env.GOOGLE_CLIENT_ID as string,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
       allowDangerousEmailAccountLinking: true
