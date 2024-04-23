@@ -34,3 +34,14 @@ export async function POST(req: Request) {
     return new NextResponse("Internal error", { status: 500 });
   }
 }
+
+export async function GET(req: Request) {
+  try {
+    const menus = await prisma.menu.findMany();
+    return NextResponse.json(menus);
+  }
+  catch (error) {
+    console.log("[MENUS_GET", error);
+    return new NextResponse("Internal error", { status: 500 });
+  }
+}
