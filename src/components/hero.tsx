@@ -1,19 +1,20 @@
 "use client";
 
-import Image from "next/image";
-import { Button } from "./ui/button";
-import {  VideoIcon } from "lucide-react";
-import React, { useMemo } from "react";
-import { motion } from "framer-motion";
 import getScrollAnimation from "@/app/utils/getScrollAnimation";
-import ScrollAnimationWrapper from "./ScrollAnimationWrapper";
 import {
   Dialog,
   DialogContent,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "@/components/ui/dialog"
+} from "@/components/ui/dialog";
+import { motion } from "framer-motion";
+import { VideoIcon } from "lucide-react";
+import Image from "next/image";
+import { useMemo, useState } from "react";
+import { FaSpinner } from "react-icons/fa6";
+import ScrollAnimationWrapper from "./ScrollAnimationWrapper";
+import { Button } from "./ui/button";
 const Hero = ({
   listUser = [
     {
@@ -34,7 +35,7 @@ const Hero = ({
   ],
 }) => {
   const scrollAnimation = useMemo(() => getScrollAnimation(), []);
-
+  const [loading, setLoading] = useState(true);
   return (
     <div className="max-w-screen-xl mt-24 px-8 xl:px-16 mx-auto" id="about">
       <ScrollAnimationWrapper>
@@ -62,8 +63,13 @@ const Hero = ({
       <DialogHeader>
           <DialogTitle className="text-center">Découvrez comment créer votre menu en quelques étapes simples ! </DialogTitle>
         </DialogHeader>
+        {loading && 
+        <div className="flex items-center justify-center mt-6">
+        <FaSpinner  className="animate-spin text-6xl" />
+        </div>}
       <div className="aspect-video">
         <iframe
+        onLoad={() => setLoading(false)}
          className="w-full h-full rounded-md"
         width="560"
         height="315"
