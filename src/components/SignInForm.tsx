@@ -1,4 +1,5 @@
 "use client";
+import logo from "@/assets/logo.png";
 import {
   Dialog,
   DialogContent,
@@ -8,13 +9,10 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import SigninWithGithub from "./SignInWithGithub";
-import { Button } from "./ui/button";
-import logo from "@/assets/logo.png";
 import Image from "next/image";
 import SignInEmail from "./SignInEmail";
 import SigninWithGoogle from "./SignInWithGoogle";
-import { LogInIcon } from "lucide-react";
+import { Button } from "./ui/button";
 export default function SignInForm() {
   return (
     <Dialog>
@@ -22,7 +20,7 @@ export default function SignInForm() {
         <Button size="sm" className="text-xs">Connexion</Button>
      
       </DialogTrigger>
-      <DialogContent className="sm:max-w-[425px] flex flex-col items-center  ">
+      <DialogContent className="sm:max-w-[425px] flex flex-col items-center rounded-lg ">
         <DialogHeader className="flex flex-col items-center">
           <DialogTitle>
             <Image
@@ -49,7 +47,6 @@ export default function SignInForm() {
   <div className="w-full h-px bg-gray-400"></div>
 </div>
         <div className="flex flex-none space-x-4">
-        <SigninWithGithub />
         <SigninWithGoogle />
         </div>
         <DialogFooter></DialogFooter>

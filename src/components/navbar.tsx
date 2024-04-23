@@ -1,10 +1,9 @@
 "use client";
-import { useEffect, useState } from "react";
 import { Popover } from "@headlessui/react";
-
 import Link from "next/link";
-import { ThemeToggle } from "./theme-toggle";
+import { useEffect, useState } from "react";
 import { Link as LinkScroll } from "react-scroll";
+import { ThemeToggle } from "./theme-toggle";
 
 const Navbar = () => {
   const [activeLink, setActiveLink] = useState("");

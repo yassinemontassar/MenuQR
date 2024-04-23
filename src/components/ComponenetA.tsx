@@ -1,11 +1,7 @@
-import { Menu } from "@prisma/client";
-import { Input } from "./ui/input";
-import * as z from "zod";
+import deleteImage from "@/app/utils/DeleteImage";
+import getRandom from "@/app/utils/RandomStringGenerator";
+import uploadImage from "@/app/utils/UploadImage";
 import { Button } from "@/components/ui/button";
-import { Loader, Trash, XIcon } from "lucide-react";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useState } from "react";
 import {
   Form,
   FormControl,
@@ -14,11 +10,16 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Menu } from "@prisma/client";
 import axios from "axios";
-import { useParams, useRouter } from "next/navigation";
-import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
+import { Loader, XIcon } from "lucide-react";
 import Image from "next/image";
-import { toast } from "./ui/use-toast";
+import { useParams, useRouter } from "next/navigation";
+import { useState } from "react";
+import { useForm } from "react-hook-form";
+import * as z from "zod";
+import { Input } from "./ui/input";
 import {
   Select,
   SelectContent,
@@ -26,9 +27,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "./ui/select";
-import getRandom from "@/app/utils/RandomStringGenerator";
-import uploadImage from "@/app/utils/UploadImage";
-import deleteImage from "@/app/utils/DeleteImage";
+import { toast } from "./ui/use-toast";
 
 const formSchema = z.object({
   name: z.string().min(1, { message: "Le nom est requis." }),

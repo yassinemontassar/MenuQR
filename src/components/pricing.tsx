@@ -1,14 +1,14 @@
 "use client";
-import React, { useMemo, useState } from "react";
-import Image from "next/image";
-import { motion } from "framer-motion";
 import getScrollAnimation from "@/app/utils/getScrollAnimation";
-import ScrollAnimationWrapper from "./ScrollAnimationWrapper";
+import { motion } from "framer-motion";
+import { Headset } from "lucide-react";
 import { SessionProvider } from "next-auth/react";
-import { PlanButton } from "./PlanButton";
-import { Headset, PhoneCall } from "lucide-react";
+import Image from "next/image";
+import { useMemo, useState } from "react";
 import { FaQuestionCircle } from "react-icons/fa";
-
+import { PlanButton } from "./PlanButton";
+import ScrollAnimationWrapper from "./ScrollAnimationWrapper";
+ 
 const Pricing = () => {
   const [selectedOption, setSelectedOption] = useState('monthly');
   const scrollAnimation = useMemo(() => getScrollAnimation(), []);
@@ -73,12 +73,12 @@ const Pricing = () => {
               </div>
             </motion.div>
           </ScrollAnimationWrapper>
-          <div className="grid grid-flow-row sm:grid-flow-col grid-cols-1 sm:grid-cols-3 gap-4 lg:gap-12 py-8 lg:py-12 px-6 sm:px-0 lg:px-6">
+          <div className="grid grid-flow-row sm:grid-flow-col grid-cols-1 sm:grid-cols-3 gap-4 lg:gap-12 py-8 lg:py-12 px-4 sm:px-0 lg:px-8">
             <SessionProvider>
               <ScrollAnimationWrapper className="flex justify-center">
                 <motion.div
                   variants={scrollAnimation}
-                  className="flex flex-col justify-center items-center border-2 border-gray-500 rounded-xl py-4 px-6 lg:px-12 xl:px-16"
+                  className="flex flex-col justify-center items-center border-2 border-gray-500 rounded-xl py-4 px-4 lg:px-8 xl:px-10"
                   whileHover={{
                     scale: 1.1,
                     transition: {
@@ -94,7 +94,7 @@ const Pricing = () => {
                       alt="Free Plan"
                     />
                   </div>
-                  <p className="text-lg text-black-600 font-medium capitalize my-2 sm:my-7">
+                  <p className="text-lg text-black-600 font-medium capitalize my-2 sm:my-5">
                     Gratuit
                   </p>
                   <ul className="flex flex-col list-inside pl-6 xl:pl-0 items-start justify-start text-left text-black-500 flex-grow">
@@ -147,9 +147,9 @@ const Pricing = () => {
                       </div>
                     </li>
                     <li className="relative notcheck custom-list my-2">
-                      <div className="flex gap-2">
+                      <div className="flex gap-5">
                       <div className="flex items-center gap-1">
-                        Support téléphonique
+                      <p>Assistance Personnalisée</p>
                         <div className="group">
                           <FaQuestionCircle className="inline-block mb-2 " />
                           <div className="z-10 absolute hidden text-sm bg-gray-700 text-white px-2 py-1 rounded group-hover:block  whitespace-break-spaces">
@@ -170,7 +170,7 @@ const Pricing = () => {
               <ScrollAnimationWrapper className="flex justify-center">
                 <motion.div
                   variants={scrollAnimation}
-                  className="flex flex-col justify-center items-center border-2 border-orange-700 rounded-xl py-4 px-6 lg:px-12 xl:px-16"
+                   className="flex flex-col justify-center items-center border-2 border-orange-500 rounded-xl py-4 px-4 lg:px-8 xl:px-10"
                   whileHover={{
                     scale: 1.1,
                     transition: {
@@ -186,7 +186,7 @@ const Pricing = () => {
                       alt="Standard Plan"
                     />
                   </div>
-                  <p className="text-lg text-black-600 font-medium capitalize my-2 sm:my-7">
+                  <p className="text-lg text-black-600 font-medium capitalize my-2 sm:my-5">
                     Standard{" "}
                   </p>
                   <ul className="flex flex-col list-inside pl-6 xl:pl-0 items-start justify-start text-left text-black-500 flex-grow">
@@ -241,7 +241,7 @@ const Pricing = () => {
                     <li className="relative notcheck custom-list my-2">
                       <div className="flex gap-2">
                       <div className="flex items-center gap-1">
-                        Support téléphonique
+                        Assistance Personnalisée
                         <div className="group">
                           <FaQuestionCircle className="inline-block mb-2 " />
                           <div className="z-10 absolute hidden text-sm bg-gray-700 text-white px-2 py-1 rounded group-hover:block  whitespace-break-spaces">
@@ -274,7 +274,7 @@ const Pricing = () => {
               <ScrollAnimationWrapper className="flex justify-center">
                 <motion.div
                   variants={scrollAnimation}
-                  className="flex flex-col justify-center items-center border-2 border-gray-500 rounded-xl py-4 px-6 lg:px-12 xl:px-16"
+                  className="flex flex-col justify-center items-center border-2 border-gray-500 rounded-xl py-4 px-4 lg:px-8 xl:px-10"
                   whileHover={{
                     scale: 1.1,
                     transition: {
@@ -290,8 +290,8 @@ const Pricing = () => {
                       alt="Premium Plan"
                     />
                   </div>
-                  <p className="text-lg text-black-600 font-medium capitalize my-2 sm:my-7">
-                    Pro{" "}
+                  <p className="text-lg text-black-600 font-medium capitalize my-2 sm:my-5">
+                    Pro
                   </p>
                   <ul className="flex flex-col list-inside pl-6 xl:pl-0 items-start justify-start text-left text-black-500 flex-grow">
                     <li className="relative check custom-list my-2">
@@ -343,7 +343,7 @@ const Pricing = () => {
                     <li className="relative check custom-list my-2">
                       <div className="flex gap-2">
                       <div className="flex items-center gap-1">
-                        Support téléphonique
+                        Assistance Personnalisée
                         <div className="group">
                           <FaQuestionCircle className="inline-block mb-2 " />
                           <div className="z-10 absolute hidden text-sm bg-gray-700 text-white px-2 py-1 rounded group-hover:block  whitespace-break-spaces">

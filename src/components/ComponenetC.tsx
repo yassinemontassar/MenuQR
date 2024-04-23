@@ -1,14 +1,26 @@
 "use client";
-import { Input } from "./ui/input";
-import * as z from "zod";
+import CarouselOrientation from "@/app/(dashboard)/[userId]/(routes)/dashboard/components/Carousel";
+import getRandom from "@/app/utils/RandomStringGenerator";
+import uploadImage from "@/app/utils/UploadImage";
 import { Button } from "@/components/ui/button";
-import { useForm } from "react-hook-form";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useEffect, useState } from "react";
-import { Label } from "./ui/label";
-import { Loader2, Trash, XIcon } from "lucide-react";
+import { Item } from "@prisma/client";
+import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import axios from "axios";
+import { Loader2 } from "lucide-react";
+import { useSession } from "next-auth/react";
+import Image from "next/image";
 import { useParams, useSearchParams } from "next/navigation";
+import { useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
+import * as z from "zod";
 import {
   Form,
   FormControl,
@@ -17,21 +29,8 @@ import {
   FormLabel,
   FormMessage,
 } from "./ui/form";
-import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
-import CarouselOrientation from "@/app/(dashboard)/[userId]/(routes)/dashboard/components/Carousel";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import { Category, Item } from "@prisma/client";
-import Image from "next/image";
+import { Input } from "./ui/input";
 import { toast } from "./ui/use-toast";
-import { useSession } from "next-auth/react";
-import uploadImage from "@/app/utils/UploadImage";
-import getRandom from "@/app/utils/RandomStringGenerator";
 
 const formSchema = z.object({
   name: z.string().min(1, { message: "Le nom est requis." }),

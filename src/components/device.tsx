@@ -1,12 +1,9 @@
 "use client"
-
-import { useEffect, useState } from 'react';
-import { DeviceFrameset } from 'react-device-frameset'
-import 'react-device-frameset/styles/marvel-devices.min.css'
-import { Button } from './ui/button';
-import Link from 'next/link';
-import { useParams } from 'next/navigation';
 import Image from 'next/image';
+import { useParams } from 'next/navigation';
+import { useEffect, useState } from 'react';
+import { DeviceFrameset } from 'react-device-frameset';
+import 'react-device-frameset/styles/marvel-devices.min.css';
 interface DevicePreviewProps {
   keyProp: boolean; // Assuming keyProp is a boolean, change the type accordingly
 }

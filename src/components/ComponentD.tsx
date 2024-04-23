@@ -1,19 +1,18 @@
-import { useQRCode } from "next-qrcode";
-import { useParams } from "next/navigation";
-import { jsPDF } from "jspdf";
-import html2canvas from "html2canvas";
 import {
-  CardTitle,
-  CardDescription,
-  CardHeader,
-  CardContent,
   Card,
+  CardContent,
+  CardDescription,
+  CardHeader
 } from "@/components/ui/card";
-import { Button } from "./ui/button";
-import Image from "next/image";
-import { Loader, Loader2 } from "lucide-react";
 import axios from "axios";
+import html2canvas from "html2canvas";
+import { jsPDF } from "jspdf";
+import { Loader, Loader2 } from "lucide-react";
+import { useQRCode } from "next-qrcode";
+import Image from "next/image";
+import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
+import { Button } from "./ui/button";
 export default function ComponenetD() {
   const { Canvas } = useQRCode();
   const params = useParams();
