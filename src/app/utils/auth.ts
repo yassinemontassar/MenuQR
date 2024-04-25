@@ -86,6 +86,7 @@ export const { handlers: {GET, POST}, signIn, signOut, auth } = NextAuth({
       if ( userExist) { 
         return true
       } else {
+        
         return true
       }
     },
