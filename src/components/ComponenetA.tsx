@@ -141,7 +141,6 @@ export const ComponenetA: React.FC<MenuFormProps> = ({ initialData }) => {
         .split("/storage/v1/object/public/MenuLogo")[1]
         .slice(1);
       if (extractedPath) {
-        console.log(initialData?.imageUrl) 
         await deleteImage("MenuLogo", extractedPath);
       }
 
@@ -153,7 +152,6 @@ export const ComponenetA: React.FC<MenuFormProps> = ({ initialData }) => {
       
       if (initialData) {
         initialData.imageUrl = values.imageUrl
-        console.log( initialData.imageUrl )
       }
 
     }

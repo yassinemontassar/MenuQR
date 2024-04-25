@@ -18,7 +18,6 @@ export default function SignInEmail() {
           redirect: false,
 
         });
-        console.log(signInResult)
         if (signInResult?.error) {
           return toast({
             title: "Well this did not work...",

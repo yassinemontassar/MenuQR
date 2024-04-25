@@ -1,11 +1,11 @@
+import { PrismaAdapter } from "@auth/prisma-adapter";
+import { UserPlan, UserRole } from "@prisma/client";
 import NextAuth from "next-auth";
 import GitHubProvider from "next-auth/providers/github";
 import Google from "next-auth/providers/google";
-import Nodemailer from "next-auth/providers/nodemailer"
-import { PrismaAdapter } from "@auth/prisma-adapter";
-import prisma from "../lib/db";
+import Nodemailer from "next-auth/providers/nodemailer";
 import nodemailer from 'nodemailer';
-import { UserPlan, UserRole } from "@prisma/client";
+import prisma from "../lib/db";
 
 export const { handlers: {GET, POST}, signIn, signOut, auth } = NextAuth({
   adapter: PrismaAdapter(prisma),
@@ -84,10 +84,8 @@ export const { handlers: {GET, POST}, signIn, signOut, auth } = NextAuth({
         }
       })
       if ( userExist) { 
-        console.log(user.id)
         return true
       } else {
-        console.log(user.id)
         return true
       }
     },
