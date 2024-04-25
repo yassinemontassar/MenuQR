@@ -6,8 +6,8 @@ import { Metadata } from "next";
 export const metadata: Metadata = {
 metadataBase: new URL('https://www.menurapide.tn/'),
   title: {
-    default:'Termes et conditions - MenuRapide',
-    template:"%s - MenuRapide - Create your own menu"
+    default:'Termes et conditions',
+    template: '%s - MenuRapide',
   },
 }
 
