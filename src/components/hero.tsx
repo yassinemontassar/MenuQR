@@ -12,8 +12,7 @@ import { YouTubeEmbed } from "@next/third-parties/google";
 import { motion } from "framer-motion";
 import { VideoIcon } from "lucide-react";
 import Image from "next/image";
-import { useMemo, useState } from "react";
-import { FaSpinner } from "react-icons/fa6";
+import { useMemo } from "react";
 import ScrollAnimationWrapper from "./ScrollAnimationWrapper";
 import { Button } from "./ui/button";
 const Hero = ({
@@ -36,7 +35,6 @@ const Hero = ({
   ],
 }) => {
   const scrollAnimation = useMemo(() => getScrollAnimation(), []);
-  const [loading, setLoading] = useState(true);
   return (
     <div className="max-w-screen-xl mt-24 px-8 xl:px-16 mx-auto" id="about">
       <ScrollAnimationWrapper>
@@ -66,11 +64,6 @@ const Hero = ({
                     simples !{" "}
                   </DialogTitle>
                 </DialogHeader>
-                {loading && (
-                  <div className="flex items-center justify-center mt-6">
-                    <FaSpinner className="animate-spin text-6xl" />
-                  </div>
-                )}
                 <div className="aspect-video">
                   <YouTubeEmbed
                     videoid="vSZNlyx7hgI"
