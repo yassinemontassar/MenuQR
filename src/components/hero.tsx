@@ -8,6 +8,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
+import { YouTubeEmbed } from "@next/third-parties/google";
 import { motion } from "framer-motion";
 import { VideoIcon } from "lucide-react";
 import Image from "next/image";
@@ -39,50 +40,48 @@ const Hero = ({
   return (
     <div className="max-w-screen-xl mt-24 px-8 xl:px-16 mx-auto" id="about">
       <ScrollAnimationWrapper>
-        <motion.div
-          className="grid grid-cols-1 lg:grid-cols-2 gap-8"
-         
-        >
+        <motion.div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
           <div className=" flex flex-col justify-center items-start row-start-2 sm:row-start-1">
             <h1 className="text-3xl lg:text-4xl xl:text-5xl font-medium text-black-600 leading-normal">
-             Créez Votre{" "}
-              <strong>Menu</strong> en Quelques Clics
+              Créez Votre <strong>Menu</strong> en Quelques Clics
             </h1>
 
             <p className="text-black-500 mt-4 mb-6">
-            Doté de toutes les fonctionnalités essentielles pour simplifier la création de menus pour votre restaurant ou café. Interface intuitive, génération de code QR inclus, et plus encore...
+              Doté de toutes les fonctionnalités essentielles pour simplifier la
+              création de menus pour votre restaurant ou café. Interface
+              intuitive, génération de code QR inclus, et plus encore...
             </p>
-  
-            <Dialog >
-      <DialogTrigger asChild>
-      <Button className="text-xl sm:text-2xl bg-gradient-to-r from-orange-600 to-orange-300 gap-2 ">
-      Regarder la Démo<VideoIcon  />
-            </Button>
-      </DialogTrigger>
-      <DialogContent className="" >
-      <DialogHeader>
-          <DialogTitle className="text-center">Découvrez comment créer votre menu en quelques étapes simples ! </DialogTitle>
-        </DialogHeader>
-        {loading && 
-        <div className="flex items-center justify-center mt-6">
-        <FaSpinner  className="animate-spin text-6xl" />
-        </div>}
-      <div className="aspect-video">
-        <iframe
-        onLoad={() => setLoading(false)}
-         className="w-full h-full rounded-md"
-        width="560"
-        height="315"
-         src="https://www.youtube.com/embed/vSZNlyx7hgI"
-          allow="autoplay; encrypted-media"
-          allowFullScreen
-        ></iframe>
-        </div>
-      </DialogContent>
-    </Dialog>
+
+            <Dialog>
+              <DialogTrigger asChild>
+                <Button className="text-xl sm:text-2xl bg-gradient-to-r from-orange-600 to-orange-300 gap-2 ">
+                  Regarder la Démo
+                  <VideoIcon />
+                </Button>
+              </DialogTrigger>
+              <DialogContent className="">
+                <DialogHeader>
+                  <DialogTitle className="text-center">
+                    Découvrez comment créer votre menu en quelques étapes
+                    simples !{" "}
+                  </DialogTitle>
+                </DialogHeader>
+                {loading && (
+                  <div className="flex items-center justify-center mt-6">
+                    <FaSpinner className="animate-spin text-6xl" />
+                  </div>
+                )}
+                <div className="aspect-video">
+                  <YouTubeEmbed
+                    videoid="vSZNlyx7hgI"
+                    params="controls=0"
+                  />
+                </div>
+              </DialogContent>
+            </Dialog>
           </div>
           <div className="flex w-full">
-            <motion.div className="h-full w-full" >
+            <motion.div className="h-full w-full">
               <Image
                 src="/images/hero/hero.jpg"
                 alt="logo_menurapide"
