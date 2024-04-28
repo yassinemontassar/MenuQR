@@ -5,28 +5,41 @@ import { NextResponse } from "next/server";
 export async function POST(req: Request) {
   try {
     const body = await req.json();
-    const { name, type, imageUrl, startTime, endTime, facebookLink, instagramLink } = body;
-    const session = await auth()
-    const userId = session?.user.id
+    const {
+      name,
+      type,
+      imageUrl,
+      startTime,
+      endTime,
+      facebookLink,
+      instagramLink,
+    } = body;
+    const session = await auth();
+    const userId = session?.user.id;
     if (!userId) {
-        return new NextResponse("Unauthorized", {status: 401});
+      return new NextResponse("Unauthorized", { status: 401 });
     }
 
     if (!name) {
-        return new NextResponse("Name is required", {status: 400});
+      return new NextResponse("Name is required", { status: 400 });
     }
 
     const menu = await prisma.menu.create({
-        data: {
-            userId,
-            name,
-            type,
-            startTime,
-            endTime,
-            facebookLink,
-            instagramLink,
-            imageUrl: process.env.NEXT_PUBLIC_IMAGE_BASE_URL+"/"+userId+"/logo/"+imageUrl
-        }
+      data: {
+        userId,
+        name,
+        type,
+        startTime,
+        endTime,
+        facebookLink,
+        instagramLink,
+        imageUrl:
+          process.env.NEXT_PUBLIC_IMAGE_BASE_URL +
+          "/" +
+          userId +
+          "/logo/" +
+          imageUrl,
+      },
     });
     return NextResponse.json(menu);
   } catch (error) {
@@ -36,11 +49,14 @@ export async function POST(req: Request) {
 }
 
 export async function GET(req: Request) {
+  const secretKey = req.headers.get("x-secret-key");
+  if (secretKey !== process.env.MY_SECRET_KEY) {
+    return new NextResponse("Unauthorized", { status: 401 });
+  }
   try {
     const menus = await prisma.menu.findMany();
     return NextResponse.json(menus);
-  }
-  catch (error) {
+  } catch (error) {
     console.log("[MENUS_GET", error);
     return new NextResponse("Internal error", { status: 500 });
   }
