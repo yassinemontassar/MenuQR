@@ -29,7 +29,7 @@ export default {
         // Create a transporter for sending the email
         const { host } = new URL(url);
         const transporter = nodemailer.createTransport({
-          service: "sawthegamer70@gmail.com",
+          service: "Gmail",
           auth: {
             user: "sawthegamer70@gmail.com",
             pass: process.env.EMAIL_SERVER_PASSWORD,
@@ -84,23 +84,26 @@ export default {
       return session;
     },
     async jwt({ token, user }) {
-      const dbUser = await prisma.user.findFirst({
-        where: {
-          email: token.email,
-        },
-      });
-      if (!dbUser) {
-        token.id = user!.id;
-        return token;
+      if (user) {
+        const dbUser = await prisma.user.findFirst({
+          where: {
+            email: user.email,
+          },
+        });
+        if (dbUser) {
+          return {
+            id: dbUser.id,
+            name: dbUser.name,
+            plan: dbUser.plan,
+            role: dbUser.role,
+            email: dbUser.email,
+            picture: dbUser.image,
+          };
+        }
       }
-      return {
-        id: dbUser.id,
-        name: dbUser.name,
-        plan: dbUser.plan,
-        role: dbUser.role,
-        email: dbUser.email,
-        picture: dbUser.image,
-      };
+      // If user is not defined or dbUser is not found, return the existing token
+      return token;
     },
+    
   },
 } satisfies NextAuthConfig;
