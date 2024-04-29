@@ -67,7 +67,7 @@ const Hero = ({
                 <div className="aspect-video">
                   <YouTubeEmbed
                     videoid="vSZNlyx7hgI"
-                    params="controls=0"
+                    params="controls=1"
                   />
                 </div>
               </DialogContent>
