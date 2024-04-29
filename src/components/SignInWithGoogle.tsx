@@ -18,8 +18,8 @@ export default function SigninWithGoogle() {
           className="mt-1"
           variant="secondary"
         >
-          Google
-          <FcGoogle className="w-4 h-4 ml-4" />
+          Continuez avec Google
+          <FcGoogle className="w-4 h-4 ml-2" />
         </Button>
         <div >
           <p className="text-center text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">

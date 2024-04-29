@@ -42,7 +42,7 @@ export default function SignInForm() {
         <div className="flex justify-between items-center w-full">
   <div className="w-full h-px bg-gray-400"></div>
   <div className="flex flex-none">
-  <p className="px-4 text-center">Ou continuez avec</p>
+  <p className="px-4 text-center">Ou</p>
   </div>
   <div className="w-full h-px bg-gray-400"></div>
 </div>
