@@ -12,7 +12,7 @@ export default function SigninWithGoogle() {
         <Button
           onClick={() =>
             signIn("google", {
-              callbackUrl:process.env.NEXTAUTH_URL 
+              callbackUrl: `${window.location.origin}`,
             })
           }
           className="mt-1"
