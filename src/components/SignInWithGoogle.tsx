@@ -11,9 +11,7 @@ export default function SigninWithGoogle() {
       <div className="flex flex-col items-center justify-center space-y-4">
         <Button
           onClick={() =>
-            signIn("google", {
-              callbackUrl: `${window.location.origin}`,
-            })
+            signIn("google", { callbackUrl: process.env.AUTH_URL })
           }
           className="mt-1"
           variant="secondary"
@@ -21,13 +19,17 @@ export default function SigninWithGoogle() {
           Continuez avec Google
           <FcGoogle className="w-4 h-4 ml-2" />
         </Button>
-        <div >
+        <div>
           <p className="text-center text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
             En créant un compte
-            <div> vous confirmez avoir lu et compris notre
-            </div>
-            <Link href="https://www.menurapide.tn/terms" target="_blank" className="text-blue-600 underline">
-              {" "} Politique de Confidentialité
+            <div> vous confirmez avoir lu et compris notre</div>
+            <Link
+              href="https://www.menurapide.tn/terms"
+              target="_blank"
+              className="text-blue-600 underline"
+            >
+              {" "}
+              Politique de Confidentialité
             </Link>
           </p>
         </div>
