@@ -1,12 +1,11 @@
 "use client";
-import Image from "next/image";
-import React, { useMemo } from "react";
-import { motion } from "framer-motion";
 import getScrollAnimation from "@/app/utils/getScrollAnimation";
-import ScrollAnimationWrapper from "./ScrollAnimationWrapper";
-import { Button } from "./ui/button";
+import { motion } from "framer-motion";
 import { Star } from "lucide-react";
+import Image from "next/image";
 import Link from "next/link";
+import { useMemo } from "react";
+import { Button } from "./ui/button";
 const features = [
   "QR Code Généré Automatiquement.",
   "Aperçu en Temps Réel sur Téléphone Mobile.",
@@ -23,7 +22,7 @@ const Feature = () => {
       id="feature"
     >
       <div className="grid grid-flow-row sm:grid-flow-col grid-cols-1 sm:grid-cols-2 gap-8 p  y-8 my-12">
-        <ScrollAnimationWrapper className="flex w-full justify-end">
+        <div className="flex w-full justify-end">
           <motion.div className="h-full w-full p-4" variants={scrollAnimation}>
             <Image
               src="/images/feature/Illustration2.png"
@@ -33,8 +32,8 @@ const Feature = () => {
               width={508}
             />
           </motion.div>
-        </ScrollAnimationWrapper>
-        <ScrollAnimationWrapper>
+        </div>
+        <div>
           <motion.div
             className="flex flex-col items-end justify-center ml-auto w-full lg:w-9/12"
             variants={scrollAnimation}
@@ -78,7 +77,7 @@ const Feature = () => {
             <Star />
             </Button>
           </motion.div>
-        </ScrollAnimationWrapper>
+        </div>
       </div>
     </div>
   );

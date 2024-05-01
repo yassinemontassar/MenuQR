@@ -7,7 +7,6 @@ import Image from "next/image";
 import { useMemo, useState } from "react";
 import { FaQuestionCircle } from "react-icons/fa";
 import { PlanButton } from "./PlanButton";
-import ScrollAnimationWrapper from "./ScrollAnimationWrapper";
  
 const Pricing = () => {
   const [selectedOption, setSelectedOption] = useState('monthly');
@@ -27,7 +26,7 @@ const Pricing = () => {
     >
       <div className="max-w-screen-xl  px-6 sm:px-8 lg:px-16 mx-auto flex flex-col w-full text-center justify-center">
         <div className="flex flex-col w-full">
-          <ScrollAnimationWrapper>
+          <div>
             <motion.h3
               variants={scrollAnimation}
               className="text-2xl sm:text-3xl lg:text-4xl font-medium text-black-600 leading-relaxed"
@@ -72,10 +71,10 @@ const Pricing = () => {
                 )}
               </div>
             </motion.div>
-          </ScrollAnimationWrapper>
+          </div>
           <div className="grid grid-flow-row sm:grid-flow-col grid-cols-1 sm:grid-cols-3 gap-4 lg:gap-12 py-8 lg:py-12 px-4 sm:px-0 lg:px-8">
             <SessionProvider>
-              <ScrollAnimationWrapper className="flex justify-center">
+              <div className="flex justify-center">
                 <motion.div
                   variants={scrollAnimation}
                   className="flex flex-col justify-center items-center border-2 border-gray-500 rounded-xl py-4 px-4 lg:px-8 xl:px-10"
@@ -166,8 +165,8 @@ const Pricing = () => {
                     <p>Essai gratuit de 7 jours</p>
                   </div>
                 </motion.div>
-              </ScrollAnimationWrapper>
-              <ScrollAnimationWrapper className="flex justify-center">
+              </div>
+              <div className="flex justify-center">
                 <motion.div
                   variants={scrollAnimation}
                    className="flex flex-col justify-center items-center border-2 border-orange-500 rounded-xl py-4 px-4 lg:px-8 xl:px-10"
@@ -270,8 +269,8 @@ const Pricing = () => {
                     <PlanButton type='Standard' period={selectedOption} />
                   </div>
                 </motion.div>
-              </ScrollAnimationWrapper>
-              <ScrollAnimationWrapper className="flex justify-center">
+              </div>
+              <div className="flex justify-center">
                 <motion.div
                   variants={scrollAnimation}
                   className="flex flex-col justify-center items-center border-2 border-gray-500 rounded-xl py-4 px-4 lg:px-8 xl:px-10"
@@ -371,7 +370,7 @@ const Pricing = () => {
                     <PlanButton type='Pro' period={selectedOption}  />
                   </div>
                 </motion.div>
-              </ScrollAnimationWrapper>
+              </div>
             </SessionProvider>
           </div>
         </div>
