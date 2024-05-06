@@ -1,24 +1,28 @@
+"use client"
 import { CheckIcon } from "lucide-react";
-import { SparklesCore } from "./ui/sparkles";
+import { TypewriterEffectSmooth } from "./ui/typewriter-effect";
 
 const Whyus = () => {
+  const words = [
+    {
+      text: "Pourquoi",
+      className:"text-2xl sm:text-4xl"
+    },
+    {
+      text: "choisir",
+      className:"text-2xl sm:text-4xl"
+    },
+    {
+      text: "MenuRapide!",
+      className: "text-3xl sm:text-5xl text-3xl underline text-orange-500 dark:text-orange-200",
+    },
+  ];
   return (
       <>
-      <div  id="whyus" className="h-[10rem] relative w-screen  flex flex-col items-center justify-center overflow-hidden rounded-none">
-      <div className="w-full absolute inset-0 h-screen ">
-        <SparklesCore
-          id="tsparticlesfullpage"
-          background="transparent"
-          minSize={0.6}
-          maxSize={1.4}
-          particleDensity={600}
-          className="w-full h-full"
-          particleColor="#FF4500"
-        />
-      </div>
-      <h1 className="text-3xl font-bold text-center relative ">
-      Pourquoi nous choisir ? 
-      </h1>
+      <div  id="whyus" className="flex flex-col items-center justify-center overflow-hidden rounded-none">
+      
+      <TypewriterEffectSmooth  words={words}   />
+      
     </div>
         <div
       className="max-w-screen-xl p-8 mt-8 mb-6 sm:mt-14 sm:mb-14 px-6 sm:px-8 lg:px-16 mx-auto"
@@ -26,7 +30,7 @@ const Whyus = () => {
     >       
 
         <div className="flex-1 space-y-6">
-          <h1 className="text-2xl font-bold leading-tight ">
+          <h1 className="text-2xl  font-bold leading-tight ">
             Suivez les nouvelles recommandations sanitaires.
           </h1>
           <ul className="space-y-4">

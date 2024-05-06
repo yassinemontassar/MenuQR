@@ -1,18 +1,13 @@
 "use client";
 import { Popover } from "@headlessui/react";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Link as LinkScroll } from "react-scroll";
 import { ThemeToggle } from "./theme-toggle";
 
 const Navbar = () => {
   const [activeLink, setActiveLink] = useState("");
-  const [scrollActive, setScrollActive] = useState(false);
-  useEffect(() => {
-    window.addEventListener("scroll", () => {
-      setScrollActive(window.scrollY > 20);
-    });
-  }, []);
+
   return (
     <div>
       <nav
@@ -35,6 +30,7 @@ const Navbar = () => {
             spy={true}
             smooth={true}
             duration={1000}
+            offset={-100}
             onSetActive={() => {
               setActiveLink("about");
             }}
@@ -51,6 +47,7 @@ const Navbar = () => {
             activeClass="active"
             to="feature"
             spy={true}
+            offset={-100}
             smooth={true}
             duration={1000}
             onSetActive={() => {
@@ -70,6 +67,7 @@ const Navbar = () => {
             to="whyus"
             spy={true}
             smooth={true}
+            offset={-100}
             duration={1000}
             onSetActive={() => {
               setActiveLink("whyus");
