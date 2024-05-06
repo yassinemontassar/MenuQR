@@ -6,15 +6,15 @@ const Whyus = () => {
   const words = [
     {
       text: "Pourquoi",
-      className:"text-2xl sm:text-4xl"
+      className:"text-xl sm:text-4xl"
     },
     {
       text: "choisir",
-      className:"text-2xl sm:text-4xl"
+      className:"text-xl sm:text-4xl"
     },
     {
       text: "MenuRapide!",
-      className: "text-3xl sm:text-5xl text-3xl underline text-orange-500 dark:text-orange-200",
+      className: "text-2xl sm:text-5xl underline text-orange-500 dark:text-orange-200",
     },
   ];
   return (
