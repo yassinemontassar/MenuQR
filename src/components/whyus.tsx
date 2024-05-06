@@ -40,7 +40,7 @@ const Whyus = () => {
             </li>
             <li className="flex items-center space-x-2">
               <CheckIcon className="text-green-500" />
-              <span>Moins d'encre : moins de produits chimiques néfastes pour la nature.</span>
+              <span>Moins d&apos;encre : moins de produits chimiques néfastes pour la nature.</span>
             </li>
           </ul>
           <h2 className="text-2xl font-bold leading-tight ">Faites gagner du temps à vos équipes.</h2>
@@ -51,7 +51,7 @@ const Whyus = () => {
             </li>
             <li className="flex items-center space-x-2">
               <CheckIcon className="text-green-500" />
-              <span>Vos clients feront leur choix/commandes avant même l'arrivée du serveur.</span>
+              <span>Vos clients feront leur choix/commandes avant même l&apos;arrivée du serveur.</span>
             </li>
             <li className="flex items-center space-x-2">
               <CheckIcon className="text-green-500" />
@@ -68,7 +68,7 @@ const Whyus = () => {
               <CheckIcon  className="text-green-500" />
               <span>
                 Finissez avec les contraintes financières ; changer la carte suivant les saisons ou les événements, vous
-                n'êtes plus obligé d'imprimer tout un menu pour chaque nouvelle carte.
+                n&apos;êtes plus obligé d&apos;imprimer tout un menu pour chaque nouvelle carte.
               </span>
             </li>
             <li className="flex items-center space-x-2">
