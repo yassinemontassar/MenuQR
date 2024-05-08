@@ -1,22 +1,24 @@
 "use server";
 import nodemailer from 'nodemailer';
-export const sendPlan = async (formData: FormData) => {
+import * as z from 'zod';
+import { PlanSchema } from '../schemas';
 
-   const email = formData.get('email');
-   const d17 = formData.get('d17');
-   const espece = formData.get('especes');
-   const phone = formData.get('phoneNumber');
-   const type = formData.get('type');
-   const period = formData.get('period');
+export const sendPlan = async (values: z.infer<typeof PlanSchema>) => {
+
+  const validatedFields = PlanSchema.safeParse(values);
+  if (!validatedFields.success) {
+    return {error: "Invalid fields!"};
+}
+   const {email, d17, especes, phoneNumber, type, period} = validatedFields.data;
    
    let planDetails = ''; // Initialise une chaîne vide pour stocker les détails du plan
 
    // Vérifie si espece est true, puis l'ajoute aux détails du plan
-   if (espece === 'true') {
+   if (especes === true) {
       planDetails += `<p style="margin-bottom: 5px;"><strong>Mode de paiement :</strong> Espece</p>`;
     }
     // Vérifie si d17 est true, puis l'ajoute aux détails du plan
-    if (d17 === 'true') {
+    if (d17 === true) {
       planDetails += `<p style="margin-bottom: 5px;"><strong>Mode de paiement :</strong> D17</p>`;
     }
    const html = `
@@ -29,7 +31,7 @@ export const sendPlan = async (formData: FormData) => {
            ${planDetails} <!-- Inclut les détails du plan générés ici -->
            <p style="margin-bottom: 5px;"><strong>Type de Plan :</strong> ${type}(${period})</p>
            <p style="margin-bottom: 5px;"><strong>Email :</strong> ${email}</p>
-           <p style="margin-bottom: 5px;"><strong>Numéro de Téléphone :</strong> ${phone}</p>
+           <p style="margin-bottom: 5px;"><strong>Numéro de Téléphone :</strong> ${phoneNumber}</p>
          </div>
        </div>
      </div>
@@ -47,4 +49,5 @@ export const sendPlan = async (formData: FormData) => {
    subject: 'Plan Request',
    html: html,
  });
+ return {success: "Nous avons bien reçu vos informations. Notre équipe vous contactera sous peu pour finaliser votre commande. Merci de votre confiance !"}
 };

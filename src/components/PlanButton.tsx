@@ -1,4 +1,5 @@
 "use client";
+import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
@@ -8,14 +9,6 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Button } from "@/components/ui/button";
-import { useSession } from "next-auth/react";
-import { Checkbox } from "./ui/checkbox";
-import * as z from "zod";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
 import {
   Form,
   FormControl,
@@ -24,38 +17,35 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { useEffect, useState } from "react";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Loader, Wallet } from "lucide-react";
+import { useSession } from "next-auth/react";
+import { useEffect, useState, useTransition } from "react";
+import { useForm } from "react-hook-form";
 import PhoneInput from "react-phone-number-input";
 import "react-phone-number-input/style.css";
-import { DollarSign, Loader, Wallet } from "lucide-react";
+import * as z from "zod";
 import { sendPlan } from "../../actions/sendPlan";
+import { PlanSchema } from "../../schemas";
+import { Checkbox } from "./ui/checkbox";
 import { toast } from "./ui/use-toast";
 interface PlanButtonProps {
   type: string;
   period: string;
 }
 
-const formSchema = z.object({
-  email: z
-    .string()
-    .email({ message: "Please enter a valid email address." })
-    .optional(),
-  type: z.string(),
-  period: z.string(),
-  d17: z.boolean(),
-  especes: z.boolean(),
-  phoneNumber: z
-    .string()
-    .regex(/^[0-9\-\+\s\.]*$/, { message: "Invalid phone number format." }),
-});
+
 
 export const PlanButton: React.FC<PlanButtonProps> = ({ type, period }) => {
   const { data: session, status } = useSession();
   const [loading, setLoading] = useState(false);
   const [isDialogOpen, setDialogOpen] = useState(true);
+  const [isPending, startTransition] = useTransition();
   
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
+  const form = useForm<z.infer<typeof PlanSchema>>({
+    resolver: zodResolver(PlanSchema),
     defaultValues: {
       email: "",
       type: type,
@@ -74,25 +64,20 @@ export const PlanButton: React.FC<PlanButtonProps> = ({ type, period }) => {
     }
   }, [session, form, period]);
 
-  const onSubmit = async (values: z.infer<typeof formSchema>) => {
+  const onSubmit = async (values: z.infer<typeof PlanSchema>) => {
     setLoading(true)
     try {
-      const formData = new FormData();
-
-      formData.append("email", values.email || "");
-      formData.append("d17", JSON.stringify(values.d17));
-      formData.append("especes", JSON.stringify(values.especes));
-      formData.append("phoneNumber", values.phoneNumber);
-      formData.append("type", values.type);
-      formData.append("period", values.period);
-      await sendPlan(formData);
-      toast({
-        title: "Votre commande a été prise en compte !",
-        description:
-          "Nous avons bien reçu vos informations. Notre équipe vous contactera sous peu pour finaliser votre commande. Merci de votre confiance !",
+      startTransition(() => {
+        sendPlan(values).then((data) => {
+          toast({
+            title: "Votre commande a été prise en compte !",
+            description: data.success
+          });
+          setDialogOpen(false);
+          setLoading(false)
+        });
       });
-            setDialogOpen(false);
-            setLoading(false)
+         
     } catch (error) {
       console.error("Error sending plan:", error);
       setLoading(false)
