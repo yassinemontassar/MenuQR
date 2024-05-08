@@ -28,32 +28,12 @@ import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import axios from "axios";
 import Image from "next/image";
 import { useParams } from "next/navigation";
+import { MenuCreateSchema } from "../../../schemas";
 import { Separator } from "../ui/separator";
 import { ToastAction } from "../ui/toast";
 import { toast } from "../ui/use-toast";
 
-const formSchema = z.object({
-  name: z
-    .string()
-    .min(1, { message: "Le nom est requis." })
-    .max(50, { message: "Le nom ne peut pas dépasser 50 caractères." }),
-  type: z.string().min(1, { message: "Veuillez sélectionner un type." }),
-  startTime: z
-    .string()
-    .min(1, { message: "Veuillez sélectionner une heure de début." }),
-  endTime: z
-    .string()
-    .min(1, { message: "Veuillez sélectionner une heure de fin." }),
-  imageUrl: z.string().min(1, { message: "Sélectionnez une image !" }),
-  facebookLink: z
-    .string()
-    .url({ message: "Veuillez saisir une URL Facebook valide." })
-    .optional(),
-  instagramLink: z
-    .string()
-    .url({ message: "Veuillez saisir une URL Instagram valide." })
-    .optional(),
-});
+
 
 export const MenuModal = () => {
   const supabase = createClientComponentClient();
@@ -62,8 +42,8 @@ export const MenuModal = () => {
   const MenuModal = useMenuModal();
   const [loading, setLoading] = useState(false);
 
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
+  const form = useForm<z.infer<typeof MenuCreateSchema>>({
+    resolver: zodResolver(MenuCreateSchema),
     defaultValues: {
       name: "",
       type: "",
@@ -84,7 +64,7 @@ export const MenuModal = () => {
     return undefined; // No errors
   };
 
-  const onSubmit = async (values: z.infer<typeof formSchema>) => {
+  const onSubmit = async (values: z.infer<typeof MenuCreateSchema>) => {
     if (image) {
       const errorr = validateImageSize(image);
       if (errorr) {
@@ -120,7 +100,6 @@ export const MenuModal = () => {
     }
     try {
       setLoading(true);
-      // values.imageUrl= params.userId+"logo"
       const body = { ...values };
       const response = await axios.post("/api/menus", body);
       window.location.assign(`menu/${response.data.id}`);
@@ -132,7 +111,7 @@ export const MenuModal = () => {
         variant: "destructive",
       });
     } finally {
-      setLoading(false);
+      
     }
   };
 
