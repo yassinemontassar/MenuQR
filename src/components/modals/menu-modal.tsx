@@ -1,16 +1,6 @@
 "use client";
 
-import * as z from "zod";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import { Modal } from "@/components/ui/modal";
+import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
@@ -20,17 +10,27 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
+import { Modal } from "@/components/ui/modal";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
+import { useForm } from "react-hook-form";
+import * as z from "zod";
 // import { toast } from "react-hot-toast";
-import axios from "axios";
 import { useMenuModal } from "@/app/hooks/use-menu-modal";
-import { useParams } from "next/navigation";
-import Image from "next/image";
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
-import { toast } from "../ui/use-toast";
-import { ToastAction } from "../ui/toast";
+import axios from "axios";
+import Image from "next/image";
+import { useParams } from "next/navigation";
 import { Separator } from "../ui/separator";
+import { ToastAction } from "../ui/toast";
+import { toast } from "../ui/use-toast";
 
 const formSchema = z.object({
   name: z
@@ -200,47 +200,13 @@ export const MenuModal = () => {
                   name="startTime"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel className="">Heure d ouverture</FormLabel>
+                      <FormLabel className="">Heure d&apos;ouverture</FormLabel>
                       <FormControl>
-                        <Select
-                          disabled={loading}
-                          onValueChange={field.onChange}
-                          value={field.value}
-                          defaultValue={field.value}
-                        >
-                          <SelectTrigger className="">
-                            <SelectValue
-                              defaultValue={field.value}
-                              placeholder="l'heure de début"
-                            />
-                          </SelectTrigger>
-                          <SelectContent>
-                            <SelectItem value="00:00">00:00</SelectItem>
-                            <SelectItem value="01:00">01:00</SelectItem>
-                            <SelectItem value="02:00">02:00</SelectItem>
-                            <SelectItem value="03:00">03:00</SelectItem>
-                            <SelectItem value="04:00">04:00</SelectItem>
-                            <SelectItem value="05:00">05:00</SelectItem>
-                            <SelectItem value="06:00">06:00</SelectItem>
-                            <SelectItem value="07:00">07:00</SelectItem>
-                            <SelectItem value="08:00">08:00</SelectItem>
-                            <SelectItem value="09:00">09:00</SelectItem>
-                            <SelectItem value="10:00">10:00</SelectItem>
-                            <SelectItem value="11:00">11:00</SelectItem>
-                            <SelectItem value="12:00">12:00</SelectItem>
-                            <SelectItem value="13:00">13:00</SelectItem>
-                            <SelectItem value="14:00">14:00</SelectItem>
-                            <SelectItem value="15:00">15:00</SelectItem>
-                            <SelectItem value="16:00">16:00</SelectItem>
-                            <SelectItem value="17:00">17:00</SelectItem>
-                            <SelectItem value="18:00">18:00</SelectItem>
-                            <SelectItem value="19:00">19:00</SelectItem>
-                            <SelectItem value="20:00">20:00</SelectItem>
-                            <SelectItem value="21:00">21:00</SelectItem>
-                            <SelectItem value="22:00">22:00</SelectItem>
-                            <SelectItem value="23:00">23:00</SelectItem>
-                          </SelectContent>
-                        </Select>
+                      <Input
+                        disabled={loading}
+                        type="time"
+                        {...field}
+                      />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -253,45 +219,11 @@ export const MenuModal = () => {
                     <FormItem>
                       <FormLabel className="">Heure de fermeture</FormLabel>
                       <FormControl>
-                        <Select
-                          disabled={loading}
-                          onValueChange={field.onChange}
-                          value={field.value}
-                          defaultValue={field.value}
-                        >
-                          <SelectTrigger className="">
-                            <SelectValue
-                              defaultValue={field.value}
-                              placeholder="l'heure de fermeture"
-                            />
-                          </SelectTrigger>
-                          <SelectContent>
-                            <SelectItem value="00:00">00:00</SelectItem>
-                            <SelectItem value="01:00">01:00</SelectItem>
-                            <SelectItem value="02:00">02:00</SelectItem>
-                            <SelectItem value="03:00">03:00</SelectItem>
-                            <SelectItem value="04:00">04:00</SelectItem>
-                            <SelectItem value="05:00">05:00</SelectItem>
-                            <SelectItem value="06:00">06:00</SelectItem>
-                            <SelectItem value="07:00">07:00</SelectItem>
-                            <SelectItem value="08:00">08:00</SelectItem>
-                            <SelectItem value="09:00">09:00</SelectItem>
-                            <SelectItem value="10:00">10:00</SelectItem>
-                            <SelectItem value="11:00">11:00</SelectItem>
-                            <SelectItem value="12:00">12:00</SelectItem>
-                            <SelectItem value="13:00">13:00</SelectItem>
-                            <SelectItem value="14:00">14:00</SelectItem>
-                            <SelectItem value="15:00">15:00</SelectItem>
-                            <SelectItem value="16:00">16:00</SelectItem>
-                            <SelectItem value="17:00">17:00</SelectItem>
-                            <SelectItem value="18:00">18:00</SelectItem>
-                            <SelectItem value="19:00">19:00</SelectItem>
-                            <SelectItem value="20:00">20:00</SelectItem>
-                            <SelectItem value="21:00">21:00</SelectItem>
-                            <SelectItem value="22:00">22:00</SelectItem>
-                            <SelectItem value="23:00">23:00</SelectItem>
-                          </SelectContent>
-                        </Select>
+                      <Input
+                        disabled={loading}
+                        type="time"
+                        {...field}
+                      />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
