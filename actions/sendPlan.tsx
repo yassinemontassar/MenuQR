@@ -9,7 +9,7 @@ export const sendPlan = async (values: z.infer<typeof PlanSchema>) => {
 
   const ratelimit = new Ratelimit({
     redis: Redis.fromEnv(),
-    limiter: Ratelimit.slidingWindow(1, "60 s"),
+    limiter: Ratelimit.slidingWindow(1, "120 s"),
     analytics: true,
   });
 
@@ -28,7 +28,6 @@ export const sendPlan = async (values: z.infer<typeof PlanSchema>) => {
       return { error: `Trop de demandes. Veuillez réessayer dans ${retryAfter} secondes.` };
     }
   }
-
 
    let planDetails = ''; // Initialise une chaîne vide pour stocker les détails du plan
 
