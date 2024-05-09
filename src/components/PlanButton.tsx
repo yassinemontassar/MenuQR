@@ -84,7 +84,6 @@ export const PlanButton: React.FC<PlanButtonProps> = ({ type, period }) => {
           }
           setDialogOpen(false);
           setLoading(false);
-          form.reset();
         });
       });
          
