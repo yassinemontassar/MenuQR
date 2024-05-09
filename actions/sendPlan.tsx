@@ -1,16 +1,35 @@
 "use server";
+import { Ratelimit } from "@upstash/ratelimit";
+import { Redis } from "@upstash/redis";
 import nodemailer from 'nodemailer';
 import * as z from 'zod';
 import { PlanSchema } from '../schemas';
 
 export const sendPlan = async (values: z.infer<typeof PlanSchema>) => {
 
+  const ratelimit = new Ratelimit({
+    redis: Redis.fromEnv(),
+    limiter: Ratelimit.slidingWindow(1, "60 s"),
+    analytics: true,
+  });
+
+
   const validatedFields = PlanSchema.safeParse(values);
   if (!validatedFields.success) {
     return {error: "Invalid fields!"};
 }
    const {email, d17, especes, phoneNumber, type, period} = validatedFields.data;
-   
+
+   if (email) {
+    const { success, reset } = await ratelimit.limit(email);
+    if (!success) {
+      const now = Date.now();
+      const retryAfter = Math.floor((reset - now) / 1000);
+      return { error: `Trop de demandes. Veuillez réessayer dans ${retryAfter} secondes.` };
+    }
+  }
+
+
    let planDetails = ''; // Initialise une chaîne vide pour stocker les détails du plan
 
    // Vérifie si espece est true, puis l'ajoute aux détails du plan
