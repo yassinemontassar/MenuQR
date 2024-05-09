@@ -1,10 +1,10 @@
-import Context from "./components/Context";
 import prisma from "@/app/lib/db";
-import ContextDefault from "./components/ContextDefault";
+import { auth } from "@/app/utils/auth";
 import { MenuModal } from "@/components/modals/menu-modal";
 import { Button } from "@/components/ui/button";
 import { Crown } from "lucide-react";
-import { auth } from "@/app/utils/auth";
+import Context from "./components/Context";
+import ContextDefault from "./components/ContextDefault";
 
 interface DashboardPageProps {
   params: {

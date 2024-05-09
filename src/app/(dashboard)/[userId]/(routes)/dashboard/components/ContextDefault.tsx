@@ -1,4 +1,5 @@
 "use client";
+import { useMenuModal } from "@/app/hooks/use-menu-modal";
 import {
   ContextMenu,
   ContextMenuContent,
@@ -6,10 +7,9 @@ import {
   ContextMenuShortcut,
   ContextMenuTrigger,
 } from "@/components/ui/context-menu";
-import { useMenuModal } from "@/app/hooks/use-menu-modal";
+import { MenuSquare } from "lucide-react";
 import { useSession } from "next-auth/react";
 import { useMediaQuery } from "react-responsive";
-import { MenuSquare } from "lucide-react";
 export default function ContextDefault() {
   const isTabletOrMobile = useMediaQuery({ query: "(max-width: 1224px)" });
   const menuModal = useMenuModal();
@@ -19,7 +19,7 @@ export default function ContextDefault() {
   return (
     <>
       <ContextMenu>
-        <ContextMenuTrigger className="flex h-[150px] w-[300px] items-center justify-center rounded-md border border-dashed text-lg mb-6 select-none">
+        <ContextMenuTrigger className="flex h-[150px] w-[300px] items-center justify-center rounded-md border border-primary/35 border-dashed hover:border-primary hover:cursor-pointer text-lg mb-6 select-none">
           {isTabletOrMobile
             ? "Appuyez et maintenez"
             : "Cliquez avec le bouton droit ici"}

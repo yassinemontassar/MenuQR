@@ -22,7 +22,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
-// import { toast } from "react-hot-toast";
+
 import { useMenuModal } from "@/app/hooks/use-menu-modal";
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import axios from "axios";
@@ -32,8 +32,6 @@ import { MenuCreateSchema } from "../../../schemas";
 import { Separator } from "../ui/separator";
 import { ToastAction } from "../ui/toast";
 import { toast } from "../ui/use-toast";
-
-
 
 export const MenuModal = () => {
   const supabase = createClientComponentClient();
@@ -52,7 +50,7 @@ export const MenuModal = () => {
       imageUrl: "",
     },
   });
-  const MAX_FILE_SIZE_BYTES = (2 * 1024 * 1024) * 0.14648; // 300 KB
+  const MAX_FILE_SIZE_BYTES = 2 * 1024 * 1024 * 0.14648; // 300 KB
 
   const validateImageSize = (file: File): string | undefined => {
     if (!file) return; // No file selected, so nothing to validate
@@ -111,7 +109,6 @@ export const MenuModal = () => {
         variant: "destructive",
       });
     } finally {
-      
     }
   };
 
@@ -181,11 +178,7 @@ export const MenuModal = () => {
                     <FormItem>
                       <FormLabel className="">Heure d&apos;ouverture</FormLabel>
                       <FormControl>
-                      <Input
-                        disabled={loading}
-                        type="time"
-                        {...field}
-                      />
+                        <Input disabled={loading} type="time" {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -198,11 +191,7 @@ export const MenuModal = () => {
                     <FormItem>
                       <FormLabel className="">Heure de fermeture</FormLabel>
                       <FormControl>
-                      <Input
-                        disabled={loading}
-                        type="time"
-                        {...field}
-                      />
+                        <Input disabled={loading} type="time" {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>

@@ -69,12 +69,22 @@ export const PlanButton: React.FC<PlanButtonProps> = ({ type, period }) => {
     try {
       startTransition(() => {
         sendPlan(values).then((data) => {
-          toast({
-            title: "Votre commande a été prise en compte !",
-            description: data.success
-          });
+          if (data.error) {
+            // Handle the error case
+            toast({
+              title: "Une erreur s'est produite",
+              description: data.error,
+            });
+          } else if (data.success) {
+            // Handle the success case
+            toast({
+              title: "Votre commande a été prise en compte !",
+              description: data.success,
+            });
+          }
           setDialogOpen(false);
-          setLoading(false)
+          setLoading(false);
+          form.reset();
         });
       });
          
