@@ -6,13 +6,16 @@ import Link from "next/link";
 import { FcGoogle } from "react-icons/fc";
 
 export default function SigninWithGoogle() {
+  const handleSignIn = () => {
+    // Dynamically determine the callback URL based on the window location
+    const callbackUrl = `${window.location.origin}`;
+    signIn("google", { callbackUrl });
+  };
   return (
     <>
       <div className="flex flex-col items-center justify-center space-y-4">
         <Button
-          onClick={() =>
-            signIn("google", { callbackUrl: process.env.AUTH_URL })
-          }
+          onClick={handleSignIn}
           className="mt-1"
           variant="secondary"
         >
