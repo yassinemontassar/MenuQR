@@ -11,7 +11,7 @@ export const { handlers: {GET, POST}, signIn, signOut, auth } = NextAuth({
   adapter: PrismaAdapter(prisma),
   cookies: {
     pkceCodeVerifier: {
-      name: "next-auth.pkce.code_verifier",
+      name: "pkceCodeVerifier",
       options: {
         httpOnly: true,
         sameSite: "lax",
