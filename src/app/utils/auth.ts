@@ -9,17 +9,6 @@ import prisma from "../lib/db";
 
 export const { handlers: {GET, POST}, signIn, signOut, auth } = NextAuth({
   adapter: PrismaAdapter(prisma),
-  cookies: {
-    pkceCodeVerifier: {
-      name: "pkceCodeVerifier",
-      options: {
-        httpOnly: true,
-        sameSite: "lax",
-        path: "/",
-        secure: true,
-      },
-    },
-  },
   session: {
     strategy: 'jwt'
   },
