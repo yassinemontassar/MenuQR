@@ -18,8 +18,8 @@ export async function GET(req: Request, res: NextApiResponse) {
         page: 1,
         perPage: 30,
         orientation: "squarish",
-        orderBy: "relevant",
-        
+        orderBy: "latest",
+        contentFilter: "low",
 
       });
   
