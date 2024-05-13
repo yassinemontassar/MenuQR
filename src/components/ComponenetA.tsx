@@ -16,10 +16,11 @@ import axios from "axios";
 import { Loader, XIcon } from "lucide-react";
 import Image from "next/image";
 import { useParams, useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
 import { Input } from "./ui/input";
+import { Label } from "./ui/label";
 import {
   Select,
   SelectContent,
@@ -27,6 +28,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from "./ui/select";
+
+import UnsplashDialog from "./ui/unsplashDialog";
 import { toast } from "./ui/use-toast";
 
 const formSchema = z.object({
@@ -118,8 +121,13 @@ export const ComponenetA: React.FC<MenuFormProps> = ({ initialData }) => {
     resolver: zodResolver(formSchema),
     defaultValues,
   });
+  const [selectedImageUrl, setSelectedImageUrl] = useState("");
+  const [uploadOption, setUploadOption] = useState<"desktop" | "unsplash">(
+    "desktop"
+  );
 
   const onSubmit = async (values: MenuFormValues) => {
+    console.log(values.imageUrl);
     if (image) {
       const errorr = validateImageSize(image);
       if (errorr) {
@@ -148,18 +156,17 @@ export const ComponenetA: React.FC<MenuFormProps> = ({ initialData }) => {
       await uploadImage("MenuLogo", filePath, image);
       const newImageUrl = logoUrl + uniqueFileName;
       setImagePreviewUrl(newImageUrl);
-      values.imageUrl = newImageUrl
-      
-      if (initialData) {
-        initialData.imageUrl = values.imageUrl
-      }
+      values.imageUrl = newImageUrl;
 
+      if (initialData) {
+        initialData.imageUrl = values.imageUrl;
+      }
     }
     try {
       setLoading(true);
       const body = { ...values };
       await axios.patch(`/api/menus/${params.menuId}`, body);
-      router.refresh()
+      router.refresh();
     } catch (error) {
       // toast.error("Something went wrong!");
     } finally {
@@ -170,6 +177,28 @@ export const ComponenetA: React.FC<MenuFormProps> = ({ initialData }) => {
       });
       setLoading(false);
     }
+  };
+
+ 
+
+  // Callback function to be called when an image is selected in UnsplashDialog
+  useEffect(() => {
+    // Update imageUrl in the form state whenever selectedImageUrl changes
+    if (selectedImageUrl) {
+      form.setValue("imageUrl", selectedImageUrl); // Assuming form uses yup or zod
+    }
+  }, [selectedImageUrl, form]);
+  
+  const handleImageSelect = (imageUrl: string) => {
+    setSelectedImageUrl(imageUrl);
+    setImagePreviewUrl(imageUrl);
+  };
+  const handleOptionChange = (option: "desktop" | "unsplash") => {
+    setUploadOption(option);
+    // Clear the image state when changing the upload option
+    setImage(null);
+    setImagePreviewUrl(initialData?.imageUrl ?? "");
+    setSelectedImageUrl("");
   };
   return (
     <>
@@ -248,11 +277,7 @@ export const ComponenetA: React.FC<MenuFormProps> = ({ initialData }) => {
                     <FormItem>
                       <FormLabel>Heure d&apos;ouverture</FormLabel>
                       <FormControl>
-                      <Input
-                        disabled={loading}
-                        type="time"
-                        {...field}
-                      />
+                        <Input disabled={loading} type="time" {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -265,11 +290,7 @@ export const ComponenetA: React.FC<MenuFormProps> = ({ initialData }) => {
                     <FormItem>
                       <FormLabel className="">Heure de fermeture</FormLabel>
                       <FormControl>
-                      <Input
-                        disabled={loading}
-                        type="time"
-                        {...field}
-                      />
+                        <Input disabled={loading} type="time" {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -310,54 +331,117 @@ export const ComponenetA: React.FC<MenuFormProps> = ({ initialData }) => {
                   </FormItem>
                 )}
               />
-              <FormField
-                control={form.control}
-                name="imageUrl"
-                render={({ field }) => (
-                  <FormItem className="w-full">
-                    <FormLabel className="font-medium">Logo</FormLabel>
-                    <FormControl className="mt-1">
-                      <Input
-                        disabled={loading}
-                        accept="image/jpeg, image/png" // Updated accept attribute to accept JPEG and PNG
-                        type="file"
-                        className="w-full"
-                        onChange={(e) => {
-                          const selectedFile = e.target.files?.[0];
-                          if (
-                            selectedFile &&
-                            (selectedFile.type === "image/jpeg" ||
-                              selectedFile.type === "image/png")
-                          ) {
-                            // Updated condition to check for JPEG or PNG
-                            setImage(selectedFile);
-                            field.onChange(e);
-                          } else {
-                            // Handle error or provide feedback to the user
-                            alert("Please select a JPG or PNG file.");
-                          }
-                        }}
-                      />
-                    </FormControl>
-                    <FormMessage className="text-red-600" />
-                    {image && (
-                      <div className="flex items-center justify-center gap-2 mt-2">
-                        <Image
-                          src={URL.createObjectURL(image)}
-                          alt="aperçu"
-                          width={50}
-                          height={50}
-                          className="object-cover w-20 h-20 rounded-md border border-gray-300"
+              <FormLabel className="flex items-center justify-center p-3 font-medium ">
+                Choisissez une méthode pour sélectionner une image
+              </FormLabel>
+              <div className="flex items-center justify-center p-3 gap-4 ">
+                <input
+                  type="radio"
+                  id="desktop"
+                  value="desktop"
+                  className="w-5 h-5 text-blue-600 focus:ring-blue-500 focus:ring-2 "
+                  checked={uploadOption === "desktop"}
+                  onChange={() => handleOptionChange("desktop")}
+                />
+                <Label htmlFor="desktop">Bureau</Label>
+                <input
+                  type="radio"
+                  id="unsplash"
+                  value="unsplash"
+                  className="w-5 h-5 text-blue-600 focus:ring-blue-500 focus:ring-2 "
+                  checked={uploadOption === "unsplash"}
+                  onChange={() => handleOptionChange("unsplash")}
+                />
+
+                <Label htmlFor="unsplash">En ligne</Label>
+              </div>
+              {uploadOption === "desktop" && (
+                <FormField
+                  control={form.control}
+                  name="imageUrl"
+                  render={({ field }) => (
+                    <FormItem className="w-full">
+                      <FormControl className="mt-1">
+                        <Input
+                          disabled={loading}
+                          accept="image/jpeg, image/png" // Updated accept attribute to accept JPEG and PNG
+                          type="file"
+                          className="w-full"
+                          onChange={(e) => {
+                            const selectedFile = e.target.files?.[0];
+                            if (
+                              selectedFile &&
+                              (selectedFile.type === "image/jpeg" ||
+                                selectedFile.type === "image/png")
+                            ) {
+                              // Updated condition to check for JPEG or PNG
+                              setImage(selectedFile);
+                              field.onChange(e);
+                            } else {
+                              // Handle error or provide feedback to the user
+                              alert("Please select a JPG or PNG file.");
+                            }
+                          }}
                         />
-                        <XIcon
-                          onClick={() => setImage(null)}
-                          className="cursor-pointer text-red-600"
-                        />
-                      </div>
+                      </FormControl>
+                      <FormMessage className="text-red-600" />
+                    </FormItem>
+                  )}
+                />
+              )}
+              {uploadOption === "unsplash" && (
+                <>
+                  <UnsplashDialog onImageSelect={handleImageSelect} />
+                  <FormField
+                    control={form.control}
+                    name="imageUrl"
+                    render={({ field }) => (
+                      <FormItem hidden>
+                        <FormControl>
+                          <Input
+                            disabled={loading}
+                            {...field}
+                            onChange={(e) => {
+                              field.onChange(e);
+                            }}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
                     )}
-                  </FormItem>
-                )}
-              />
+                  />
+                  {selectedImageUrl && (
+                    <div className="flex items-center justify-center gap-2 mt-2">
+                      <Image
+                        src={selectedImageUrl}
+                        alt="aperçu"
+                        width={50}
+                        height={50}
+                        className="object-cover w-20 h-20 rounded-md border border-gray-300"
+                      />
+                      <XIcon
+                        onClick={() => setImage(null)}
+                        className="cursor-pointer text-red-600"
+                      />
+                    </div>
+                  )}
+                </>
+              )}
+              {image && (
+                <div className="flex items-center justify-center gap-2 mt-2">
+                  <Image
+                    src={URL.createObjectURL(image)}
+                    alt="aperçu"
+                    width={50}
+                    height={50}
+                    className="object-cover w-20 h-20 rounded-md border border-gray-300"
+                  />
+                  <XIcon
+                    onClick={() => setImage(null)}
+                    className="cursor-pointer text-red-600"
+                  />
+                </div>
+              )}
             </div>
             <Button
               className="w-full px-3 py-2"

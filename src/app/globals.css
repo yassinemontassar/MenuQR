@@ -100,6 +100,12 @@ li.notcheck:before {
   top: -0.5em;
   font-size: 400%;
 }
+.credit {
+  font-size: 12px;
+  line-height: 15px;
+  text-decoration-line: underline;
+  color: #b3b3b3;
+}
 
 .tooltiptext {
   visibility: hidden; /* Initially hidden */

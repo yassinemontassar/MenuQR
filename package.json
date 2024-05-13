@@ -42,6 +42,7 @@
     "framer-motion": "^11.1.8",
     "html2canvas": "^1.4.1",
     "jspdf": "^2.5.1",
+    "lodash.debounce": "^4.0.8",
     "lucide-react": "^0.323.0",
     "next": "^14.2.1",
     "next-auth": "^5.0.0-beta.16",
@@ -59,10 +60,13 @@
     "slugify": "^1.6.6",
     "tailwind-merge": "^2.3.0",
     "tailwindcss-animate": "^1.0.7",
+    "unsplash-js": "^7.0.19",
     "zod": "^3.22.4",
     "zustand": "^4.5.0"
   },
   "devDependencies": {
+    "@types/lodash": "^4.17.1",
+    "@types/lodash.debounce": "^4.0.9",
     "@types/node": "^20.11.17",
     "@types/nodemailer": "^6.4.14",
     "@types/react": "^18",
