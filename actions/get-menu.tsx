@@ -1,4 +1,4 @@
-import {  Menu } from "@prisma/client";
+import { Menu } from "@prisma/client";
 
 
 

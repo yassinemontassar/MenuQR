@@ -1,26 +1,17 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 
-import { Category, Menu } from "@prisma/client";
+import { Menu } from "@prisma/client";
 
-import DevicePreview from "./device";
 import { ComponenetA } from "./ComponenetA";
 import { ComponenetB } from "./ComponenetB";
-import { Button } from "./ui/button";
 import { ComponenetC } from "./ComponenetC";
 import ComponenetD from "./ComponentD";
+import DevicePreview from "./device";
+import { Button } from "./ui/button";
 
 interface MenuFormProps {
   initialData: Menu | null;
-  initialData2:
-    | {
-        id: string;
-        MenuId: string;
-        name: string;
-        createdAt: Date;
-        updatedAt: Date;
-      }[]
-    | null; // make it an array
 }
 
 export const PhoneInput: React.FC<MenuFormProps> = ({ initialData }) => {
@@ -72,32 +63,40 @@ export const PhoneInput: React.FC<MenuFormProps> = ({ initialData }) => {
   };
 
   return (
-  <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 gap-4 mt-20">
-  <div className="flex flex-col items-center rounded-md border border-gray-300 shadow-md p-6">
-    {currentComponent}
-    <div className="mt-6 flex items-center justify-center space-x-4">
-      <Button
-      size="lg"
-        className={`px-4 py-2 rounded-md ${buttonDisabled ? 'opacity-50 cursor-not-allowed' : 'hover:bg-blue-700 bg-blue-500 text-white focus:outline-none focus:shadow-outline-blue'}`}
-        disabled={buttonDisabled}
-        onClick={() => switchComponent("previous")}
-      >
-        Étape précédente
-      </Button>
-      <Button
-      size="lg"
-        className={`px-4 py-2 rounded-md ${(isLastComponent || buttonDisabled) ? 'opacity-50 cursor-not-allowed' : 'hover:bg-blue-700 bg-blue-500 text-white focus:outline-none focus:shadow-outline-blue'}`}
-        disabled={isLastComponent || buttonDisabled}
-        onClick={() => switchComponent("next")}
-      >
-        Étape suivante
-      </Button>
+    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 gap-4 mt-20">
+      <div className="flex flex-col items-center rounded-md border border-gray-300 shadow-md p-6">
+        {currentComponent}
+        <div className="mt-6 flex items-center justify-center space-x-4">
+          <Button
+            size="lg"
+            className={`px-4 py-2 rounded-md ${
+              buttonDisabled
+                ? "opacity-50 cursor-not-allowed"
+                : "hover:bg-blue-700 bg-blue-500 text-white focus:outline-none focus:shadow-outline-blue"
+            }`}
+            disabled={buttonDisabled}
+            onClick={() => switchComponent("previous")}
+          >
+            Étape précédente
+          </Button>
+          <Button
+            size="lg"
+            className={`px-4 py-2 rounded-md ${
+              isLastComponent || buttonDisabled
+                ? "opacity-50 cursor-not-allowed"
+                : "hover:bg-blue-700 bg-blue-500 text-white focus:outline-none focus:shadow-outline-blue"
+            }`}
+            disabled={isLastComponent || buttonDisabled}
+            onClick={() => switchComponent("next")}
+          >
+            Étape suivante
+          </Button>
+        </div>
+      </div>
+      <div className="flex flex-col items-center rounded-md border border-gray-300 shadow-md p-6">
+        <p className="text-center font-medium mb-8">Aperçu</p>
+        <DevicePreview keyProp={reloadDevicePreview} />
+      </div>
     </div>
-  </div>
-  <div className="flex flex-col items-center rounded-md border border-gray-300 shadow-md p-6">
-    <p className="text-center font-medium mb-8">Aperçu</p>
-    <DevicePreview keyProp={reloadDevicePreview} />
-  </div>
-</div>
   );
 };
