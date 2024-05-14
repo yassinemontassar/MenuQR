@@ -109,6 +109,7 @@ export const MenuModal = () => {
         variant: "destructive",
       });
     } finally {
+      setLoading(false);
     }
   };
 
