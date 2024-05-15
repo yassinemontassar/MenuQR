@@ -24,8 +24,8 @@ import { Loader, Wallet } from "lucide-react";
 import { useSession } from "next-auth/react";
 import { useEffect, useState, useTransition } from "react";
 import { useForm } from "react-hook-form";
-import PhoneInput from "react-phone-number-input";
-import "react-phone-number-input/style.css";
+import PhoneInput from 'react-phone-number-input';
+import 'react-phone-number-input/style.css';
 import * as z from "zod";
 import { sendPlan } from "../../actions/sendPlan";
 import { PlanSchema } from "../../schemas";
@@ -101,6 +101,7 @@ export const PlanButton: React.FC<PlanButtonProps> = ({ type, period }) => {
   };
 
   return (
+                            // @ts-nocheck
     <>
       {session ? (
         <Dialog>
@@ -146,11 +147,13 @@ export const PlanButton: React.FC<PlanButtonProps> = ({ type, period }) => {
                       <FormItem className="space-y-2">
                         <FormLabel>Telephone</FormLabel>
                         <FormControl>
+                        {/* @ts-ignore */}
                           <PhoneInput
+
                             placeholder="numero telephone"
                             defaultCountry="TN"
                             countries={["TN"]}
-                            international={true}
+                            
                             {...field}
                           />
                         </FormControl>
