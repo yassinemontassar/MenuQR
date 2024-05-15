@@ -1,9 +1,8 @@
 
 import prisma from "@/app/lib/db";
-import { redirect } from "next/navigation";
-import { PlanColumn } from "./components/columns";
-import {format} from "date-fns";
+import { format } from "date-fns";
 import { PlanClient } from "./components/client";
+import { PlanColumn } from "./components/columns";
 
 interface AbonnementPageProps {
     params: {
@@ -14,16 +13,6 @@ interface AbonnementPageProps {
 const AbonnementPage: React.FC<AbonnementPageProps> = async ({
 params
 }) => {
-
-    const user = await prisma.user.findFirst({
-        where: {
-            id: params.userId,
-        },
-    }); 
-    
-    if (!user) {
-        redirect("/");
-    }
 
     const plans = await prisma.planHistory.findMany({
         where: {

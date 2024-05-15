@@ -1,4 +1,3 @@
-import prisma from "@/app/lib/db";
 import { auth } from "@/app/utils/auth";
 import { PhoneInput } from "@/components/phoneInput";
 import { redirect } from "next/navigation";
@@ -11,20 +10,9 @@ const CategoryPage = async ({
     params: {menuId: string, userId: string}
 }) => {
     const session = await auth()
-    const menu = await prisma.menu.findUnique({
-        where: {
-            id: params.menuId,
-            userId: session?.user.id
-        },
-        include: {
-            categories: true,
-        }
-    })
-    
-
-    if (!menu) {
-        redirect('/') 
-    }
+    if (session?.user.id !== params.userId) {
+        redirect("/");
+      }
     const menuData = await getMenu(params.menuId);
 
     return (

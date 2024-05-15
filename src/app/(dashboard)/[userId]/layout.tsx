@@ -1,52 +1,26 @@
-import { redirect } from 'next/navigation';
-import prisma from '@/app/lib/db';
-import { auth } from "@/app/utils/auth"
-import Header from '@/components/header';
-import { Metadata } from 'next';
-import { Toaster } from '@/components/ui/toaster';
-import { Providers } from '@/providers/provider';
-
-
-
-// export const metadata: Metadata = {
-//   metadataBase: new URL('http://localhost:3000/'),
-//   title: {
-//     default:'MenuQR - Create your own menu',
-//     template:"%s - MenuQR - Create your own menu"
-//   },
-// }
+import { auth } from "@/app/utils/auth";
+import Header from "@/components/header";
+import { Toaster } from "@/components/ui/toaster";
+import { Providers } from "@/providers/provider";
+import { redirect } from "next/navigation";
 
 export default async function DashboardLayout({
-   
   children,
-  params
+  params,
 }: {
-  children: React.ReactNode
-  params: { userId: string }
+  children: React.ReactNode;
+  params: { userId: string };
 }) {
-const session = await auth()
-  if (!session) {
-    redirect('/');
+  const session = await auth();
+  if (!session || session.user.id !== params.userId) {
+    redirect("/");
   }
-
-  const store = await prisma.user.findFirst({ 
-    where: {
-      id: params.userId,
-    }
-   });
-
-
-  if (!store) {
-    redirect('/');
-  };
 
   return (
     <>
       <Header />
-      <Providers>
-      {children}
-      </Providers>
+      <Providers>{children}</Providers>
       <Toaster />
     </>
   );
-};
+}
