@@ -243,7 +243,7 @@ export const MenuModal = () => {
                     <FormLabel>Logo</FormLabel>
                     <FormControl>
                       <Input
-                        accept="image/*"
+                          accept="image/jpeg, image/png" 
                         type="file"
                         disabled={loading}
                         onChange={(e) => {

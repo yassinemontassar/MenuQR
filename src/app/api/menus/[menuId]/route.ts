@@ -84,8 +84,6 @@ export async function GET(
         categories: true
       }
     });
-
-    console.log("test");
     return NextResponse.json(menu);
   } catch (error) {
     console.log("MENU_GET]", error);
