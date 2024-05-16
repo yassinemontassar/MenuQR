@@ -33,12 +33,7 @@ export async function POST(req: Request) {
         endTime,
         facebookLink,
         instagramLink,
-        imageUrl:
-          process.env.NEXT_PUBLIC_IMAGE_BASE_URL +
-          "/" +
-          userId +
-          "/logo/" +
-          imageUrl,
+        imageUrl,
       },
     });
     return NextResponse.json(menu);
