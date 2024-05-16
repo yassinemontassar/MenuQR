@@ -1,4 +1,3 @@
-import deleteImage from "@/app/utils/DeleteImage";
 import getRandom from "@/app/utils/RandomStringGenerator";
 import uploadImage from "@/app/utils/UploadImage";
 import { Button } from "@/components/ui/button";
@@ -29,6 +28,7 @@ import {
   SelectValue,
 } from "./ui/select";
 
+import deleteImage from "@/app/utils/DeleteImage";
 import UnsplashDialog from "./ui/unsplashDialog";
 import { toast } from "./ui/use-toast";
 
@@ -145,15 +145,18 @@ export const ComponenetA: React.FC<MenuFormProps> = ({ initialData }) => {
       const filePath = `${folderName}/${subfolder}/${uniqueFileName}`;
 
       // Remove an existing image
-      const extractedPath = initialData?.imageUrl
-        .split("/storage/v1/object/public/MenuLogo")[1]
-        .slice(1);
-      if (extractedPath) {
-        await deleteImage("MenuLogo", extractedPath);
+      const pathArray = initialData?.imageUrl.split("/storage/v1/object/public/MenuLogo");
+      if (pathArray && pathArray.length > 1) {
+        const extractedPath = pathArray[1].slice(1);
+        if (extractedPath) {
+          await deleteImage("MenuLogo", extractedPath);
+        }
       }
-
+      
       // Upload a new image
       await uploadImage("MenuLogo", filePath, image);
+      
+
       const newImageUrl = logoUrl + uniqueFileName;
       setImagePreviewUrl(newImageUrl);
       values.imageUrl = newImageUrl;
@@ -161,6 +164,7 @@ export const ComponenetA: React.FC<MenuFormProps> = ({ initialData }) => {
       if (initialData) {
         initialData.imageUrl = values.imageUrl;
       }
+      setImagePreviewUrl(values.imageUrl);
     }
     try {
       setLoading(true);
@@ -198,7 +202,8 @@ export const ComponenetA: React.FC<MenuFormProps> = ({ initialData }) => {
     // Clear the image state when changing the upload option
     setImage(null);
     setImagePreviewUrl(initialData?.imageUrl ?? "");
-    setSelectedImageUrl("");
+    form.setValue("imageUrl", initialData?.imageUrl ?? "");
+
   };
   return (
     <>
@@ -212,6 +217,9 @@ export const ComponenetA: React.FC<MenuFormProps> = ({ initialData }) => {
             blurDataURL="data:image/webp;base64,UklGRgIDAABXRUJQVlA4WAoAAAAgAAAAowAAowAASUNDUMgBAAAAAAHIAAAAAAQwAABtbnRyUkdCIFhZWiAH4AABAAEAAAAAAABhY3NwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAA9tYAAQAAAADTLQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAlkZXNjAAAA8AAAACRyWFlaAAABFAAAABRnWFlaAAABKAAAABRiWFlaAAABPAAAABR3dHB0AAABUAAAABRyVFJDAAABZAAAAChnVFJDAAABZAAAAChiVFJDAAABZAAAAChjcHJ0AAABjAAAADxtbHVjAAAAAAAAAAEAAAAMZW5VUwAAAAgAAAAcAHMAUgBHAEJYWVogAAAAAAAAb6IAADj1AAADkFhZWiAAAAAAAABimQAAt4UAABjaWFlaIAAAAAAAACSgAAAPhAAAts9YWVogAAAAAAAA9tYAAQAAAADTLXBhcmEAAAAAAAQAAAACZmYAAPKnAAANWQAAE9AAAApbAAAAAAAAAABtbHVjAAAAAAAAAAEAAAAMZW5VUwAAACAAAAAcAEcAbwBvAGcAbABlACAASQBuAGMALgAgADIAMAAxADZWUDggFAEAAFANAJ0BKqQApAA+7XawVamnJCMgSYkwHYlpbt1eIivgBQTRJBl7y0CpJfFdwPK8Dm/jQKIiWqD/2BnORvrgxrY5EoR4Yg+oq7dcm83ECqnLAunixQg9P7OJzMt086nh205kNKXZ89y+V+WzIAyrfeuTq+AA/ulrVS6/ccGKnqhlMjCCrWJkp2JSF75ecL5rm4UKwPXFaCCSFNKa3csikWUK94YtcAk4NaINmLnBHfN3ZRfOfAxm6zGMC0NZljgbH9RvNGoqMr6Htk2l9yAcm5XDAEAwQaMyqZYOhwdyxuZqW+1dsVglVmbKOQkSK5yv3o4l+ZMkyGslzr/q3k5GSR9/J3plC04lYb0EG6uYzTEfCAAAAA=="
             width={60}
             height={60}
+            sizes="(max-width: 768px) 100vw,
+              (max-width: 1200px) 50vw,
+              33vw"
             className="object-cover rounded-full border border-gray-300"
           />
         </div>

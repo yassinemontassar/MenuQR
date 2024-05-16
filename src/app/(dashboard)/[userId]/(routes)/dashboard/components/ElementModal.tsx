@@ -1,10 +1,11 @@
-"use client"
+"use client";
+import deleteImage from "@/app/utils/DeleteImage";
+import getRandom from "@/app/utils/RandomStringGenerator";
+import uploadImage from "@/app/utils/UploadImage";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
-  DialogDescription,
-  DialogFooter,
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
@@ -18,19 +19,16 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import UnsplashDialog from "@/components/ui/unsplashDialog";
 import { toast } from "@/components/ui/use-toast";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Item } from "@prisma/client";
 import axios from "axios";
 import Image from "next/image";
-import { useState } from "react";
+import { useParams, useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import { useParams, useRouter } from "next/navigation";
-import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
-import deleteImage from "@/app/utils/DeleteImage";
-import uploadImage from "@/app/utils/UploadImage";
-import getRandom from "@/app/utils/RandomStringGenerator";
 
 const formSchema = z.object({
   name: z.string().min(1, { message: "Le nom est requis." }),
@@ -66,8 +64,16 @@ interface MyModalProps {
 const ElementModal: React.FC<MyModalProps> = ({ isOpen, onClose, item }) => {
   const router = useRouter();
   const params = useParams();
+  const [selectedImageUrl, setSelectedImageUrl] = useState("");
+  const [uploadOption, setUploadOption] = useState<"desktop" | "unsplash">(
+    "desktop"
+  );
+  const [image, setImage] = useState<File | null>(null);
+  const [imagePreviewUrl, setImagePreviewUrl] = useState<string>(
+    item.imageUrl ?? ""
+  );
   const logoUrl =
-  process.env.NEXT_PUBLIC_IMAGE_BASE_URL + "/" + params.userId + "/items/";
+    process.env.NEXT_PUBLIC_IMAGE_BASE_URL + "/" + params.userId + "/items/";
   const [loading, setLoading] = useState(false);
   const onChange = (open: boolean) => {
     if (!open) {
@@ -75,7 +81,6 @@ const ElementModal: React.FC<MyModalProps> = ({ isOpen, onClose, item }) => {
     }
   };
 
-  const [image, setImage] = useState<File | null>(null);
   const defaultValues = item
     ? {
         ...item,
@@ -95,7 +100,6 @@ const ElementModal: React.FC<MyModalProps> = ({ isOpen, onClose, item }) => {
   });
 
   const onSubmit = async (values: ElementFormValues) => {
-
     if (image) {
       const errorr = validateImageSize(image);
       if (errorr) {
@@ -112,23 +116,24 @@ const ElementModal: React.FC<MyModalProps> = ({ isOpen, onClose, item }) => {
       const folderName = params.userId; // Existing folder name
       const uniqueFileName = `${getRandom(2)}.${image.name.split(".").pop()}`;
       const filePath = `${folderName}/${subfolder}/${uniqueFileName}`;
-// Upload a new image
- await uploadImage(bucket, filePath, image)
-  values.imageUrl = logoUrl + uniqueFileName;
-// Remove an existing image
-const imageUrl = item.imageUrl;
-const extractedPath = imageUrl.split('/storage/v1/object/public/MenuLogo')[1].slice(1);
-await deleteImage(bucket,extractedPath)
-
+      // Upload a new image
+      await uploadImage(bucket, filePath, image);
+      values.imageUrl = logoUrl + uniqueFileName;
+      // Remove an existing image
+      const imageUrl = item.imageUrl;
+      const extractedPath = imageUrl
+        .split("/storage/v1/object/public/MenuLogo")[1]
+        .slice(1);
+      await deleteImage(bucket, extractedPath);
     }
 
     try {
       setLoading(true);
       const body = {
-        ...values, 
+        ...values,
       };
       await axios.patch(`/api/${params.menuId}/items/${item.id}`, body);
-      router.push(`?modified=${getRandom(1)}`)
+      router.push(`?modified=${getRandom(1)}`);
     } catch (error) {
       // toast.error("Something went wrong!");
     } finally {
@@ -140,6 +145,26 @@ await deleteImage(bucket,extractedPath)
       setLoading(false);
       onClose();
     }
+  };
+  // Callback function to be called when an image is selected in UnsplashDialog
+  useEffect(() => {
+    // Update imageUrl in the form state whenever selectedImageUrl changes
+    if (selectedImageUrl) {
+      form.setValue("imageUrl", selectedImageUrl); // Assuming form uses yup or zod
+    }
+  }, [selectedImageUrl, form]);
+
+  const handleImageSelect = (imageUrl: string) => {
+    setSelectedImageUrl(imageUrl);
+    setImagePreviewUrl(imageUrl);
+  };
+  const handleOptionChange = (option: "desktop" | "unsplash") => {
+    setUploadOption(option);
+    // Clear the image state when changing the upload option
+    setImage(null);
+    setImagePreviewUrl(item.imageUrl ?? "");
+    setSelectedImageUrl("");
+    form.setValue("imageUrl", item.imageUrl ?? "");
   };
   return (
     <Dialog open={isOpen} onOpenChange={onChange}>
@@ -207,6 +232,31 @@ await deleteImage(bucket,extractedPath)
                   </FormItem>
                 )}
               />
+              <FormLabel className="flex items-center justify-center p-3 font-medium ">
+                Choisissez une méthode pour sélectionner une image
+              </FormLabel>
+              <div className="flex items-center justify-center p-3 gap-4 ">
+                <input
+                  type="radio"
+                  id="desktop"
+                  value="desktop"
+                  className="w-5 h-5 text-blue-600 focus:ring-blue-500 focus:ring-2 "
+                  checked={uploadOption === "desktop"}
+                  onChange={() => handleOptionChange("desktop")}
+                />
+                <Label htmlFor="desktop">Bureau</Label>
+                <input
+                  type="radio"
+                  id="unsplash"
+                  value="unsplash"
+                  className="w-5 h-5 text-blue-600 focus:ring-blue-500 focus:ring-2 "
+                  checked={uploadOption === "unsplash"}
+                  onChange={() => handleOptionChange("unsplash")}
+                />
+
+                <Label htmlFor="unsplash">En ligne</Label>
+              </div>
+              {uploadOption === "desktop" && (
               <FormField
                 control={form.control}
                 name="imageUrl"
@@ -214,24 +264,27 @@ await deleteImage(bucket,extractedPath)
                   <FormItem className="w-full">
                     <FormLabel className="font-medium">Logo</FormLabel>
                     <FormControl className="mt-1">
-                    <Input
-    disabled={loading}
-    accept="image/jpeg, image/png" // Updated accept attribute to accept JPEG and PNG
-    type="file"
-    className="w-full"
-    onChange={(e) => {
-        const selectedFile = e.target.files?.[0];
-        if (selectedFile && (selectedFile.type === "image/jpeg" || selectedFile.type === "image/png")) { // Updated condition to check for JPEG or PNG
-            setImage(selectedFile);
-            field.onChange(e);
-        } else {
-            // Handle error or provide feedback to the user
-           alert("Please select a JPG or PNG file.");
-        }
-    }}
-/>
-
-
+                      <Input
+                        disabled={loading}
+                        accept="image/jpeg, image/png" // Updated accept attribute to accept JPEG and PNG
+                        type="file"
+                        className="w-full"
+                        onChange={(e) => {
+                          const selectedFile = e.target.files?.[0];
+                          if (
+                            selectedFile &&
+                            (selectedFile.type === "image/jpeg" ||
+                              selectedFile.type === "image/png")
+                          ) {
+                            // Updated condition to check for JPEG or PNG
+                            setImage(selectedFile);
+                            field.onChange(e);
+                          } else {
+                            // Handle error or provide feedback to the user
+                            alert("Please select a JPG or PNG file.");
+                          }
+                        }}
+                      />
                     </FormControl>
                     <FormMessage className="text-red-600" />
                     {image && (
@@ -248,6 +301,41 @@ await deleteImage(bucket,extractedPath)
                   </FormItem>
                 )}
               />
+              )}
+               {uploadOption === "unsplash" && (
+                <>
+                  <UnsplashDialog onImageSelect={handleImageSelect} />
+                  <FormField
+                    control={form.control}
+                    name="imageUrl"
+                    render={({ field }) => (
+                      <FormItem hidden>
+                        <FormControl>
+                          <Input
+                            disabled={loading}
+                            {...field}
+                            onChange={(e) => {
+                              field.onChange(e);
+                            }}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  {selectedImageUrl && (
+                    <div className="flex items-center justify-center gap-2 mt-2">
+                      <Image
+                        src={selectedImageUrl}
+                        alt="aperçu"
+                        width={50}
+                        height={50}
+                        className="object-cover w-20 h-20 rounded-md border border-gray-300"
+                      />
+                    </div>
+                  )}
+                </>
+              )}
             </div>
             <Button disabled={loading} className="ml-auto w-full" type="submit">
               Enregistrer les modification

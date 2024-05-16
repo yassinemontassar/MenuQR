@@ -12,7 +12,6 @@ import {
 } from "@/components/ui/select";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Item } from "@prisma/client";
-import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import axios from "axios";
 import { Loader2 } from "lucide-react";
 import { useSession } from "next-auth/react";
@@ -30,6 +29,8 @@ import {
   FormMessage,
 } from "./ui/form";
 import { Input } from "./ui/input";
+import { Label } from "./ui/label";
+import UnsplashDialog from "./ui/unsplashDialog";
 import { toast } from "./ui/use-toast";
 
 const formSchema = z.object({
@@ -59,12 +60,15 @@ export const ComponenetC: React.FC = () => {
   const modified = searchParams.get("modified");
   const { data: session } = useSession();
   const plan = session?.user.plan;
-  const supabase = createClientComponentClient();
   const [loading, setLoading] = useState(false);
   const [image, setImage] = useState<File | null>(null);
   const [shouldFetch, setShouldFetch] = useState(false);
   const [categories, setCategories] = useState<any[]>([]);
   const [selectedCategory, setSelectedCategory] = useState("all");
+  const [selectedImageUrl, setSelectedImageUrl] = useState("");
+  const [uploadOption, setUploadOption] = useState<"desktop" | "unsplash">(
+    "desktop"
+  );
 
   const form = useForm<ItemFormValues>({
     resolver: zodResolver(formSchema),
@@ -152,11 +156,13 @@ export const ComponenetC: React.FC = () => {
       const filePath = `${folderName}/${subfolder}/${uniqueFileName}`;
       // Upload a new image
       await uploadImage(bucket, filePath, image);
-      values.imageUrl = uniqueFileName;
+      const fileName = process.env.NEXT_PUBLIC_IMAGE_BASE_URL+"/"+folderName+"/items/"+uniqueFileName
+      values.imageUrl = fileName;
     }
     try {
       setLoading(true);
       const body = { ...values };
+      console.log(body)
       await axios.post(`/api/${params.menuId}/items`, body);
     } catch (error) {
       toast({
@@ -179,6 +185,23 @@ export const ComponenetC: React.FC = () => {
       setImage(null);
       setIsNewCategoryInputVisible(false);
     }
+  };
+  useEffect(() => {
+    // Update imageUrl in the form state whenever selectedImageUrl changes
+    if (selectedImageUrl) {
+      form.setValue("imageUrl", selectedImageUrl); // Assuming form uses yup or zod
+    }
+  }, [selectedImageUrl, form]);
+
+  const handleImageSelect = (imageUrl: string) => {
+    setSelectedImageUrl(imageUrl);
+  };
+  const handleOptionChange = (option: "desktop" | "unsplash") => {
+    setUploadOption(option);
+    // Clear the image state when changing the upload option
+    setImage(null);
+    setSelectedImageUrl("");
+    form.setValue("imageUrl", "");
   };
 
   return (
@@ -208,7 +231,7 @@ export const ComponenetC: React.FC = () => {
       ) : categories.length === 0 ? (
         // If no categories, display an empty state message
         <div className="flex items-center justify-center p-16">
-          <p className="text-gray-500">Aucune catégorie trouvée</p>
+          <p className="text-gray-500">Aucune élément trouvée</p>
         </div>
       ) : (
         <CarouselOrientation
@@ -324,6 +347,31 @@ export const ComponenetC: React.FC = () => {
                   </FormItem>
                 )}
               />
+              <FormLabel className="flex items-center justify-center p-3 font-medium ">
+                Choisissez une méthode pour sélectionner une image
+              </FormLabel>
+              <div className="flex items-center justify-center p-3 gap-4 ">
+                <input
+                  type="radio"
+                  id="desktop"
+                  value="desktop"
+                  className="w-5 h-5 text-blue-600 focus:ring-blue-500 focus:ring-2 "
+                  checked={uploadOption === "desktop"}
+                  onChange={() => handleOptionChange("desktop")}
+                />
+                <Label htmlFor="desktop">Bureau</Label>
+                <input
+                  type="radio"
+                  id="unsplash"
+                  value="unsplash"
+                  className="w-5 h-5 text-blue-600 focus:ring-blue-500 focus:ring-2 "
+                  checked={uploadOption === "unsplash"}
+                  onChange={() => handleOptionChange("unsplash")}
+                />
+
+                <Label htmlFor="unsplash">En ligne</Label>
+              </div>
+              {uploadOption === "desktop" && (
               <FormField
                 control={form.control}
                 name="imageUrl"
@@ -357,6 +405,42 @@ export const ComponenetC: React.FC = () => {
                   </FormItem>
                 )}
               />
+              )}
+              {uploadOption === "unsplash" && (
+                 <>
+                 <UnsplashDialog onImageSelect={handleImageSelect} />
+                 <FormField
+                   control={form.control}
+                   name="imageUrl"
+                   render={({ field }) => (
+                     <FormItem hidden>
+                       <FormControl>
+                         <Input
+                           disabled={loading}
+                           {...field}
+                           onChange={(e) => {
+                             field.onChange(e);
+                           }}
+                         />
+                       </FormControl>
+                       <FormMessage />
+                     </FormItem>
+                   )}
+                 />
+                 {selectedImageUrl && (
+                   <div className="flex items-center justify-center gap-2 mt-2">
+                     <Image
+                       src={selectedImageUrl}
+                       alt="aperçu"
+                       width={50}
+                       height={50}
+                       className="object-cover w-20 h-20 rounded-md border border-gray-300"
+                     />
+       
+                   </div>
+                 )}
+               </>
+             )}
               <div className="flex justify-center space-x-4 pt-6">
                 <Button type="submit" disabled={loading} className="px-4 py-2">
                   {loading ? "Enregistrement en cours..." : "Enregistrer"}

@@ -1,4 +1,5 @@
 "use client";
+import deleteImage from "@/app/utils/DeleteImage";
 import { AlertModal } from "@/components/modals/alert-modal";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -11,15 +12,14 @@ import {
 } from "@/components/ui/carousel";
 import Currency from "@/components/ui/currency";
 import { toast } from "@/components/ui/use-toast";
-import { Category, Item } from "@prisma/client";
+import { Item } from "@prisma/client";
 import axios from "axios";
-import { Settings, Trash2Icon } from "lucide-react";
+import { Settings } from "lucide-react";
 import Image from "next/image";
 import { useParams, useRouter } from "next/navigation";
 import { useState } from "react";
 import { FaTrashCan } from "react-icons/fa6";
 import ElementModal from "./ElementModal";
-import deleteImage from "@/app/utils/DeleteImage";
 
 interface CategoryProps {
   data: Item[];
@@ -47,9 +47,9 @@ const CarouselOrientation: React.FC<CategoryProps> = ({ data }) => {
   const onDelete = async () => {
     try {
       setLoading(true);
-      if (selectedItemImg) {
+      if (selectedItemImg && selectedItemImg.includes('/storage/v1/object/public/MenuLogo')) {
         const extractedPath = selectedItemImg.split('/storage/v1/object/public/MenuLogo')[1].slice(1);
-        await deleteImage("MenuLogo",extractedPath)
+        await deleteImage("MenuLogo", extractedPath);
       }
       await axios.delete(`/api/${params.menuId}/items/${selectedItemId}`);
       router.push(`?modified=${selectedItemId}`)
@@ -62,7 +62,7 @@ const CarouselOrientation: React.FC<CategoryProps> = ({ data }) => {
       toast({
         title: "Oops...",
         description:
-          "Assurez-vous d'avoir d'abord supprimé tous les catégories utilisant cette élément !!",
+          "Erreur occured!",
         variant: "destructive",
       });
     } finally {

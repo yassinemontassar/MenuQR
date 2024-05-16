@@ -72,7 +72,7 @@ export async function GET(
           price,
           discount,
           isArchived,
-          imageUrl: process.env.NEXT_PUBLIC_IMAGE_BASE_URL+"/"+userId+"/items/"+imageUrl
+          imageUrl,
         }
       });
     
