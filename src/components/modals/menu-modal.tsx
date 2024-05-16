@@ -19,7 +19,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
 
@@ -29,8 +29,10 @@ import axios from "axios";
 import Image from "next/image";
 import { useParams } from "next/navigation";
 import { MenuCreateSchema } from "../../../schemas";
+import { Label } from "../ui/label";
 import { Separator } from "../ui/separator";
 import { ToastAction } from "../ui/toast";
+import UnsplashDialog from "../ui/unsplashDialog";
 import { toast } from "../ui/use-toast";
 
 export const MenuModal = () => {
@@ -39,7 +41,10 @@ export const MenuModal = () => {
   const [image, setImage] = useState<File | null>(null);
   const MenuModal = useMenuModal();
   const [loading, setLoading] = useState(false);
-
+  const [selectedImageUrl, setSelectedImageUrl] = useState("");
+  const [uploadOption, setUploadOption] = useState<"desktop" | "unsplash">(
+    "desktop"
+  );
   const form = useForm<z.infer<typeof MenuCreateSchema>>({
     resolver: zodResolver(MenuCreateSchema),
     defaultValues: {
@@ -112,6 +117,23 @@ export const MenuModal = () => {
       setLoading(false);
     }
   };
+  useEffect(() => {
+    // Update imageUrl in the form state whenever selectedImageUrl changes
+    if (selectedImageUrl) {
+      form.setValue("imageUrl", selectedImageUrl); // Assuming form uses yup or zod
+    }
+  }, [selectedImageUrl, form]);
+
+  const handleImageSelect = (imageUrl: string) => {
+    setSelectedImageUrl(imageUrl);
+  };
+  const handleOptionChange = (option: "desktop" | "unsplash") => {
+    setUploadOption(option);
+    // Clear the image state when changing the upload option
+    setImage(null);
+    setSelectedImageUrl("");
+    form.setValue("imageUrl", "");
+  };
 
   return (
     <Modal
@@ -120,9 +142,8 @@ export const MenuModal = () => {
       isOpen={MenuModal.isOpen}
       onClose={MenuModal.onClose}
     >
-      <div>
-        <div className="space-y-4 py-2 pb-4">
-          <Form {...form}>
+        <div className="space-y-4 py-2 pb-4 ">
+          <Form {...form} >
             <form onSubmit={form.handleSubmit(onSubmit)}>
               <FormField
                 control={form.control}
@@ -200,47 +221,36 @@ export const MenuModal = () => {
                 />
               </div>
               <Separator className="my-4 bg-foreground" />
-              <FormField
-                control={form.control}
-                name="facebookLink"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Page Facebook (optionnel)</FormLabel>
-                    <FormControl>
-                      <Input
-                        disabled={loading}
-                        placeholder="https://www.facebook.com/"
-                        {...field}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="instagramLink"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Page Instagram (optionnel)</FormLabel>
-                    <FormControl>
-                      <Input
-                        disabled={loading}
-                        placeholder="https://www.instagram.com/"
-                        {...field}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <Separator className="my-4 bg-foreground" />
+              <FormLabel className="flex items-center justify-center p-3 font-medium ">
+                Choisissez une méthode pour sélectionner une image
+              </FormLabel>
+              <div className="flex items-center justify-center p-3 gap-4 ">
+                <input
+                  type="radio"
+                  id="desktop"
+                  value="desktop"
+                  className="w-5 h-5 text-blue-600 focus:ring-blue-500 focus:ring-2 "
+                  checked={uploadOption === "desktop"}
+                  onChange={() => handleOptionChange("desktop")}
+                />
+                <Label htmlFor="desktop">Bureau</Label>
+                <input
+                  type="radio"
+                  id="unsplash"
+                  value="unsplash"
+                  className="w-5 h-5 text-blue-600 focus:ring-blue-500 focus:ring-2 "
+                  checked={uploadOption === "unsplash"}
+                  onChange={() => handleOptionChange("unsplash")}
+                />
+
+                <Label htmlFor="unsplash">En ligne</Label>
+              </div>
+              {uploadOption === "desktop" && (
               <FormField
                 control={form.control}
                 name="imageUrl"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Logo</FormLabel>
                     <FormControl>
                       <Input
                           accept="image/jpeg, image/png" 
@@ -271,6 +281,42 @@ export const MenuModal = () => {
                   </FormItem>
                 )}
               />
+              )}
+                {uploadOption === "unsplash" && (
+                 <>
+                 <UnsplashDialog onImageSelect={handleImageSelect} />
+                 <FormField
+                   control={form.control}
+                   name="imageUrl"
+                   render={({ field }) => (
+                     <FormItem hidden>
+                       <FormControl>
+                         <Input
+                           disabled={loading}
+                           {...field}
+                           onChange={(e) => {
+                             field.onChange(e);
+                           }}
+                         />
+                       </FormControl>
+                       <FormMessage />
+                     </FormItem>
+                   )}
+                 />
+                 {selectedImageUrl && (
+                   <div className="flex items-center justify-center gap-2 mt-2">
+                     <Image
+                       src={selectedImageUrl}
+                       alt="aperçu"
+                       width={50}
+                       height={50}
+                       className="object-cover w-20 h-20 rounded-md border border-gray-300"
+                     />
+       
+                   </div>
+                 )}
+               </>
+             )}
               <div className="pt-6 space-x-2 flex items-center justify-center w-full">
                 <Button
                   disabled={loading}
@@ -286,7 +332,7 @@ export const MenuModal = () => {
             </form>
           </Form>
         </div>
-      </div>
     </Modal>
+
   );
 };
