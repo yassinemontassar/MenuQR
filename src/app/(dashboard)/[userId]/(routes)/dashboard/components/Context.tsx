@@ -1,19 +1,19 @@
 "use client"
 
-import {format} from "date-fns";
 import {
     ContextMenu,
     ContextMenuContent,
     ContextMenuItem,
     ContextMenuShortcut,
     ContextMenuTrigger,
-  } from "@/components/ui/context-menu"
-  import { useMediaQuery } from "react-responsive";
-  import  {Menu}  from "@prisma/client";
+} from "@/components/ui/context-menu";
+import { toast } from "@/components/ui/use-toast";
+import { Menu } from "@prisma/client";
+import { format } from "date-fns";
+import { BarChart4, Copy, Pencil } from "lucide-react";
 import Image from "next/image";
 import { useParams, useRouter } from "next/navigation";
-import {  BarChart4, Copy, Pencil } from "lucide-react";
-import { toast } from "@/components/ui/use-toast";
+import { useMediaQuery } from "react-responsive";
 
   interface MenuProps  {
     items: Menu[];
@@ -77,14 +77,14 @@ import { toast } from "@/components/ui/use-toast";
                     >
                         {/* Utilisez l'image du menu en tant que logo. */}
                         <div className="flex h-full w-full">
-                            <Image
+                        <Image
                                 src={menu.imageUrl}
                                 alt="logo"
-                                width={300}
-                                height={150}
+                                fill
+                                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw" 
                                 placeholder="blur"
                                 blurDataURL="data:image/webp;base64,UklGRgIDAABXRUJQVlA4WAoAAAAgAAAAowAAowAASUNDUMgBAAAAAAHIAAAAAAQwAABtbnRyUkdCIFhZWiAH4AABAAEAAAAAAABhY3NwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAA9tYAAQAAAADTLQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAlkZXNjAAAA8AAAACRyWFlaAAABFAAAABRnWFlaAAABKAAAABRiWFlaAAABPAAAABR3dHB0AAABUAAAABRyVFJDAAABZAAAAChnVFJDAAABZAAAAChiVFJDAAABZAAAAChjcHJ0AAABjAAAADxtbHVjAAAAAAAAAAEAAAAMZW5VUwAAAAgAAAAcAHMAUgBHAEJYWVogAAAAAAAAb6IAADj1AAADkFhZWiAAAAAAAABimQAAt4UAABjaWFlaIAAAAAAAACSgAAAPhAAAts9YWVogAAAAAAAA9tYAAQAAAADTLXBhcmEAAAAAAAQAAAACZmYAAPKnAAANWQAAE9AAAApbAAAAAAAAAABtbHVjAAAAAAAAAAEAAAAMZW5VUwAAACAAAAAcAEcAbwBvAGcAbABlACAASQBuAGMALgAgADIAMAAxADZWUDggFAEAAFANAJ0BKqQApAA+7XawVamnJCMgSYkwHYlpbt1eIivgBQTRJBl7y0CpJfFdwPK8Dm/jQKIiWqD/2BnORvrgxrY5EoR4Yg+oq7dcm83ECqnLAunixQg9P7OJzMt086nh205kNKXZ89y+V+WzIAyrfeuTq+AA/ulrVS6/ccGKnqhlMjCCrWJkp2JSF75ecL5rm4UKwPXFaCCSFNKa3csikWUK94YtcAk4NaINmLnBHfN3ZRfOfAxm6zGMC0NZljgbH9RvNGoqMr6Htk2l9yAcm5XDAEAwQaMyqZYOhwdyxuZqW+1dsVglVmbKOQkSK5yv3o4l+ZMkyGslzr/q3k5GSR9/J3plC04lYb0EG6uYzTEfCAAAAA=="
-                                className="rounded-md object-cover group-hover:brightness-110 transition duration-300 ease-in-out"
+                                className="rounded-md object-fill group-hover:brightness-110 transition duration-300 ease-in-out"
                             />
                         </div>
                         {/* Affichez un message au survol du menu. */}
