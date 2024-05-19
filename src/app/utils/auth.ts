@@ -4,7 +4,6 @@ import NextAuth from "next-auth";
 import GitHubProvider from "next-auth/providers/github";
 import Google from "next-auth/providers/google";
 import Nodemailer from "next-auth/providers/nodemailer";
-import nodemailer from 'nodemailer';
 import prisma from "../lib/db";
 
 export const { handlers: {GET, POST}, signIn, signOut, auth } = NextAuth({
@@ -40,16 +39,18 @@ export const { handlers: {GET, POST}, signIn, signOut, auth } = NextAuth({
       sendVerificationRequest: async ({ identifier: email, url, token, provider }) => {
         // Create a transporter for sending the email
         const {host} = new URL(url)
-        const transporter = nodemailer.createTransport({
-          service: 'sawthegamer70@gmail.com',
-          auth: {
-            user: 'sawthegamer70@gmail.com',
-            pass: process.env.EMAIL_SERVER_PASSWORD,
-          },
-        });
+        const sgMail = require('@sendgrid/mail')
+      sgMail.setApiKey(process.env.SENDGRID_API_KEY)
+        // const transporter = nodemailer.createTransport({
+        //   service: 'sawthegamer70@gmail.com',
+        //   auth: {
+        //     user: 'sawthegamer70@gmail.com',
+        //     pass: process.env.EMAIL_SERVER_PASSWORD,
+        //   },
+        // });
         // Define the email options
         const emailOptions = {
-          from: process.env.EMAIL_FROM,
+          from: "em9838@menurapide.tn",
           to: email,
           subject: `Bienvenue sur ${host} - Vérification de l'adresse e-mail 🚀`,
           text: "Veuillez cliquer sur le lien ci-dessous pour confirmer votre adresse e-mail :",
@@ -65,7 +66,7 @@ export const { handlers: {GET, POST}, signIn, signOut, auth } = NextAuth({
 
 
 
-        await transporter.sendMail(emailOptions);
+        await  sgMail.send(emailOptions)
       },
     }),
   ],

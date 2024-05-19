@@ -1,7 +1,6 @@
 "use server";
 import { Ratelimit } from "@upstash/ratelimit";
 import { Redis } from "@upstash/redis";
-import nodemailer from 'nodemailer';
 import * as z from 'zod';
 import { PlanSchema } from '../schemas';
 
@@ -55,17 +54,21 @@ export const sendPlan = async (values: z.infer<typeof PlanSchema>) => {
      </div>
    `;
 
-   const transporter = nodemailer.createTransport({
-    service: 'sawthegamer70@gmail.com',
-    auth: {
-      user: 'sawthegamer70@gmail.com',
-      pass: process.env.EMAIL_SERVER_PASSWORD,
-    },
-  });
-  const info = await transporter.sendMail({
-   to: 'sawthegamer70@gmail.com',
-   subject: 'Plan Request',
-   html: html,
- });
+   const sgMail = require('@sendgrid/mail')
+   sgMail.setApiKey(process.env.SENDGRID_API_KEY)
+   const msg = {
+    to: 'sawthegamer70@gmail.com',
+    from: '	em9838@menurapide.tn',
+     subject: 'Plan Request',
+     html: html,
+   }
+   sgMail.send(msg)
+
+
+//   const info = await transporter.sendMail({
+//    to: 'sawthegamer70@gmail.com',
+//    subject: 'Plan Request',
+//    html: html,
+//  });
  return {success: "Nous avons bien reçu vos informations. Notre équipe vous contactera sous peu pour finaliser votre commande. Merci de votre confiance !"}
 };
