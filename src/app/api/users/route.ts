@@ -2,16 +2,16 @@ import prisma from "@/app/lib/db";
 import { NextResponse } from "next/server";
 
 const corsHeaders = {
-  "Access-Control-Allow-Origin": "*",
+  "Access-Control-Allow-Origin": "https://menurapideadmin.netlify.app",
   "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS",
   "Access-Control-Allow-Headers": "Content-Type, Authorization",
 };
 
 export async function GET(req: Request) {
-  const secretKey = req.headers.get("x-secret-key");
-  if (secretKey !== process.env.MY_SECRET_KEY) {
-    return new NextResponse("Unauthorized", { status: 401 });
-  }
+  // const secretKey = req.headers.get("x-secret-key");
+  // if (secretKey !== process.env.MY_SECRET_KEY) {
+  //   return new NextResponse("Unauthorized", { status: 401 });
+  // }
   try {
     // Get the current date and subtract 24 hours to set the comparison date
     const comparisonDate = new Date();
