@@ -8,10 +8,10 @@ const corsHeaders = {
 };
 
 export async function GET(req: Request) {
-  // const secretKey = req.headers.get("x-secret-key");
-  // if (secretKey !== process.env.MY_SECRET_KEY) {
-  //   return new NextResponse("Unauthorized", { status: 401 });
-  // }
+  const secretKey = req.headers.get("x-secret-key");
+  if (secretKey !== process.env.MY_SECRET_KEY) {
+    return new NextResponse("Unauthorized", { status: 401 });
+  }
   try {
     // Get the current date and subtract 24 hours to set the comparison date
     const comparisonDate = new Date();

@@ -16,7 +16,7 @@ export const editUser = async (formData: FormData) => {
       },
     });
 
-    const socket = io("https://menurapideadmin.netlify.app");
+    const socket = io('http://51.91.10.161/');
 
     // Wait for the connection to establish before emitting (optional)
     await new Promise<void>((resolve) => {
@@ -28,6 +28,7 @@ export const editUser = async (formData: FormData) => {
       title: "User Update",
       message: `User has changed his name to ${name}`,
     });  
+
   } catch (error) {
     console.error("Failed to edit user or emit event:", error);
     // Handle the error appropriately
