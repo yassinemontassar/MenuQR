@@ -7,7 +7,9 @@ import Image from "next/image";
 import { useMemo, useState } from "react";
 import { FaQuestionCircle } from "react-icons/fa";
 import { PlanButton } from "./PlanButton";
- 
+import freeImg from "/public/images/pricing/Free.webp";
+import PremiumImg from "/public/images/pricing/Premium.webp";
+import StandardImg from "/public/images/pricing/Standard.webp";
 const Pricing = () => {
   const [selectedOption, setSelectedOption] = useState('monthly');
   const scrollAnimation = useMemo(() => getScrollAnimation(), []);
@@ -87,10 +89,10 @@ const Pricing = () => {
                 >
                   <div className="p-4 lg:p-0 mt-6 lg:mt-16">
                     <Image
-                      src="/images/pricing/Free.png"
-                      width={145}
-                      height={165}
+                      src={freeImg}
+                      placeholder="blur"
                       alt="Free Plan"
+                      className="rounded-lg"
                     />
                   </div>
                   <p className="text-lg text-black-600 font-medium capitalize my-2 sm:my-5">
@@ -179,9 +181,9 @@ const Pricing = () => {
                 >
                   <div className="p-4 lg:p-0 mt-6 lg:mt-16">
                     <Image
-                      src="/images/pricing/Standard.png"
-                      width={145}
-                      height={165}
+                      src={StandardImg}
+                      placeholder="blur"
+                      className="rounded-lg"
                       alt="Standard Plan"
                     />
                   </div>
@@ -283,9 +285,9 @@ const Pricing = () => {
                 >
                   <div className="p-4 lg:p-0 mt-6 lg:mt-18">
                     <Image
-                      src="/images/pricing/Premium.png"
-                      width={145}
-                      height={165}
+                     src={PremiumImg}
+                      placeholder="blur"
+                      className="rounded-lg"
                       alt="Premium Plan"
                     />
                   </div>

@@ -1,5 +1,4 @@
 "use client";
-import logo from "@/assets/logo.png";
 import {
   Dialog,
   DialogContent,
@@ -13,7 +12,10 @@ import Image from "next/image";
 import SignInEmail from "./SignInEmail";
 import SigninWithGoogle from "./SignInWithGoogle";
 import { Button } from "./ui/button";
+import logo from "/public/logo.svg";
 export default function SignInForm() {
+
+
   return (
     <Dialog>
       <DialogTrigger asChild>
@@ -25,8 +27,6 @@ export default function SignInForm() {
           <DialogTitle>
             <Image
               src={logo}
-              width={40}
-              height={40}
               alt="avatar"
               className="rounded-full"
             />
