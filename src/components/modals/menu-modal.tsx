@@ -79,9 +79,11 @@ export const MenuModal = () => {
         return;
       }
       setLoading(true);
+      
       const bucket = "MenuLogo";
       const subfolder = "logo";
       const folderName = params.userId; // Existing folder name
+      const BASE_URL = `${process.env.NEXT_PUBLIC_IMAGE_BASE_URL}`;
       const { crypto } = window;
       const randomString = crypto
         .getRandomValues(new Uint32Array(1))[0]
@@ -99,11 +101,17 @@ export const MenuModal = () => {
         return;
       }
 
-      values.imageUrl = uniqueFileName;
+      try {
+        values.imageUrl = `${BASE_URL}/${folderName}/${subfolder}/${uniqueFileName}`;
+      } catch (error) {
+        alert("Error uploading file.");
+      }
+      
     }
     try {
       setLoading(true);
       const body = { ...values };
+      console.log(body)
       const response = await axios.post("/api/menus", body);
       window.location.assign(`menu/${response.data.id}`);
     } catch (error) {

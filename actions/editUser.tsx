@@ -1,6 +1,6 @@
 "use server";
 import prisma from "@/app/lib/db";
-import { io } from "socket.io-client";
+import { emitNotification } from "@/utils/socket.service";
 export const editUser = async (formData: FormData) => {
   const id = formData.get("id") as string;
   const name = formData.get("name") as string;
@@ -16,18 +16,7 @@ export const editUser = async (formData: FormData) => {
       },
     });
 
-    const socket = io('http://51.91.10.161/');
-
-    // Wait for the connection to establish before emitting (optional)
-    await new Promise<void>((resolve) => {
-      socket.on("connect", () => resolve());
-    }); 
-
-    // Emit the event
-    socket.emit("notification", {
-      title: "User Update",
-      message: `User has changed his name to ${name}`,
-    });  
+    await emitNotification('User update', `User has changed his name to ${name}`);
 
   } catch (error) {
     console.error("Failed to edit user or emit event:", error);

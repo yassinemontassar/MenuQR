@@ -1,5 +1,6 @@
 import prisma from "@/app/lib/db";
 import { auth } from "@/app/utils/auth";
+import { emitNotification } from "@/utils/socket.service";
 import { NextResponse } from "next/server";
 
 export async function POST(req: Request) {
@@ -36,6 +37,7 @@ export async function POST(req: Request) {
         imageUrl,
       },
     });
+    await emitNotification('New Menu', `${session.user.name} has created a new Menu(${menu.name})`);
     return NextResponse.json(menu);
   } catch (error) {
     console.log("[MENUS_POST", error);
