@@ -47,9 +47,9 @@ export async function POST(req: Request) {
 
 export async function GET(req: Request) {
   const secretKey = req.headers.get("x-secret-key");
-  if (secretKey !== process.env.MY_SECRET_KEY) {
-    return new NextResponse("Unauthorized", { status: 401 });
-  }
+  // if (secretKey !== process.env.MY_SECRET_KEY) {
+  //   return new NextResponse("Unauthorized", { status: 401 });
+  // }
   try {
     const menus = await prisma.menu.findMany();
     return NextResponse.json(menus);
