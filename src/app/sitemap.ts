@@ -5,7 +5,7 @@ import getMenus from "../../actions/get-menus";
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     const menus = await getMenus();
     const productEntries: MetadataRoute.Sitemap = menus.map(({id}) => ({
-        url: `https://www.menurapide.tn/website/${id}`,
+        url: `${process.env.NEXT_PUBLIC_BASE_URL}/website/${id}`,
         priority: 0.5,
         lastModified: new Date(),
         changeFrequency: 'daily',
@@ -13,7 +13,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     }))
     return [
         {
-            url: `https://www.menurapide.tn`,
+            url: `${process.env.NEXT_PUBLIC_BASE_URL}`,
             priority: 1,
             lastModified: new Date(),
             changeFrequency: 'daily',

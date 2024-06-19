@@ -9,7 +9,7 @@ const getMenus = async (): Promise<Menu[]> => {
       "x-secret-key": process.env.MY_SECRET_KEY || "", // Provide a default empty string if MY_SECRET_KEY is undefined
     });
 
-    const res = await fetch("https://www.menurapide.tn/api/menus", {
+    const res = await fetch(URL, {
       method: "GET",
       headers: headers, // Pass the Headers object
       next: { revalidate: 60 },
