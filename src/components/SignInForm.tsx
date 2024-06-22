@@ -8,25 +8,29 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
+import { useTheme } from "next-themes";
 import Image from "next/image";
 import SignInEmail from "./SignInEmail";
 import SigninWithGoogle from "./SignInWithGoogle";
 import { Button } from "./ui/button";
+import logoDark from "/public/logo-dark.svg";
 import logo from "/public/logo.svg";
 export default function SignInForm() {
 
-
+  const {  theme } = useTheme()
+  const logoToUse = theme === "dark" ? logoDark : logo;
   return (
+
     <Dialog>
       <DialogTrigger asChild>
-        <Button size="sm" className="text-xs">Connexion</Button>
+        <Button size="sm" className="text-xs bg-gradient-to-r from-orange-600 to-orange-300">Connexion</Button>
      
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px] flex flex-col items-center rounded-lg ">
         <DialogHeader className="flex flex-col items-center">
           <DialogTitle>
             <Image
-              src={logo}
+              src={logoToUse}
               alt="avatar"
               className="rounded-full"
             />

@@ -106,7 +106,7 @@ export const PlanButton: React.FC<PlanButtonProps> = ({ type, period }) => {
       {session ? (
         <Dialog>
           <DialogTrigger asChild>
-            <Button onClick={handleChooseButtonClick}>Choisir</Button>
+            <Button className="bg-gradient-to-r from-orange-600 to-orange-300 gap-2 " onClick={handleChooseButtonClick}>Choisir</Button>
           </DialogTrigger>
           {isDialogOpen && (
             <DialogContent className="sm:max-w-[425px]">
