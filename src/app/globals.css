@@ -130,6 +130,7 @@ li.notcheck:before {
 .slick-dots .slick-active span {
   @apply bg-orange-500 rounded-l-full rounded-r-full w-12;
 }
+
  
 @layer base {
   * {
