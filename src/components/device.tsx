@@ -4,6 +4,15 @@ import { useParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { DeviceFrameset } from 'react-device-frameset';
 import 'react-device-frameset/styles/marvel-devices.min.css';
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+} from './ui/select';
 interface DevicePreviewProps {
   keyProp: boolean; // Assuming keyProp is a boolean, change the type accordingly
 }
@@ -39,6 +48,23 @@ const DevicePreview: React.FC<DevicePreviewProps> = ({ keyProp }) => {
 
   return (
     <>
+    <div className='flex flex-col items-center gap-6'>
+      <Select>
+      <SelectTrigger className="w-[180px]">
+        <SelectValue placeholder="Select a model" />
+      </SelectTrigger>
+      <SelectContent>
+        <SelectGroup>
+          <SelectLabel>Fruits</SelectLabel>
+          <SelectItem value="apple">Apple</SelectItem>
+          <SelectItem value="banana">Banana</SelectItem>
+          <SelectItem value="blueberry">Blueberry</SelectItem>
+          <SelectItem value="grapes">Grapes</SelectItem>
+          <SelectItem value="pineapple">Pineapple</SelectItem>
+        </SelectGroup>
+      </SelectContent>
+    </Select>
+   
       <DeviceFrameset device="Nexus 5" color="black">
         <div className="h-full overflow-y-scroll">
           {isLoading ? (
@@ -65,6 +91,7 @@ const DevicePreview: React.FC<DevicePreviewProps> = ({ keyProp }) => {
 
         
       </DeviceFrameset>
+      </div>
   </>
   );
 }
