@@ -8,7 +8,6 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { YouTubeEmbed } from "@next/third-parties/google";
 import { motion } from "framer-motion";
 import { VideoIcon } from "lucide-react";
 import Image from "next/image";
@@ -64,10 +63,10 @@ const Hero = ({
                   </DialogTitle>
                 </DialogHeader>
                 <div className="aspect-video">
-                  <YouTubeEmbed
-                    videoid="vSZNlyx7hgI"
-                    params="controls=1"
-                  />
+                <video  controls  className="rounded-lg ">
+          <source src="../videos/tuto.mp4" />
+          Your browser does not support the video tag...
+        </video>
                 </div>
               </DialogContent>
             </Dialog>
