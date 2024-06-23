@@ -36,7 +36,7 @@ export default function SignInForm() {
             />
           </DialogTitle>
           <DialogDescription>
-            <h2 className="mt-5 text-center text-2xl font-bold leading-9 tracking-tight ">
+            <h2 className="mt-5 text-center text-2xl font-bold leading-9 tracking-tight text-foreground">
               {" "}
             Connectez-vous à votre compte
             </h2>

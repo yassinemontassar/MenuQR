@@ -63,7 +63,7 @@ const Hero = ({
                   </DialogTitle>
                 </DialogHeader>
                 <div className="aspect-video">
-                <video  controls  className="rounded-lg ">
+                <video  controls playsInline  className="rounded-lg ">
           <source src="../videos/tuto.mp4" />
           Your browser does not support the video tag...
         </video>

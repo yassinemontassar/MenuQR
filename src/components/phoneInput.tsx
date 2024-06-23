@@ -42,7 +42,7 @@ export const PhoneInput: React.FC<MenuFormProps> = ({ initialData }) => {
     // Enable the buttons after a delay (e.g., 1000 milliseconds or 1 second)
     setTimeout(() => {
       setButtonDisabled(false);
-    }, 2500);
+    }, 2000);
     if (direction === "previous" && currentIndex === 0) return;
     if (
       direction === "next" &&
@@ -63,7 +63,7 @@ export const PhoneInput: React.FC<MenuFormProps> = ({ initialData }) => {
   };
 
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 gap-4 mt-20">
+    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 gap-4 mt-2">
       <div className="flex flex-col items-center rounded-md border border-gray-300 shadow-md p-6">
         {currentComponent}
         <div className="mt-6 flex items-center justify-center space-x-4">
@@ -72,7 +72,7 @@ export const PhoneInput: React.FC<MenuFormProps> = ({ initialData }) => {
             className={`px-4 py-2 rounded-md ${
               buttonDisabled
                 ? "opacity-50 cursor-not-allowed"
-                : "hover:bg-blue-700 bg-blue-500 text-white focus:outline-none focus:shadow-outline-blue"
+                : "  focus:outline-none focus:shadow-outline-blue"
             }`}
             disabled={buttonDisabled}
             onClick={() => switchComponent("previous")}
@@ -84,7 +84,7 @@ export const PhoneInput: React.FC<MenuFormProps> = ({ initialData }) => {
             className={`px-4 py-2 rounded-md ${
               isLastComponent || buttonDisabled
                 ? "opacity-50 cursor-not-allowed"
-                : "hover:bg-blue-700 bg-blue-500 text-white focus:outline-none focus:shadow-outline-blue"
+                : "  focus:outline-none focus:shadow-outline-blue"
             }`}
             disabled={isLastComponent || buttonDisabled}
             onClick={() => switchComponent("next")}

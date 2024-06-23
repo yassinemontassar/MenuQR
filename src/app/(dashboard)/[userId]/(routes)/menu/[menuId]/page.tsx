@@ -25,9 +25,9 @@ const CategoryPage = async ({
     const menuData = await getMenu(params.menuId);
 
     return (
-        <div className="py-6">
+        
         <PhoneInput initialData={menuData}  />
-        </div>
+        
     )
 }
 
