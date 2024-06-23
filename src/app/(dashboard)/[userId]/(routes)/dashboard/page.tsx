@@ -22,7 +22,7 @@ const DashboardPage: React.FC<DashboardPageProps> = async ({ params }) => {
   });
   return (
     <div className="flex flex-col sm:flex-row">
-      <div className="flex-1 p-6 sm:min-w-0 sm:flex-1 mt-20">
+      <div className="flex-1 p-6 sm:min-w-0 sm:flex-1 mt-6">
         <h1 className="text-2xl font-bold mb-4 flex items-center justify-between">
           <span className="text-foreground text-base font-medium">
             {plan === "Gratuit"
@@ -36,7 +36,7 @@ const DashboardPage: React.FC<DashboardPageProps> = async ({ params }) => {
               (plan === "Standard" && menus.length >= 2)) && (
               <Button className="h-8 transition-transform duration-200 ease-in-out hover:scale-95  sm:ml-2">
                 Passer à Pro
-                <Crown className="ml-1 text-yellow-500" />
+                <Crown className="ml-1 text-black" />
               </Button>
             )}
           </span>
