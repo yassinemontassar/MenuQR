@@ -28,7 +28,7 @@ const Footer = () => {
           </p>
           <div className="flex w-full mt-2 mb-8 -mx-2">
             <div className="mx-2 bg-white-500 rounded-full items-center justify-center flex p-2 shadow-md">
-              <Link href="https://www.facebook.com/menu.rapide" target="_blank">
+              <Link href="https://www.facebook.com/menu.rapide" target="_blank" aria-label="FaceBook">
                 <FaSquareFacebook className="h-6 w-6 text-blue-600 hover:text-blue-800" />
               </Link>
             </div>
@@ -39,14 +39,13 @@ const Footer = () => {
               <Link
                 href="mailto:menurapide600@gmail.com"
                 target="_blank"
+                aria-label="Email"
               >
                 <Mail className="h-6 w-6  text-gray-600 hover:text-gray-800 rounded-2xl dark:text-gray-300" />
               </Link>
             </div>
           </div>
-          <p className="text-gray-400">
             ©{new Date().getFullYear()} - MenuRapide
-          </p>
             <Link href="https://www.menurapide.tn/terms"  className="text-blue-600 underline">
               Politique de Confidentialité
             </Link>

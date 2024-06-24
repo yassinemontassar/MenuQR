@@ -44,6 +44,7 @@ const Feature = () => {
                   alt=""
                 />
                 <iframe
+                  name="deviceFrame"
                   className=" w-[282px] h-[572px]"
                   src="https://www.menurapide.tn/website/726f4840-01df-430f-b753-892af40a136c"
                 ></iframe>
@@ -56,9 +57,9 @@ const Feature = () => {
             className="flex flex-col items-end justify-center ml-auto w-full lg:w-9/12"
             variants={scrollAnimation}
           >
-            <h3 className="text-3xl lg:text-4xl font-medium leading-relaxed text-black-600">
+            <h1 className="text-3xl lg:text-4xl font-medium leading-relaxed text-black-600">
               Nous offrons de nombreuses fonctionnalités
-            </h3>
+            </h1>
             <p className="my-2 text-black-500">
               Vous pouvez explorer ces fonctionnalités avec plaisir et chacune
               dentre elles possède ses propres fonctions.
