@@ -24,6 +24,7 @@ const Navbar = () => {
           </Link>
         </div>
         <Popover.Group className="hidden lg:flex lg:gap-x-12">
+          <Link href="#">
           <LinkScroll
             activeClass="active"
             to="about"
@@ -38,11 +39,12 @@ const Navbar = () => {
               "px-4 py-2 mx-2 cursor-pointer animation-hover inline-block relative" +
               (activeLink === "about"
                 ? " text-orange-500 animation-active "
-                : " text-black-500 hover:text-orange-500 a")
+                : " text-black-500 hover:text-orange-500")
             }
           >
             À propos
           </LinkScroll>
+          </Link>
           <LinkScroll
             activeClass="active"
             to="feature"
