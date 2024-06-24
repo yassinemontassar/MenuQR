@@ -24,10 +24,10 @@ const Navbar = () => {
           </Link>
         </div>
         <Popover.Group className="hidden lg:flex lg:gap-x-12">
-          <Link href="#">
           <LinkScroll
             activeClass="active"
             to="about"
+            href="#"
             spy={true}
             smooth={true}
             duration={1000}
@@ -39,15 +39,15 @@ const Navbar = () => {
               "px-4 py-2 mx-2 cursor-pointer animation-hover inline-block relative" +
               (activeLink === "about"
                 ? " text-orange-500 animation-active "
-                : " text-black-500 hover:text-orange-500")
+                : " text-black-500 hover:text-orange-500 a")
             }
           >
             À propos
           </LinkScroll>
-          </Link>
           <LinkScroll
             activeClass="active"
             to="feature"
+            href="#"
             spy={true}
             offset={-100}
             smooth={true}
@@ -67,6 +67,7 @@ const Navbar = () => {
           <LinkScroll
             activeClass="active"
             to="whyus"
+            href="#"
             spy={true}
             smooth={true}
             offset={-100}
@@ -86,6 +87,7 @@ const Navbar = () => {
           <LinkScroll
             activeClass="active"
             to="pricing"
+            href="#"
             spy={true}
             smooth={true}
             duration={1000}
@@ -101,7 +103,6 @@ const Navbar = () => {
           >
             Tarification
           </LinkScroll>
-
         </Popover.Group>
         <div className=" lg:flex lg:mr-0 lg:flex-1 lg:justify-end mr-5">
           <ThemeToggle />

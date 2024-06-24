@@ -7,8 +7,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { useMemo } from "react";
 import { Button } from "./ui/button";
-import light from "/public/votremenu.png";
-import dark from "/public/votremenu_dark.png";
+import light from "/public/votremenu.svg";
+import dark from "/public/votremenu_dark.svg";
 
 const features = [
   "QR Code Généré Automatiquement.",
