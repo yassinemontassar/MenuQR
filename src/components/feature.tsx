@@ -44,7 +44,7 @@ const Feature = () => {
                   alt=""
                 />
                 <iframe
-                  name="deviceFrame"
+                  title="Device Frame"
                   className=" w-[282px] h-[572px]"
                   src="https://www.menurapide.tn/website/726f4840-01df-430f-b753-892af40a136c"
                 ></iframe>
