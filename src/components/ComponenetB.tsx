@@ -1,13 +1,16 @@
 "use client";
-import { Input } from "./ui/input";
-import * as z from "zod";
+import { AlertModal } from "@/components/modals/alert-modal";
 import { Button } from "@/components/ui/button";
-import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useEffect, useState } from "react";
-import { Loader2 } from "lucide-react";
 import axios from "axios";
+import { Loader2 } from "lucide-react";
+import { useSession } from "next-auth/react";
 import { useParams } from "next/navigation";
+import { useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
+import { FaRegEdit } from "react-icons/fa";
+import { FaTrashCan } from "react-icons/fa6";
+import * as z from "zod";
 import {
   Form,
   FormControl,
@@ -16,16 +19,12 @@ import {
   FormLabel,
   FormMessage,
 } from "./ui/form";
-import {  FaTrashCan, FaTrashCanArrowUp } from "react-icons/fa6";
-import { FaRegEdit } from "react-icons/fa";
-import { AlertModal } from "@/components/modals/alert-modal";
+import { Input } from "./ui/input";
 import { toast } from "./ui/use-toast";
-import { useSession } from "next-auth/react";
 
 const formSchema = z.object({
   name: z.string().min(1, { message: "Le nom de la catégorie est requis." }),
 });
-
 
 interface Category {
   id: string;
@@ -37,9 +36,8 @@ interface Category {
 type CattegoryFormValues = z.infer<typeof formSchema>;
 
 export const ComponenetB: React.FC = () => {
-
-  const { data: session } = useSession()
-  const plan = session?.user.plan
+  const { data: session } = useSession();
+  const plan = session?.user.plan;
   const params = useParams();
   const [loading, setLoading] = useState(false);
   const [open, setOpen] = useState(false);
@@ -48,14 +46,16 @@ export const ComponenetB: React.FC = () => {
   );
   const [shouldFetch, setShouldFetch] = useState(false);
   const [categories, setCategories] = useState<Category[]>([]);
-  const [categoryInputs, setCategoryInputs] = useState<{ [key: string]: string }>({});
+  const [categoryInputs, setCategoryInputs] = useState<{
+    [key: string]: string;
+  }>({});
   const form = useForm<CattegoryFormValues>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       name: "",
     },
   });
-  
+
   const [isFetchingCategories, setIsFetchingCategories] = useState(false);
   useEffect(() => {
     const fetchCategories = async () => {
@@ -87,26 +87,30 @@ export const ComponenetB: React.FC = () => {
     setIsNewCategoryInputVisible(true);
   };
 
-
   const onSubmit = async (values: CattegoryFormValues) => {
-    
-    if ((plan === "Gratuit" && categories.length >= 6) || (plan === "Standard" && categories.length >= 15)) {
+    if (
+      (plan === "Gratuit" && categories.length >= 3) ||
+      (plan === "Standard" && categories.length >= 10) ||
+      (plan === "Pro" && categories.length >= 25)
+    ) {
       const errorMessage =
-          plan === "Gratuit"
-              ? "Vous ne pouvez pas ajouter plus de 6 catégories avec le plan gratuit"
-              : "Vous ne pouvez pas ajouter plus de 15 catégories avec le plan Standard";
-  
+        plan === "Gratuit"
+          ? "Vous ne pouvez pas ajouter plus de 3 catégories avec le plan gratuit"
+          : plan === "Standard"
+          ? "Vous ne pouvez pas ajouter plus de 10 catégories avec le plan Standard"
+          : "Vous ne pouvez pas ajouter plus de 25 catégories avec le plan Pro";
+
       toast({
-          title: "Erreur",
-          description: errorMessage,
-          variant: "destructive",
+        title: "Erreur",
+        description: errorMessage,
+        variant: "destructive",
       });
-  
+
       return;
-  }
-  
-  // No limit for Pro plan, so no need for a check here
-  
+    }
+
+    // No limit for Pro plan, so no need for a check here
+
     try {
       setLoading(true);
       const body = { ...values };
@@ -117,14 +121,13 @@ export const ComponenetB: React.FC = () => {
         description: "Oops, quelque chose s'est mal passé. Veuillez réessayer.",
         variant: "destructive",
       });
-      
     } finally {
       toast({
         title: "Ajout de la catégorie",
         description: `La nouvelle catégorie ${values.name} a été ajoutée avec succès.`,
         variant: "default",
       });
-      
+
       setLoading(false);
       setShouldFetch(true);
       form.reset();
@@ -159,7 +162,7 @@ export const ComponenetB: React.FC = () => {
 
   const updateCategory = async (categoryId: string) => {
     const newName = categoryInputs[categoryId];
-    if (!newName || newName.trim() === '') {
+    if (!newName || newName.trim() === "") {
       toast({
         title: "Erreur",
         description: "Le nom de la catégorie ne peut pas être vide.",
@@ -170,7 +173,10 @@ export const ComponenetB: React.FC = () => {
     try {
       setLoading(true);
       const payload = { name: newName };
-      await axios.patch(`/api/${params.menuId}/categories/${categoryId}`, payload );
+      await axios.patch(
+        `/api/${params.menuId}/categories/${categoryId}`,
+        payload
+      );
       toast({
         title: "Modification de la catégorie",
         description: "La catégorie sélectionnée a été modifiée  avec succès.",
@@ -179,7 +185,7 @@ export const ComponenetB: React.FC = () => {
     } catch (error) {
       toast({
         title: "Oops...",
-        description: 
+        description:
           "Une erreur s'est produite lors de la modification de la catégorie.",
         variant: "destructive",
       });
@@ -190,7 +196,6 @@ export const ComponenetB: React.FC = () => {
     }
   };
 
-
   return (
     <>
       <AlertModal
@@ -200,7 +205,9 @@ export const ComponenetB: React.FC = () => {
         loading={loading}
       />
       <div>
-      <p className="flex items-center justify-center font-semibold">Liste des Categories</p>
+        <p className="flex items-center justify-center font-semibold">
+          Liste des Categories
+        </p>
         {isFetchingCategories ? ( // Conditionally render loading indicator
           <div className="flex items-center justify-center p-16">
             <Loader2 size={40} className="text-primary animate-spin" />
@@ -218,8 +225,12 @@ export const ComponenetB: React.FC = () => {
                 key={category.id}
                 className="flex items-center justify-center p-3 gap-3"
               >
-                <Input key={category.id} defaultValue={category.name} 
-                 onChange={(e) => handleInputChange(category.id, e.target.value)}
+                <Input
+                  key={category.id}
+                  defaultValue={category.name}
+                  onChange={(e) =>
+                    handleInputChange(category.id, e.target.value)
+                  }
                 />
                 <Button
                   disabled={loading}
@@ -237,9 +248,9 @@ export const ComponenetB: React.FC = () => {
                   disabled={loading}
                   variant="secondary"
                   size="sm"
-                  onClick={() => updateCategory(category.id)} 
+                  onClick={() => updateCategory(category.id)}
                 >
-                  <FaRegEdit   className="h-5 w-4" />
+                  <FaRegEdit className="h-5 w-4" />
                 </Button>
               </div>
             ))}

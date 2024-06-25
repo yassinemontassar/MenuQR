@@ -1,8 +1,8 @@
 "use client";
 
+import { DataTable } from "@/components/ui/data-table";
 import { useParams, useRouter } from "next/navigation";
 import { PlanColumn, columns } from "./columns";
-import { DataTable } from "@/components/ui/data-table";
 
 interface PlanClientProps {
   data: PlanColumn[];
@@ -13,7 +13,7 @@ export const PlanClient: React.FC<PlanClientProps> = ({ data }) => {
   const params = useParams();
   return (
     <>
-      <div className="flex items-center justify-between mt-20 p-3">
+      <div className="flex items-center justify-between  p-4">
         <div>
           <h2 className="text-3xl font-bold tracking-tight">Abonnement</h2>
           <p className="text-sm text-muted-foreground">

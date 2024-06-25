@@ -1,11 +1,5 @@
 "use client";
-import * as z from "zod";
 import { Button } from "@/components/ui/button";
-import { Separator } from "@/components/ui/separator";
-import { Trash } from "lucide-react";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useState } from "react";
 import {
   Form,
   FormControl,
@@ -15,12 +9,14 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import axios from "axios";
-import { useParams, useRouter } from "next/navigation";
-import { AlertModal } from "@/components/modals/alert-modal";
-import { User } from "@prisma/client";
-import { editUser } from "../../../../../../../actions/editUser";
 import { toast } from "@/components/ui/use-toast";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { User } from "@prisma/client";
+import { useParams, useRouter } from "next/navigation";
+import { useState } from "react";
+import { useForm } from "react-hook-form";
+import * as z from "zod";
+import { editUser } from "../../../../../../../actions/editUser";
 
 interface SettingsFormProps {
   initialData: User;
@@ -76,7 +72,7 @@ export const SettingsForm: React.FC<SettingsFormProps> = ({ initialData }) => {
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
-          className="space-y-8 p-6 mt-20"
+          className="space-y-8 p-6 "
         >
           <div className="grind grid-cols-3 gap-8">
             <FormField

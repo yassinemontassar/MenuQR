@@ -112,11 +112,11 @@ const Pricing = () => {
                     </li>
                     <li className="relative check custom-list my-2">
                       <div className="flex items-center gap-1">
-                        Limité à 6 catégories
+                        Limité à 3 catégories
                         <div className="group">
                           <FaQuestionCircle className="inline-block mb-2" />
                           <div className="z-10 absolute hidden text-sm bg-gray-700 text-white px-2 py-1 rounded group-hover:block  whitespace-break-spaces">
-                            Vous pouvez ajouter jusquà 6 catégories dans votre
+                            Vous pouvez ajouter jusquà 3 catégories dans votre
                             menu.
                           </div>
                         </div>
@@ -124,11 +124,11 @@ const Pricing = () => {
                     </li>
                     <li className="relative check custom-list my-2">
                       <div className="flex items-center gap-1">
-                        Limité à 10 éléments
+                        Limité à 10 sous-catégorie
                         <div className="group">
                           <FaQuestionCircle className="inline-block mb-2" />
                           <div className="z-10 absolute hidden text-sm bg-gray-700 text-white px-2 py-1 rounded group-hover:block  whitespace-break-spaces">
-                            Vous pouvez inclure jusquà 10 éléments dans chaque
+                            Vous pouvez inclure jusquà 10 sous-catégorie dans chaque
                             catégorie de votre menu.
                           </div>
                         </div>
@@ -193,22 +193,22 @@ const Pricing = () => {
                   <ul className="flex flex-col list-inside pl-6 xl:pl-0 items-start justify-start text-left text-black-500 flex-grow">
                     <li className="relative check custom-list my-2">
                       <div className="flex items-center gap-1">
-                      Limité à 2 menus
+                      Limité à 1 menus
                         <div className="group">
                           <FaQuestionCircle className="inline-block mb-2" />
                           <div className="z-10 absolute hidden text-sm bg-gray-700 text-white px-2 py-1 rounded group-hover:block  whitespace-break-spaces">
-                          Vous pouvez créer seulement 2 menus
+                          Vous pouvez créer seulement un menu
                           </div>
                         </div>
                       </div>
                     </li>
                     <li className="relative check custom-list my-2">
                       <div className="flex items-center gap-1">
-                        Limité à 15 catégories
+                        Limité à 10 catégories
                         <div className="group">
                           <FaQuestionCircle className="inline-block mb-2" />
                           <div className="z-10 absolute hidden text-sm bg-gray-700 text-white px-2 py-1 rounded group-hover:block  whitespace-break-spaces">
-                            Vous pouvez ajouter jusquà 15 catégories dans votre
+                            Vous pouvez ajouter jusquà 10 catégories dans votre
                             menu.
                           </div>
                         </div>
@@ -216,11 +216,11 @@ const Pricing = () => {
                     </li>
                     <li className="relative check custom-list my-2">
                       <div className="flex items-center gap-1">
-                        Limité à 20 éléments
+                        Limité à 15 sous-catégorie
                         <div className="group">
                           <FaQuestionCircle className="inline-block mb-2" />
                           <div className="z-10 absolute hidden text-sm bg-gray-700 text-white px-2 py-1 rounded group-hover:block  whitespace-break-spaces">
-                            Vous pouvez inclure jusquà 20 éléments dans chaque
+                            Vous pouvez inclure jusquà 15 sous-catégorie dans chaque
                             catégorie de votre menu.
                           </div>
                         </div>
@@ -297,22 +297,23 @@ const Pricing = () => {
                   <ul className="flex flex-col list-inside pl-6 xl:pl-0 items-start justify-start text-left text-black-500 flex-grow">
                     <li className="relative check custom-list my-2">
                       <div className="flex items-center gap-1">
-                      Limité à 5 menus
+                      Limité à 2 menus
                         <div className="group">
                           <FaQuestionCircle className="inline-block mb-2" />
                           <div className="z-10 absolute hidden text-sm bg-gray-700 text-white px-2 py-1 rounded group-hover:block  whitespace-break-spaces">
-                          Vous pouvez créer seulement 5 menus
+                          Vous pouvez créer seulement 2 menus
                           </div>
                         </div>
                       </div>
                     </li>
                     <li className="relative check custom-list my-2">
                       <div className="flex items-center gap-1">
-                      Catégories illimitées
+                      Limité à 25 sous-catégorie
                         <div className="group">
                           <FaQuestionCircle className="inline-block mb-2" />
                           <div className="z-10 absolute hidden text-sm bg-gray-700 text-white px-2 py-1 rounded group-hover:block  whitespace-break-spaces">
-                          Vous pouvez ajouter autant de catégories que nécessaire dans vos menus.
+                          Vous pouvez inclure jusquà 25 sous-catégorie dans chaque
+                          catégorie de votre menu.
                           </div>
                         </div>
                       </div>

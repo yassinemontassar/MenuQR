@@ -125,12 +125,12 @@ export const ComponenetC: React.FC = () => {
     const itemsCount = selectedCategoryItems ? selectedCategoryItems.length : 0;
     if (
       (plan === "Gratuit" && itemsCount >= 10) ||
-      (plan === "Standard" && itemsCount >= 20)
+      (plan === "Standard" && itemsCount >= 15)
     ) {
       const errorMessage =
         plan === "Gratuit"
-          ? "Vous ne pouvez pas ajouter plus de 10 éléments avec le plan gratuit"
-          : "Vous ne pouvez pas ajouter plus de 20 éléments avec le plan Standard";
+          ? "Vous ne pouvez pas ajouter plus de 10 sous-catégorie avec le plan gratuit"
+          : "Vous ne pouvez pas ajouter plus de 15 sous-catégorie avec le plan Standard";
       toast({
         title: "Erreur",
         description: errorMessage,
@@ -156,13 +156,18 @@ export const ComponenetC: React.FC = () => {
       const filePath = `${folderName}/${subfolder}/${uniqueFileName}`;
       // Upload a new image
       await uploadImage(bucket, filePath, image);
-      const fileName = process.env.NEXT_PUBLIC_IMAGE_BASE_URL+"/"+folderName+"/items/"+uniqueFileName
+      const fileName =
+        process.env.NEXT_PUBLIC_IMAGE_BASE_URL +
+        "/" +
+        folderName +
+        "/items/" +
+        uniqueFileName;
       values.imageUrl = fileName;
     }
     try {
       setLoading(true);
       const body = { ...values };
-      console.log(body)
+      console.log(body);
       await axios.post(`/api/${params.menuId}/items`, body);
     } catch (error) {
       toast({
@@ -372,75 +377,74 @@ export const ComponenetC: React.FC = () => {
                 <Label htmlFor="unsplash">En ligne</Label>
               </div>
               {uploadOption === "desktop" && (
-              <FormField
-                control={form.control}
-                name="imageUrl"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel className="font-medium">Image :</FormLabel>
-                    <FormControl className="mt-1">
-                      <Input
-                        accept="image/*"
-                        type="file"
-                        disabled={loading}
-                        className="w-full px-3 py-2 placeholder-gray-500 border rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                        onChange={(e) => {
-                          setImage(e.target.files?.[0] || null);
-                          field.onChange(e);
-                        }}
-                      />
-                    </FormControl>
-                    {image && (
-                      <div className="flex items-center justify-center gap-2 mt-2">
-                        <Image
-                          src={URL.createObjectURL(image)}
-                          alt="aperçu"
-                          width={50}
-                          height={50}
-                          className="object-cover w-20 h-20 rounded-md border border-gray-300"
+                <FormField
+                  control={form.control}
+                  name="imageUrl"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel className="font-medium">Image :</FormLabel>
+                      <FormControl className="mt-1">
+                        <Input
+                          accept="image/*"
+                          type="file"
+                          disabled={loading}
+                          className="w-full px-3 py-2 placeholder-gray-500 border rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                          onChange={(e) => {
+                            setImage(e.target.files?.[0] || null);
+                            field.onChange(e);
+                          }}
                         />
-                      </div>
-                    )}
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
+                      </FormControl>
+                      {image && (
+                        <div className="flex items-center justify-center gap-2 mt-2">
+                          <Image
+                            src={URL.createObjectURL(image)}
+                            alt="aperçu"
+                            width={50}
+                            height={50}
+                            className="object-cover w-20 h-20 rounded-md border border-gray-300"
+                          />
+                        </div>
+                      )}
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
               )}
               {uploadOption === "unsplash" && (
-                 <>
-                 <UnsplashDialog onImageSelect={handleImageSelect} />
-                 <FormField
-                   control={form.control}
-                   name="imageUrl"
-                   render={({ field }) => (
-                     <FormItem hidden>
-                       <FormControl>
-                         <Input
-                           disabled={loading}
-                           {...field}
-                           onChange={(e) => {
-                             field.onChange(e);
-                           }}
-                         />
-                       </FormControl>
-                       <FormMessage />
-                     </FormItem>
-                   )}
-                 />
-                 {selectedImageUrl && (
-                   <div className="flex items-center justify-center gap-2 mt-2">
-                     <Image
-                       src={selectedImageUrl}
-                       alt="aperçu"
-                       width={50}
-                       height={50}
-                       className="object-cover w-20 h-20 rounded-md border border-gray-300"
-                     />
-       
-                   </div>
-                 )}
-               </>
-             )}
+                <>
+                  <UnsplashDialog onImageSelect={handleImageSelect} />
+                  <FormField
+                    control={form.control}
+                    name="imageUrl"
+                    render={({ field }) => (
+                      <FormItem hidden>
+                        <FormControl>
+                          <Input
+                            disabled={loading}
+                            {...field}
+                            onChange={(e) => {
+                              field.onChange(e);
+                            }}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  {selectedImageUrl && (
+                    <div className="flex items-center justify-center gap-2 mt-2">
+                      <Image
+                        src={selectedImageUrl}
+                        alt="aperçu"
+                        width={50}
+                        height={50}
+                        className="object-cover w-20 h-20 rounded-md border border-gray-300"
+                      />
+                    </div>
+                  )}
+                </>
+              )}
               <div className="flex justify-center space-x-4 pt-6">
                 <Button type="submit" disabled={loading} className="px-4 py-2">
                   {loading ? "Enregistrement en cours..." : "Enregistrer"}
