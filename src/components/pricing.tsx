@@ -193,7 +193,7 @@ const Pricing = () => {
                   <ul className="flex flex-col list-inside pl-6 xl:pl-0 items-start justify-start text-left text-black-500 flex-grow">
                     <li className="relative check custom-list my-2">
                       <div className="flex items-center gap-1">
-                      Limité à 1 menus
+                      Limité à un seul menu
                         <div className="group">
                           <FaQuestionCircle className="inline-block mb-2" />
                           <div className="z-10 absolute hidden text-sm bg-gray-700 text-white px-2 py-1 rounded group-hover:block  whitespace-break-spaces">
