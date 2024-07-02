@@ -3,7 +3,6 @@ import { ThemeProvider } from "@/providers/theme.provider";
 import { GoogleAnalytics } from "@next/third-parties/google";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
-import AdSense from "../../GoogleAd/AdSense";
 import "./globals.css";
 
 const inter = Inter({ subsets: ["latin"] });
@@ -34,11 +33,6 @@ export default function RootLayout({
   if (!googleId) return null; // Don't render if ID is undefined
   return (
     <html lang="fr" >
-      <head>
-        
-      <AdSense pId={googleId} />
-
-      </head>
       <body className={inter.className}>
         <ThemeProvider
           attribute="class"
