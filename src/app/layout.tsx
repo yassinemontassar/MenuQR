@@ -28,9 +28,7 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const googleId = process.env.GoogleId;
 
-  if (!googleId) return null; // Don't render if ID is undefined
   return (
     <html lang="fr" >
       <body className={inter.className}>
