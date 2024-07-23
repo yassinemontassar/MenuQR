@@ -99,7 +99,7 @@ export default function ComponenetD() {
           <CardContent className="flex flex-col items-center gap-2">
             <div className="border shadow-lg border-gray-200 dark:border-gray-800 p-2 rounded-lg">
               <Canvas
-                text={`${process.env.NEXT_PUBLIC_BASE_URL}/website/${params.menuId}`}
+                text={`https://www.menurapide.tn/website/${params.menuId}`}
                 options={{
                   type: "image/svg+xml",
                   quality: 1,
