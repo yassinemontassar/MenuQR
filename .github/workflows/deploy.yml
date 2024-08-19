@@ -16,7 +16,7 @@ jobs:
     - name: Set up Node.js
       uses: actions/setup-node@v3
       with:
-        node-version: '18'  # Use the Node.js version your project needs
+        node-version: '20'  # Specify Node.js 20 explicitly
 
     - name: Install dependencies
       run: npm install
@@ -34,4 +34,4 @@ jobs:
         chmod 600 ~/.ssh/id_rsa
         ssh-keyscan -H 51.91.10.161 >> ~/.ssh/known_hosts
         scp -r ./* ubuntu@51.91.10.161:/home/ubuntu/MenuQR
-        ssh ubuntu@51.91.10.161 "cd /home/ubuntu/MenuQR && npm install && npm run build && pm2 restart MenuQR"
+        ssh ubuntu@51.91.10.161 "cd /home/ubuntu/MenuQR && npm install && npm run build && pm2 restart menurapide" || exit 1  # Ensure errors are handled
