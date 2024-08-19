@@ -24,6 +24,7 @@ jobs:
     - name: Build project
       env:
         UPSTASH_REDIS_REST_URL: ${{ secrets.UPSTASH_REDIS_REST_URL }}
+        UPSTASH_REDIS_REST_TOKEN: ${{ secrets.UPSTASH_REDIS_REST_TOKEN }}
         # Add other environment variables if needed for the build step
       run: npm run build
 
