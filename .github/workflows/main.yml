@@ -10,6 +10,8 @@ jobs:
         node-version: [20.x]
     env:
       SSH_KEY: ${{secrets.SSH_PRIVATE_KEY}}
+      UPSTASH_REDIS_REST_URL: ${{secrets.UPSTASH_REDIS_REST_URL}}
+      UPSTASH_REDIS_REST_TOKEN: ${{secrets.UPSTASH_REDIS_REST_TOKEN}}
     steps:
       - uses: actions/checkout@master
       - name: Use Node.js ${{ matrix.node-version }}
