@@ -82,7 +82,7 @@ const Navbar = () => {
                 : " text-black-500 hover:text-orange-500 ")
             }
           >
-            Pourquoi nous?
+            Pourquoi Nous?
           </LinkScroll>
           <LinkScroll
             activeClass="active"
