@@ -19,6 +19,8 @@ jobs:
 
       - name: Build Next.js app
         run: npm run build
+        env:
+          UPSTASH_REDIS_REST_URL: ${{ secrets.UPSTASH_REDIS_REST_URL }}
 
       - name: SSH Deploy
         # Use the 'appleboy/ssh-action' action for SSH deployment
@@ -32,4 +34,6 @@ jobs:
             git pull
             npm install
             npm run build
-            pm2 restart your-pm2-service-name # Replace with your PM2 service name
+            pm2 restart menurapide
+        env:
+          UPSTASH_REDIS_REST_URL: ${{ secrets.UPSTASH_REDIS_REST_URL }}
