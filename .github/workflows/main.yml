@@ -23,14 +23,14 @@ jobs:
 
     - name: Build project
       env:
-         SSH_KEY: ${{secrets.SSH_PRIVATE_KEY}}
+         SSH_PRIVATE_KEY: ${{secrets.SSH_PRIVATE_KEYd}}
          UPSTASH_REDIS_REST_URL: ${{secrets.UPSTASH_REDIS_REST_URL}}
          UPSTASH_REDIS_REST_TOKEN: ${{secrets.UPSTASH_REDIS_REST_TOKEN}}
       run: npm run build
 
     - name: Deploy to VPS via SSH
       env:
-        SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+        SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEYd }}
         PM2_HOME: '/home/ubuntu/.pm2'
         UPSTASH_REDIS_REST_URL: ${{ secrets.UPSTASH_REDIS_REST_URL }}
         # Add other environment variables here
