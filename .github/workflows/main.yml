@@ -1,29 +1,43 @@
-name: Deploy Next App
+name: Deploy to VPS
+
 on:
   push:
-    branches: [main]
+    branches:
+      - main  # or your specific branch
+
 jobs:
-  build:
+  deploy:
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        node-version: [20.x]
-    env:
-      SSH_KEY: ${{secrets.SSH_PRIVATE_KEY}}
-      UPSTASH_REDIS_REST_URL: ${{secrets.UPSTASH_REDIS_REST_URL}}
-      UPSTASH_REDIS_REST_TOKEN: ${{secrets.UPSTASH_REDIS_REST_TOKEN}}
+
     steps:
-      - uses: actions/checkout@master
-      - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v2
-        with:
-          node-version: ${{ matrix.node-version }}
-          cache: "npm"
-      - run: npm i
-      - run: npm run build
-      - run: mkdir ~/.ssh
-      - run: echo "$SSH_KEY" >> ~/.ssh/github-action
-      - run: chmod 400 ~/.ssh/github-action
-      - run: echo -e "Host vps\n\tUser root\n\tHostname 11.000.000.111\n\tIdentityFile ~/.ssh/github-action\n\tStrictHostKeyChecking No" >> ~/.ssh/config
-      - run: rsync -re ssh ./.next/ vps:/home/root/app-name/.next
-      - run: ssh vps "pm2 restart app-name"
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Set up Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '20'
+
+    - name: Install dependencies
+      run: npm install
+
+    - name: Build project
+      env:
+         SSH_KEY: ${{secrets.SSH_PRIVATE_KEY}}
+         UPSTASH_REDIS_REST_URL: ${{secrets.UPSTASH_REDIS_REST_URL}}
+         UPSTASH_REDIS_REST_TOKEN: ${{secrets.UPSTASH_REDIS_REST_TOKEN}}
+      run: npm run build
+
+    - name: Deploy to VPS via SSH
+      env:
+        SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+        PM2_HOME: '/home/ubuntu/.pm2'
+        UPSTASH_REDIS_REST_URL: ${{ secrets.UPSTASH_REDIS_REST_URL }}
+        # Add other environment variables here
+      run: |
+        mkdir -p ~/.ssh
+        echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
+        chmod 600 ~/.ssh/id_rsa
+        ssh-keyscan -H 51.91.10.161 >> ~/.ssh/known_hosts
+        scp -r ./* ubuntu@51.91.10.161:/home/ubuntu/MenuQR
+        ssh ubuntu@51.91.10.161 "cd /home/ubuntu/MenuQR && npm install && npm run build && pm2 restart menurapide" || exit 1
